@@ -1,0 +1,55 @@
+/* pages/consignee/consignee.wxss */
+page{
+  background-color: rgba(238, 241, 241, 0.897);
+}
+.name,.code{
+  display: flex;
+  width: 100%;
+  height: 80rpx;
+  justify-content: center;
+  align-items: center;
+}
+.name input,.code input{
+  height: 80rpx;
+  width: 70%;
+}
+.bottom{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  height: 80rpx;
+  
+  
+}
+.btn{
+  width: 90%;
+  background-color: rgb(8, 6, 37);
+  color: rgb(255, 255, 255);
+  border-radius: 40rpx;
+  font-weight: 530;
+  height: 98%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.name view,.code view{
+  width: 20%;
+}
+.info{
+  line-height: 70rpx;
+  margin:20rpx ;
+  border-radius: 20rpx;
+  background-color: rgb(255, 255, 255);
+}
+.switch{
+  display: flex;
+  background-color: rgb(255, 255, 255);
+  margin: 20rpx;
+  border-radius: 20rpx;
+  height: 80rpx;
+  justify-content:space-between;
+  align-items: center;
+}
+.switch view{
+  margin: 30rpx;
+}

@@ -1,0 +1,33 @@
+/* pages/customerService/customerService.wxss */
+page{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.658);
+  align-items: center;
+}
+.csicon image{
+  width: 400rpx;
+}
+.fpicon image{
+  width: 80rpx;
+  
+}
+.customerService{
+  width: 80%;
+  height:700rpx ;
+  border-radius: 10rpx;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.fpicon{
+  display: flex;
+  
+}
+.des{
+  margin-left: 15rpx;
+}

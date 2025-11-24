@@ -1,0 +1,10 @@
+<!--pages/location/location.wxml-->
+<map 
+  id="map"
+  latitude="{{latitude}}" 
+  longitude="{{longitude}}"
+  markers="{{markers}}"
+  style="width:95%; height: 50vh;margin: 20rpx;">
+</map>
+
+<button type="primary" bindtap="startNavigation">一键导航</button>

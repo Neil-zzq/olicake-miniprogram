@@ -1,0 +1,32 @@
+<!--pages/add-address/map-choose/map-choose.wxml-->
+<view class="container">
+  <!-- 地图容器 -->
+  <map 
+    id="myMap"
+    longitude="{{longitude}}"
+    latitude="{{latitude}}"
+    scale="16"
+    show-location
+    bindregionchange="onMapMove"
+    class="map"
+  ></map>
+
+  <!-- POI列表 -->
+  <scroll-view class="poi-list" scroll-y>
+    <view 
+      wx:for="{{poiList}}"
+      wx:key="id"
+      class="poi-item {{activeIndex === index ? 'active' : ''}}"
+      bindtap="selectPoi"
+      data-index="{{index}}"
+    >
+      <view class="title">{{item.title}}</view>
+      <view class="address">{{item.address}}</view>
+    </view>
+  </scroll-view>
+
+  <!-- 确认按钮 -->
+  <view class="footer">
+    <view class="confirm-btn" bindtap="confirmLocation">确认位置</view>
+  </view>
+</view>

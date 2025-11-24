@@ -1,0 +1,216 @@
+<!--pages/orderconfirm/orderconfirm.wxml-->
+<scroll-view class="top" scroll-y="true">
+  <view class="container">
+    <!-- 动态内容区域 -->
+    <view class="content">
+      <view class="page-page1">
+        <view class="page-page1-sp{{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-tab="0">
+          <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/定位.png" mode="widthFix" class="spicon" wx:if="{{currentTab === 0 }}" />
+          <view>自提</view>
+        </view>
+        <view class="page-page1-deli{{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-tab="1">
+          <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/电动车.png" mode="widthFix" class="deliicon" wx:if="{{currentTab === 1 }}" />
+          <view>配送</view>
+        </view>
+      </view>
+    </view>
+    <view class="detail" wx:if="{{currentTab === 0 }}">
+      <view class="shop-detail" bindtap="shopLocation">
+        <view class="name">
+          <view class="brandname">Oli Cake</view>
+          <view class="shopname">深圳市南山区奥莉屿你烘焙店</view>
+        </view>
+        <view>></view>
+      </view>
+      <view class="consignee">
+        <view>提货人</view>
+        <view class="create-cone" bind:tap="createCone">
+          <text wx:if="{{!selectedConsignee}}">去创建提货人信息></text> <!-- 未选中时显示 -->
+          <text wx:else>{{selectedConsignee.name}} {{selectedConsignee.code}}</text> <!-- 选中时显示 -->
+        </view>
+      </view>
+      <view class="dod">
+        <view>提货时间</view>
+        <view class="create-dod" bindtap="openTimePicker">
+          {{selectedDateTime || '请选择提货时间>'}}
+        </view>
+      </view>
+    </view>
+    <view class="detail" wx:if="{{currentTab === 1 }}">
+      <view class="area">
+        <view>广东省深圳市南山区</view>
+        <view class="default">默认</view>
+      </view>
+      <view class="deliverydetail" bindtap="openAddressPicker">
+        <view class="address-phone">
+          <view class="address">{{selectedAddress ? selectedAddress.detail : '请选择配送地址>'}}</view>
+          <view class="phone" wx:if="{{selectedAddress}}">{{selectedAddress.name}} {{selectedAddress.phone}}</view>
+        </view>
+        <view>></view>
+      </view>
+      <view class="fee">
+        <view>配送费用</view>
+        <view class="feenum">同城配送费用￥{{deliveryfee}}.00</view>
+      </view>
+      <view class="time" bind:tap="openTimePicker">
+        <view>送达时间</view>
+        <view class="create-time">{{selectedDateTime || '请选择期望送达时间>'}}</view>
+      </view>
+    </view>
+  </view>
+  <view>
+    <view class="cakecard" wx:for="{{cakecard}}" wx:key="name">
+      <image src="{{item.cover}}" mode="widthFix" />
+      <view class="cakeinfo">
+        <view>{{item.title}}</view>
+        <view class="cakedetail">{{item.sizechoose}}；{{item.tastechoose}}；{{item.bagchoose}}</view>
+        <view class="cakefee">
+          <view class="price">
+            <view>￥</view>
+            <view class="pricenum">{{item.Price}}.</view>
+            <view class="pricenum2">00</view>
+          </view>
+          <view class="num">×{{item.total}}</view>
+        </view>
+        <view class="other"> {{item.phone}};{{item.message}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="payment">
+    <view class="total">
+      <view class="totalkey">
+        <view>商品总价</view>
+        <view>共{{count}}件商品</view>
+      </view>
+      <view>￥{{price}}.00</view>
+    </view>
+    <view class="delivery">
+      <view>配送费</view>
+      <view>￥{{deliveryfee}}.00</view>
+    </view>
+    <view class="coupon">
+      <view>优惠券</view>
+      <view>暂无可用 ></view>
+    </view>
+
+    <view class="balance">
+      <view class="balancekey">
+        <view>余额/卡</view>
+        <view>（可用￥0.00）＞</view>
+      </view>
+      <view class="balancevalue">
+        <view>暂无可用</view>
+        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" mode="widthFix" />
+      </view>
+    </view>
+  </view>
+
+</scroll-view>
+
+<view class="bottom">
+  <view class="bottomcontent">
+    <view class="accounts">
+      <view>应付：</view>
+      <view>
+        <view class="price">
+          <view>￥</view>
+          <view class="pricenum">{{totalPrice}}.</view>
+          <view class="pricenum2">00</view>
+        </view>
+        <view class="pricenum3">含运费￥{{deliveryfee}}.00</view>
+      </view>
+    </view>
+    <view class="sumbitbtn" bind:tap="RequestPayment">提交订单</view>
+  </view>
+
+</view>
+<page-container show="{{tipsShow}}" round="true">
+  <view class="consigneePop">
+    <view class="consigneePopTitle">
+      <view class="Title">选择提货人</view>
+      <view class="titleClose" bind:tap="close">×</view>
+    </view>
+    <view class="consigneeflex">
+      <view class="consigneePopInfo" wx:for="{{consignee}}" wx:key="item" bindtap="selectConsignee" data-index="{{index}}">
+      <view class="info">
+        <image class="edit" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" mode="widthFix" />
+        <view>{{item.name}}</view>
+        <view>,</view>
+        <view>{{item.code}}</view>
+      </view>
+      <image class="choose" src="{{index === selectedIndex ?'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png'}}" mode="widthFix" /> 
+
+
+      </view>
+    </view>
+    <view class="bottom">
+      <view bind:tap="btn" class="btn">新增提货人</view>
+    </view>
+  </view>
+</page-container>
+<!-- 在文件末尾添加 -->
+<view class="time-picker-modal" wx:if="{{showTimePicker}}">
+  <view class="time-picker-content">
+    <!-- 头部 -->
+    <view class="picker-header">
+      <text class="header-title">选择提货时间</text>
+      <text class="close-btn" bindtap="closeTimePicker">×</text>
+    </view>
+
+    <!-- 日期时间选择区 -->
+    <view class="picker-body">
+      <!-- 左侧日期选择 -->
+      <scroll-view class="date-list" scroll-y>
+        <view wx:for="{{dates}}" wx:key="date" class="date-item {{selectedDate === item.date ? 'active' : ''}}" bindtap="selectDate" data-date="{{item.date}}">
+          <text class="week">{{item.week}}</text>
+          <text class="day">{{item.day}}</text>
+        </view>
+      </scroll-view>
+
+      <!-- 右侧时间选择 -->
+      <scroll-view class="time-list" scroll-y>
+        <view wx:for="{{times}}" wx:key="time" class="time-item {{selectedTime === item ? 'active' : ''}}" bindtap="selectTime" data-time="{{item}}">
+          {{item}}
+        </view>
+      </scroll-view>
+    </view>
+
+    <!-- 底部按钮 -->
+    <view class="picker-footer">
+      <view class="confirm-btn" bindtap="confirmTime">确定</view>
+    </view>
+  </view>
+</view>
+<!-- 地址选择弹窗 -->
+<view class="address-modal" wx:if="{{showAddressPicker}}">
+  <!-- 遮罩层 -->
+  <view class="mask" catch:touchmove="preventScroll" bindtap="closeAddressPicker"></view>
+  
+  <!-- 弹窗内容 -->
+  <view class="address-content">
+    <view class="address-header">
+      <text class="title">选择收货地址</text>
+      <text class="close" bindtap="closeAddressPicker">×</text>
+    </view>
+     
+    <scroll-view class="address-list" scroll-y>
+      <view wx:for="{{addressList}}" wx:key="index" class="address-item {{item.isDefault ? 'default' : ''}}">
+        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" mode="widthFix" class="chooseicon"/>
+        <view class="addressInfo" bindtap="selectAddress" data-index="{{index}}">
+          <view class="addressDetail">{{item.detail}}{{item.region}}{{item.housenum}}</view>
+          <view class="top">
+            <text class="name2">{{item.name}}</text>
+            <text class="phone2">{{item.phone}}</text>
+            <text class="tag" wx:if="{{item.tag}}">{{item.tag}}</text>
+            <text class="default-badge" wx:if="{{item.isDefault}}">默认</text>
+          </view>
+        </view>
+        <image class="editicon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" bindtap="editAddress" data-index="{{index}}"/>
+      </view>
+    </scroll-view>
+
+    <view class="footer">
+      <view class="add-btn" bindtap="navigateToAddAddress">新增收货地址</view>
+    </view>
+  </view>
+</view>

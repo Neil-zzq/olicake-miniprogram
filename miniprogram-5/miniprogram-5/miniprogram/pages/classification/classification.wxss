@@ -1,0 +1,88 @@
+/* pages/classification/classification.wxss */
+page{
+  height: 100%;
+}
+.classification{
+  display: flex;
+}
+.itembox{
+  display: flex;
+
+}
+.detail image{
+  width:160rpx;  
+  height:160rpx;
+  border-radius: 20rpx;
+}
+
+.title{
+  width: 25%;
+  line-height: 2.5;
+  margin-right: 10rpx;
+  text-align: center;
+}
+.content{
+  width: 75%;
+}
+.itembox{
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content:flex-start;
+  font-size: 22rpx;
+  border: 1rpx solid #cdcdcd;
+  margin-right: 10rpx;
+  border-radius: 30rpx;
+}
+.detail{
+  text-align: center;
+  padding: 20rpx 10rpx 20rpx 10rpx      ;
+}
+.section{
+  margin: 10rpx 0 10rpx 10rpx;
+  font-weight: 500;
+}
+.btnhover{
+  background-color: rgb(255, 255, 255);
+  font-weight: 500;
+}
+.btn{
+  background-color:rgb(228, 228, 228) ;
+}
+.search-block{
+  display: flex;
+  margin: 10rpx  10rpx  10rpx  20rpx;
+}
+mp-vtabs{
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.container{
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+.icon{
+   height: 150rpx;
+   width:150rpx;
+}
+.list{
+  display: flex;
+  justify-content:flex-start;
+  flex-wrap: wrap;
+  margin-top: 20rpx;
+}
+.info{
+  text-align: center;
+  font-size: 30rpx;
+}
+.vtabs-content-item{
+  margin-left:20rpx;
+  margin-right: 0rpx;
+}
+.item{
+  margin-right: 15rpx;
+  margin-bottom: 20rpx;
+
+}

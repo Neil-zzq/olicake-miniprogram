@@ -1,0 +1,89 @@
+/* pages/add-address/add-address.wxss */
+/* 容器样式 */
+.container {
+  padding: 30rpx;
+  background: #f8f8f8e8;
+  
+}
+
+/* 表单项样式 */
+.form-item {
+  background: white;
+  width: 100%;
+  padding: 10rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 60rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.form-item text {
+  font-size: 28rpx;
+  color: #333;
+  width: 160rpx;
+  font-weight: 500;
+}
+
+/* 输入框样式 */
+input {
+  flex: 1;
+  font-size: 28rpx;
+  padding-left: 20rpx;
+  min-height: 40rpx;
+}
+
+/* 定位图标样式 */
+.location {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  color: #666;
+}
+
+.location .icon {
+  width: 36rpx;
+  height: 36rpx;
+  margin-left: 20rpx;
+}
+
+/* 开关样式 */
+switch {
+  transform: scale(0.8);
+  transform-origin: right center;
+}
+
+/* 保存按钮样式 */
+.save-btn {
+  background: #07c160;
+  color: white;
+  text-align: center;
+  padding: 30rpx;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  margin: 60rpx 30rpx 0;
+}
+
+/* 错误提示样式（可选） */
+.error-tip {
+  color: #ff4444;
+  font-size: 24rpx;
+  padding: 10rpx 30rpx;
+}
+.tag {
+  display: flex;
+  margin: 10rpx 20rpx;
+  padding: 12rpx 32rpx;
+  border-radius: 25rpx;
+  background-color: rgb(224, 227, 228);
+  color: #999;
+  font-size: 25rpx;
+}
+
+.tag.active {
+  background-color: rgb(201, 198, 198) !important;
+  color: #000000;
+  font-weight: 500;
+  
+}

@@ -1,0 +1,122 @@
+<!--pages/detail/detail.wxml-->
+<view  class="pagecontent" wx:if="{{cakeitems && cakeitems.img && cakeitems.img.length > 0}}">
+  <swiper class="swiperbox" indicator-dots="true" autoplay="true" interval="5000" duration="1000"  >
+    <swiper-item class="swiperitem" wx:for="{{cakeitems.img}}"  wx:key="*this"      >
+      <image src="{{item}}" mode="widthFix" class="swiperimg" />  
+    </swiper-item> 
+  </swiper>
+  <view class="detail">
+    <view class="box">
+      <view class="price">￥{{cakeitems.pricemin}}-{{cakeitems.pricemax}}</view>
+      <view class="name">{{cakeitems.title}}</view>
+    </view>
+    <view class="box">
+      <button open-type="share" class="share-button" size="mini">
+        <image src="cloud://zhang-5gjkd48bdb70c9d1.7a68-zhang-5gjkd48bdb70c9d1-1317945786/分享 (1).png" mode="widthFix" class="share-button" />
+      </button>
+    </view>
+  </view>
+  <view class="detail2">
+
+    <view class="service-choose">
+      <view class="title">
+        <view>服务</view>
+        <view>选择</view>
+      </view>
+      <view class="content">
+        <view>到店自提，同城配送，收货后结算</view>
+        <view>尺寸；口味；保温袋</view>
+      </view>
+      <view class="arrow">
+        <view class="service-arrow" bindtap="popupTips">></view>
+        <view class="choose-arrow" bindtap="showTan">></view>
+      </view>
+    </view>
+  </view>
+</view>
+<view class="bottom">
+  <view class="cart"catchtap="goToShoppingCart">
+    <view class="cart-icon">
+      <image src="cloud://zhang-5gjkd48bdb70c9d1.7a68-zhang-5gjkd48bdb70c9d1-1317945786/icon/购物车.png" mode="widthFix"/>
+      <view class="sup">{{cart.length}}</view> 
+    </view>
+    <view bind:tap="goToShoppingCart">购物车</view> 
+  </view>
+  <view class="addcart"bindtap="showTan">加入购物车</view>
+</view>
+<page-container show="{{tipsShow}}" round="true"> 
+  <view class="tips">
+    <view class="tips-title">到店自提</view>
+    <view class="tips-content">
+      <view class="tips-content">
+        <view>深圳市南头街道红花园社区51号</view>
+        <view class="tips-distance">距离{{currentDistance}}km</view>
+      </view>
+
+      <map id="shop-map" style="width: 100%; height: 300px;" latitude="{{latitude}}" longitude="{{longitude}}" markers="{{markers}}" covers="{{covers}}" show-location></map>
+
+    </view>
+    <view class="tips-title">同城配送</view>
+    <view class="tips-content">可选择同城配送并预约送达时间，本商品运费：最低0.00元起送，运费￥0.00起</view>
+    <button class="tips-button" bindtap="tipsButton">我知道了</button>
+  </view>
+</page-container>
+<view class="tan-bg" wx:if="{{inShow==true}}">
+  <view class="tan-block">
+    <view class="tan-block-title">
+      <view>
+        <image src="{{cakeitems.cover}}" class="tan-img" />
+      </view>
+      <view class="tan-detail">
+        <view class="price">￥{{Price}}</view>
+        <view>请选择 {{Size}} {{Taste}} {{Bag}}</view>
+      </view>
+      <view class="tan-close" bindtap="showTan">×</view> 
+    </view>
+    <view class="tan-block-size">
+      <view>尺寸 </view>
+      <view class="tan-size">
+        <view  wx:for="{{cakeitems.cakeSize}}" wx:key="index" class="tan-size-choose"  >
+           <view bindtap="cakesizeChoosed"data-index="{{index}}" class="tan-size-choosed" wx:if="{{selectedSizeIndex === index}}">{{item.size}}</view>
+           <view bindtap="cakesizeChoosed" data-index="{{index}}" wx:else>{{item.size}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="tan-block-taste">
+      <view>口味</view>
+      <view class="tan-taste">
+        <view wx:for="{{cakeitems.cakeTaste}}" wx:key="index" class="tan-taste-choose">
+           <view  bindtap="caketasteChoosed" wx:if="{{selectedTasteIndex === index}}"    class="tan-taste-choosed" data-index="{{index}}" >{{item}}</view>
+           <view  bindtap="caketasteChoosed" wx:else   data-index="{{index}}" >{{item}}</view>
+        </view>
+      </view>
+
+    </view>
+    <view class="tan-block-bag">
+      <view>保温袋</view>
+      <view class="tan-bag">
+        <view wx:for="{{cakeBag}}" wx:key="index" class="tan-bag-choose" data-index="{{index}}">
+          <view bindtap="cakebagChoose" class="tan-bag-choosed" wx:if="{{selectedBagIndex === index}}"data-index="{{index}}">{{item.name}}</view>
+          <view bindtap="cakebagChoose" wx:else  data-index="{{index}}">{{item.name}}</view>
+        </view>
+      </view>
+    </view>
+    <view class="tan-block-amount">
+      <view class="mod">
+        <view class="amount">数量</view>
+        <view class="selector">
+          <view bindtap="subnum">-</view>
+          <input class="num" value="{{num}}" />
+          <view bindtap="addnum">+</view>
+        </view>
+      </view>
+    </view>
+    <view class="input">
+      <view class="input-title">订购人电话</view>
+      <input class="input-content" type="text" placeholder="请填写手机号" bindinput="bindPhoneInput" value="{{phone}}"	type="number"/>
+      <view class="input-title">祝福语</view>
+      <input class="input-content" type="text" placeholder="请填写留言（8个字以内）"bindinput="bindMessageInput" value="{{message}}" />
+    </view>
+    <view class="shopping-cart"bindtap="onAddcart">加入购物车</view>
+  </view>
+</view>

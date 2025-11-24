@@ -1,0 +1,453 @@
+/* pages/orderconfirm/orderconfirm.wxss */
+  page{
+  background-color: rgb(231, 233, 233) ;
+  height: 100%;
+}
+.top{
+  height: 92%;
+}
+.container{
+  padding: 0rpx;
+  width:732rpx;
+  margin: 10rpx ;
+  height:360rpx;
+}
+.content{
+  width: 712rpx;
+}
+.page-page1{
+  display: flex;
+  align-items:flex-end;
+  justify-content: space-between;
+  
+}
+.page-page1-title{
+  display: flex;
+
+}
+.spicon{
+  width: 40rpx;
+}
+.deliicon{
+  width: 50rpx;
+}
+
+.page-page1-deli,
+.page-page1-sp{
+  width:356rpx;
+  height: 100rpx;
+  background-color: rgb(193, 194, 194);
+  display: flex;
+  font-size: 35rpx;
+  align-items:center;
+  justify-content: center;
+} 
+.page-page1-spactive,
+.page-page1-deliactive{
+  width:356rpx;
+  height: 100rpx;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  font-size: 35rpx;
+  align-items:center;
+  justify-content: center;
+  font-weight: bold;
+}
+.detail{
+  background-color: rgb(255, 255, 255);
+  width: 712rpx;
+  height:300rpx;
+}
+.brandname{
+  font-size: 40rpx;
+  font-weight: 600;
+}
+.shopname{
+  font-size: 27rpx;
+}
+.name{
+  display: flex;
+  flex-direction: column;
+}
+.shop-detail{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 20rpx;
+}
+.consignee,.dod{
+  margin: 20rpx;
+  display: flex;
+  justify-content: space-between;
+  font-size: 25rpx;
+}
+.create-cone,.create-dod {
+  font-weight: 600;
+}
+.default{
+  background-color: rgb(19, 19, 20);
+  color:rgb(255, 255, 255);
+  border-radius: 10rpx;
+  font-size: 25rpx;
+  display: flex;
+  align-items: center;
+  margin-left: 10rpx;
+  width: 60rpx;
+  justify-content: center;
+}
+.area{
+  display: flex;
+  font-size: 25rpx;
+  margin: 20rpx;
+  
+}
+.deliverydetail{
+   display: flex;
+   justify-content: space-between;
+   margin: 20rpx;
+}
+.address{
+ font-weight: 600;
+}
+.phone{
+  font-weight: 400;
+  font-size: 25rpx;
+  margin-top: 10rpx;
+}
+.fee,.time{
+  display: flex;
+  justify-content: space-between;
+  margin: 20rpx;
+ font-size:25rpx;
+ 
+}
+.feenum{
+  font-weight: 600;
+}
+.create-time{
+  font-weight: 500;
+  color: red;
+}
+.cakecard image{
+   width: 160rpx;
+   border-radius: 20rpx;
+   margin: 20rpx 20rpx 20rpx 30rpx;
+   
+}
+.cakecard{
+  background-color: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+  display: flex;
+}
+.cakedetail{
+  font-size: 23rpx;
+  color: gray;
+}
+.price{
+  font-weight: 500;
+  font-size: 25rpx;
+  display: flex;
+  align-items:baseline;
+}
+.pricenum{
+  font-weight: 600;
+  font-size: 35rpx;
+}
+.pricenum2{
+  font-weight: 600;
+}
+.num{
+  color: gray;
+  font-size: 25rpx;
+}
+.cakefee{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 5rpx;
+}
+.other,.pricenum3{
+  color: gray;
+  font-size: 23rpx;
+}
+.cakeinfo{
+  width: 500rpx;
+  line-height: 45rpx;
+  margin-top:10rpx ;
+}
+.payment{
+  background-color: white;
+  margin: 20rpx;
+  border-radius: 20rpx;
+ font-size: 28rpx;
+ height: 250rpx;
+ 
+}
+.total,.delivery,.coupon,.balance{
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 20rpx 0 20rpx;
+}
+.totalkey,.balancekey,.balancevalue{
+  display: flex;
+ align-items: center;
+}
+
+
+.balancevalue image{
+  width: 32rpx;
+}
+.bottom{
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  height: 7%;
+  width: 100%;
+  
+}
+.accounts{
+  display: flex;
+}
+.bottomcontent{
+  display: flex;
+  justify-content: space-between;
+  margin: 10rpx 20rpx 0 20rpx;
+  align-items: center;
+
+}
+.sumbitbtn{
+  width: 200rpx;
+  background-color: black;
+  color: white;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 20rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.consigneePop{
+  height: 1000rpx;
+}
+.edit,.choose{
+  width: 40rpx;
+}
+.info{
+  display: flex;
+  width: 350rpx;
+  justify-content: space-evenly;
+}
+.consigneePopInfo{
+  display: flex;
+  justify-content: space-between;
+  margin: 40rpx  20rpx  40rpx  20rpx;
+}
+
+.consigneePopTitle{
+  width: 100%;
+  display: flex;
+  margin: 20rpx;
+  
+}
+.Title{
+  width: 92%;
+  text-align: center;
+  font-weight: 500;
+}
+.titleClose{
+  color: rgba(140, 143, 143, 0.671);
+}
+.bottom{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  
+}
+.btn{
+  width: 90%;
+  background-color: rgb(8, 6, 37);
+  color: rgb(255, 255, 255);
+  border-radius: 40rpx;
+  font-weight: 530;
+  height: 98%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.time-picker-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.time-picker-content {
+  background: #fff;
+  width: 85%;
+  border-radius: 16rpx;
+  overflow: hidden;
+}
+
+.picker-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+}
+
+.header-title {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.close-btn {
+  font-size: 50rpx;
+  color: #999;
+}
+
+.picker-body {
+  display: flex;
+  height: 500rpx;
+}
+
+.date-list {
+  width: 35%;
+  background: #f5f5f5;
+}
+
+.date-item {
+  padding: 30rpx;
+  text-align: center;
+  border-bottom: 1rpx solid #eee;
+}
+
+.date-item.active {
+  background: #fff;
+  color: black;
+  font-weight: bold;
+}
+
+.time-list {
+  width: 65%;
+}
+
+.time-item {
+  padding: 30rpx;
+  border-bottom: 1rpx solid #eee;
+  
+}
+
+.time-item.active {
+  color: black;
+  font-weight: bold;
+}
+
+.picker-footer {
+  padding: 30rpx;
+  border-top: 1rpx solid #eee;
+}
+
+.confirm-btn {
+  background: black;
+  color: #fff;
+  text-align: center;
+  padding: 20rpx;
+  border-radius: 50rpx;
+}
+/* 地址弹窗样式 */
+.address-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999;
+}
+
+.mask {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.address-content {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  max-height: 70vh;
+}
+
+.address-header {
+  padding: 32rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1rpx solid #eee;
+}
+
+.address-list {
+ 
+  max-height: 60vh;
+}
+
+.address-item {
+  margin: 20rpx;
+  border-bottom: 1rpx solid #eee;
+  display: flex;
+  width: 95%;
+  justify-content: space-between;
+  align-items: center;
+  height: 150rpx;
+}
+
+.default {
+  background: #f5f5f5;
+}
+
+.default-badge {
+  background: #07c160;
+  color: white;
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  font-size: 24rpx;
+  margin-left: 16rpx;
+}
+
+.footer {
+  padding: 32rpx;
+  background: #fff;
+}
+
+.add-btn {
+  background: black;
+  color: white;
+  text-align: center;
+  padding: 24rpx;
+  border-radius: 48rpx;
+}
+.chooseicon{
+  width: 35rpx;
+}
+.editicon{
+  height: 45rpx;
+  width: 45rpx;
+}
+.name2,.phone2{
+  font-size: 28rpx;
+  color: #999;
+}
+.addressInfo{
+  width: 85%;
+}

@@ -1,0 +1,137 @@
+/* pages/Preferential/Preferential.wxss */
+.balance{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15rpx;
+  margin-bottom: 15rpx;
+}
+.title{
+  margin: 10rpx 20rpx 0 20rpx;
+  font-size: 30rpx;
+  border-bottom: 3rpx solid #e4e3e3;
+}
+.balancenum{
+  font-size: 40rpx;
+  font-weight: 600;
+}
+.balanceinfo{
+  color:rgb(172, 167, 167);
+}
+.module,.moduleactive{
+  background-color: #f0efef;
+  width: 230rpx;
+  height: 280rpx;
+  border-radius: 15rpx;
+  text-align: center;
+  font-size: 25rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-top: 30rpx;
+  margin-left: 16rpx;
+}
+.content{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  
+}
+.rechargeNum{
+  font-size: 60rpx;
+  font-weight: 700;
+  
+}
+.coupon{
+  font-weight: 400;
+  color: #858282;
+}
+.rechargeNum2{
+  height: 80rpx;
+  font-size: 60rpx;
+  font-weight: 700;
+}
+.coupondetail{
+  font-size: 22rpx;
+  margin: 20rpx;
+}
+.coupondetailinfo{
+  margin-top: 20rpx;
+  font-size: 25rpx;
+}
+.moduleactive{
+  border: 5rpx solid #0a0a0a;
+}
+.rechargeNumInput{
+  height: 80rpx;
+}
+.placeholderStyle{
+  color: #0a0a0a;
+  font-size: 50rpx;
+}
+.rechargeTips{
+  font-size:20rpx;
+  line-height: 35rpx;
+  margin:20rpx;
+  color:#858282;
+}
+.rechargeTipsTitle,.rechargeAgreement{
+  color:#0f0f0f;
+}
+.bottom{
+  position:fixed;
+  bottom: 0rpx;
+  height: 100rpx;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+.rechargeBtn{
+text-align: center;
+height: 90rpx;
+background-color: #202020;
+color: #ffffff;
+border-radius: 50rpx;
+display: flex;
+justify-content: center;
+align-items: center;
+width: 90%;
+}
+.tanContent{
+  display: flex;
+  width: 100%;
+  height: 160rpx;
+  line-height: 40rpx;
+  margin-top: 20rpx;
+}
+.tanContent1{
+  display: flex;
+  flex-direction: column;
+  width:25% ;
+  text-align: center;
+  
+}
+.tanTitle{
+  text-align: center;
+  margin: 0 20rpx 0 20rpx;
+  font-size: 35rpx;
+  font-weight: 550;
+  display: flex;
+  width: 100%;
+}
+.onClose{
+  width: 5%;
+  font-size: 60rpx;
+  color: #b8b5b5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-weight:400 ;
+}
+.tanTitleFont{
+  width: 89%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

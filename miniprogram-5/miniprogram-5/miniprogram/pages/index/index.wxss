@@ -1,0 +1,27 @@
+/**index.wxss**/
+.cake-card image{
+  width: 345rpx;
+  height:345rpx;
+  border-radius: 20rpx;
+  
+}
+.list-wrap{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin:20rpx;
+  
+  align-content: flex-start;
+  align-items:flex-start;
+}
+.body{
+  height:100vh;
+  background-color: #f0f0f0;
+}
+.price{
+  font-size: 35rpx;
+}
+.cake-card{
+  background-color: rgb(252, 252, 252);
+  margin-bottom: 20rpx;
+}

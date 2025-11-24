@@ -1,0 +1,40 @@
+<!--pages/add-address/add-address.wxml-->
+<view class="container">
+  <view class="form-item">
+    <text>收货人</text>
+    <input value="{{name}}" placeholder="请输入姓名" bindinput="onNameInput" />
+  </view>
+
+  <view class="form-item">
+    <text>手机号</text>
+    <input type="number" value="{{phone}}" placeholder="请输入手机号" bindinput="onPhoneInput" />
+  </view>
+ 
+  <view class="form-item" bindtap="navigateToMapChoose">
+    <text>收货地址</text>
+    <view class="location">
+      {{detail|| ''}}{{region || '请选择收货地址'}}
+    </view>
+  </view>
+
+  <view class="form-item">
+    <text>门牌号</text>
+    <input value="{{housenum}}" placeholder="填写详细地址，例如1层101" bindinput="onHousenumInput" />
+  </view>
+
+  <view class="form-item">
+    <text>地址标签</text>
+    <view wx:for="{{tagchoose}}" class="tagchoose" wx:key="*this"
+    class="tag {{selectedTag === item ? 'active' : ''}}"
+    bindtap="handleTagSelect"
+    data-tag="{{item}}">{{item}}
+    </view>
+  </view>
+
+  <view class="form-item">
+    <text>设为默认地址</text>
+    <switch checked="{{isDefault}}" bindchange="onDefaultChange" />
+  </view>
+
+  <view class="save-btn" bindtap="saveAddress">保存地址</view>
+</view>

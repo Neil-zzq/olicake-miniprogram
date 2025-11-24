@@ -1,0 +1,59 @@
+<!--pages/Preferential/Preferential.wxml-->
+<view class="title">
+  <view>店铺余额</view>
+  <view class="balance">
+    <view class="balancenum">0</view>
+    <view class="balanceinfo">储值管理＞</view>
+  </view>
+</view>
+<view class="content">
+  <view class="module{{activeIndex === index ? 'active' : ''}}" wx:for="{{rechargeDiscount}}" wx:key="index" data-index="{{index}}"  bindtap="selectItem">
+    <view>
+      <view class="rechargeNum" wx:if="{{item.type === 'input'}}">
+        <input type="text" placeholder="自定义" class="rechargeNumInput"placeholder-class="placeholderStyle"/>
+      </view>
+      <view class="rechargeNum" wx:else>{{item.rechargeNum}}</view>
+      <view>RMB</view>
+    </view>
+    <view class="coupon">送 优惠券×{{item.coupon}}</view>
+
+  </view>
+ 
+</view>
+<view class="coupondetail" wx:for="{{rechargeDiscount}}" wx:key="index" wx:for-item="subitem"  wx:if="{{activeIndex === index}}" >
+    <view class="coupondetailtitle">你将获得</view>
+    <view class="coupondetailinfo" wx:for="{{subitem.coupondetailinfo}}"wx:key="index" bindtap="popupTips">
+       <view>● 满{{item.full}}元减{{item.discount}}元券×{{item.num}}张 详情＞</view>
+       <page-container show="{{tipsShow}}" round="true" >
+          <view class="tanTitle">
+            <view class="tanTitleFont">充值送{{item.discount}}元优惠券</view>
+            <view class="onClose" catchtap="onClosePopup">×</view>
+          </view>
+          <view class="tanContent">
+             <view class="tanContent1" >
+                <view>优惠内容：</view>
+                <view>适用商品：</view>
+                <view>有效期：</view>
+             </view>
+             <view class="tanContent2">
+                 <view>满{{item.full}}，减{{item.discount}}</view>
+                 <view>全部商品</view>
+                 <view>领券当日起365天内可用</view>
+             </view>
+          </view>
+       </page-container>
+    </view>
+</view>
+
+<view class="rechargeTips">
+   <view class="rechargeTipsTitle">充值须知</view>
+   <view>●付款后无须确认收货，资金直接进入商家账户</view>
+   <view>●储值金额一经充值无法退回，充值须谨慎考虑</view>
+   <view>●充值成功可在小程序个人中心查看储值余额</view>
+   <view>●支持在本店内使用余额进行消费，线上小程序支付时，请在“确认订单页-余额/卡”栏勾选使用储值金额，不支持提现找零</view>
+   <view>●订单如有退款，扣除金额将直接退回个人小程序账户上，不是退回现金金额</view>
+   <view>●查看《储值卡消费者服务协议》</view>
+</view>
+<view class="bottom">
+   <view class="rechargeBtn">立即充值</view>
+</view>

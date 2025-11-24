@@ -1,0 +1,13 @@
+<!--pages/customerService/customerService.wxml-->
+<view class="customerService">
+  <view class="csicon"> 
+    <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/客服二维码.png" mode="widthFix" bindlongpress="handleLongPress"show-menu-by-longpress="true" />
+  </view>
+  <view class="fpicon">
+    <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/指纹.png" mode="widthFix" show-menu-by-longpress="true" />
+    <view class="des">
+      <view>长按识别二维码</view>
+      <view>添加微信获取优惠信息</view>
+    </view>
+  </view> 
+</view>

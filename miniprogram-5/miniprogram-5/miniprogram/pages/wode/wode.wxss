@@ -1,0 +1,105 @@
+/* pages/wode/wode.wxss */
+page{
+   width: 100%;
+   height: 100%;
+   background-color: rgba(241, 241, 241, 0.815);
+}
+.user-avatar{
+  border-radius:   50% ;
+  width:100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border: 0rpx rgb(255, 255, 255);
+}
+.usernametel{
+  display: flex;
+  flex-direction: column;
+  justify-content:space-evenly;
+}
+.userinfo1{
+  display: flex;
+  margin: 20rpx 0 0 20rpx; 
+}
+.username{
+  font-weight: 500;
+  
+}
+.tel{
+  color:rgb(94, 93, 93);
+  font-size: small;
+}
+.userinfo2{
+  display: flex;
+  justify-content:space-around;
+  height: 180rpx;
+  width: 100%;
+  margin-top: 30rpx;
+}
+.name{
+  font-size:22rpx;
+  text-align: center;
+}
+.value{
+  font-weight: 600;
+  text-align: center;
+}
+.title{
+  background-color: rgb(231, 229, 229);
+  z-index: -999;
+  height: 220rpx;
+}
+.QRCode{
+  height: 50rpx;
+  width:50rpx ;
+}
+.cardtitle{
+  display: flex;
+  justify-content: space-between;
+  
+}
+.cardtitletext{
+  font-weight: 600;
+  font-size: 35rpx;
+}
+.card{
+  background-color: rgb(252, 252, 252);
+  margin: 20rpx;
+  border-radius: 10rpx;
+  z-index: 0;
+  border-radius: 5%;
+  padding: 30rpx;
+  position: relative;
+  bottom:100rpx;
+}
+.underline{
+  height: 150rpx;
+  border-bottom: 8rpx solid #0f0f0f;
+}
+.level{
+  height: 30rpx;
+  width: 30rpx;
+}
+.cardbottom view{
+  font-size: 25rpx;
+  color: rgba(156, 156, 156, 0.829);
+  
+}
+.cardbottom{
+  display: flex;
+  justify-content: space-between;
+  margin-top:20rpx ;
+}
+.bottom-card{
+  height: 130rpx;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 50rpx 0 50rpx;
+  border-bottom: 0.5rpx solid #d4d2d2;
+  align-items: center;
+  font-size: 30rpx;
+  position: relative;
+  bottom: 100rpx;
+}
+.bottom{
+  height: 500rpx;
+}

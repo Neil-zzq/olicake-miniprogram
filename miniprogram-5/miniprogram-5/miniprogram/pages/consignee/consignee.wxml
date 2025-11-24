@@ -1,0 +1,21 @@
+<!--pages/consignee/consignee.wxml-->
+<view class="info">
+  <view class="name">
+      <view>姓名</view>
+      <input type="text"	placeholder="请填写提货人姓名" value="{{name}}"    bindinput="bindNameInput" />
+  </view>
+  <view class="code">
+      <view>提货码</view>
+      <input type="text" 	placeholder="请填写提货码，如手机号" value="{{code}}" bindinput="bindCodeInput" type="number"/>
+  </view>
+</view>
+
+<view class="switch"> 
+  <view>设为默认提货人</view>
+  <switch checked="{{switchChecked}}" bindchange="switchChecked" color="rgb(8, 6, 37)"/>
+</view>
+
+<view class="bottom">
+  <view bind:tap="saveBtn"  class="btn">保存并使用</view>
+</view>
+
