@@ -9,7 +9,7 @@ const items =[
         'pricemax':1800,
         'cover':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/日照金山/日照金山封面.jpg',
         'img':['cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/日照金山/日照金山1.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/日照金山/日照金山2.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/日照金山/日照金山3.jpg'],
-        'cakeSize':[{'size':'6寸','price':1000},{'size':'8寸','price':1400},{'size':'10寸','price':1800}],
+        'cakeSize':[{'size':'6寸','price':0.1},{'size':'8寸','price':0.14},{'size':'10寸','price':0.18}],
         'cakeTaste':['香草原味','海盐奥利奥','宇治抹茶','伯爵红茶','浓郁巧克力','椰子奶油','草莓奶油'],
       },
       {
@@ -19,7 +19,7 @@ const items =[
         'pricemax':1800,
         'cover':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达封面.jpg',
         'img':['cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达1.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达2.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达3.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达4.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/卢旺达/卢旺达5.jpg'],
-        'cakeSize':[{'size':'6寸','price':1000},{'size':'8寸','price':1400},{'size':'10寸','price':1800}],
+        'cakeSize':[{'size':'6寸','price':0.1},{'size':'8寸','price':0.14},{'size':'10寸','price':0.18}],
         'cakeTaste':['香草原味','海盐奥利奥','宇治抹茶','伯爵红茶','浓郁巧克力','椰子奶油','草莓奶油'],
       },
       {
@@ -29,7 +29,7 @@ const items =[
           'pricemax':'1750',
           'cover':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学封面.jpg',
           'img':['cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学1.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学2.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学3.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学4.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/剑桥大学/剑桥大学5.jpg'],
-          'cakeSize':[{'size':'6寸','price':900},{'size':'8寸','price':1300},{'size':'10寸','price':1700}],
+          'cakeSize':[{'size':'6寸','price':0.09},{'size':'8寸','price':0.13},{'size':'10寸','price':0.17}],
           'cakeTaste':['香草原味','海盐奥利奥','宇治抹茶','伯爵红茶','浓郁巧克力','椰子奶油','草莓奶油'],
       },
      {
@@ -39,7 +39,7 @@ const items =[
           'pricemax':'1750',
           'cover':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗封皮.jpg',
           'img':['cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗1.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗2.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗3.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗4.jpg','cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗5.jpg'],
-          'cakeSize':[{'size':'6寸','price':900},{'size':'8寸','price':1300},{'size':'10寸','price':1700}],
+          'cakeSize':[{'size':'6寸','price':0.09},{'size':'8寸','price':0.13},{'size':'10寸','price':0.17}],
           'cakeTaste':['香草原味','海盐奥利奥','宇治抹茶','伯爵红茶','浓郁巧克力','椰子奶油','草莓奶油'],
       },
      {

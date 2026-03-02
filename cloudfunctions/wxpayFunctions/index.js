@@ -1,3 +1,4 @@
+const config = require('./config');
 const makeOrder = require('./wxpay_order/index');
 const queryOrderByOutTradeNo = require('./wxpay_query_order_by_out_trade_no/index');
 const queryOrderByTransactionId = require('./wxpay_query_order_by_transaction_id/index');

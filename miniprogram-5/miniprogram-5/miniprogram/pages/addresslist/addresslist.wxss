@@ -1,0 +1,43 @@
+/* pages/addresslist/addresslist.wxss */
+.addressitem image{
+  width: 50rpx;
+}
+.container{
+  height: 93vh;
+  background-color: rgb(241, 241, 241);
+  padding: 10rpx;
+}
+.addressitem{
+  height:150rpx;
+  background-color: rgb(255, 255, 255);
+  border-radius:30rpx;
+  padding: 30rpx 30rpx 10rpx 30rpx;
+  display: flex;
+  margin-top: 20rpx;
+  align-items: center;
+}
+.addressitem view{
+  font-size: 30rpx;
+  margin-bottom: 10rpx;
+  width: 98%;
+}
+.name-phone{
+  color: rgb(141, 140, 140);
+}
+.add-addressitem{
+  width: 90%;
+  background-color: rgb(38, 39, 43);
+  height: 85rpx;
+  color: rgb(255, 255, 255);
+  font-weight:100rpx ;
+  border-radius: 40rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 7vh;
+}

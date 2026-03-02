@@ -1,6 +1,4 @@
 {
-  "usingComponents": {
-    "mp-vtabs": "../../components/vtabs/index",
-    "mp-vtabs-content": "../../components/vtabs-content/index"
-  }
+  "navigationStyle": "custom",
+  "usingComponents": {}
 }

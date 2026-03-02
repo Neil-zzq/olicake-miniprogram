@@ -1,27 +1,139 @@
 /**index.wxss**/
-.cake-card image{
-  width: 345rpx;
-  height:345rpx;
-  border-radius: 20rpx;
-  
+page {
+  width: 100%;
+  height: 100%;
+  background-color: #f5f5f7;
 }
-.list-wrap{
+
+.page-ios {
+  min-height: 100%;
+  padding: 0 24rpx 40rpx;
+  box-sizing: border-box;
+}
+
+/* iOS 风格自定义导航栏（替代系统导航栏，整体更薄） */
+.ios-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: #f5f5f7;
+}
+
+.ios-nav__row {
   display: flex;
-  flex-wrap: wrap;
+  align-items: center;
+  padding: 0 24rpx;
+  box-sizing: border-box;
+}
+
+.ios-nav__title {
+  font-size: 40rpx;
+  font-weight: 650;
+  color: #111111;
+}
+
+.nav-spacer {
+  width: 100%;
+}
+
+/* 列表容器：改成一列大卡片 */
+.cake-grid {
+  display: flex;
+  flex-direction: column;
+  padding-top: 16rpx;
+}
+
+/* 单个卡片：占满宽度，更高、更大气 */
+.cake-card {
+  width: 100%;
+  margin-bottom: 32rpx;
+  background-color: #ffffff;
+  border-radius: 28rpx;
+  overflow: hidden;
+  box-shadow: 0 10rpx 26rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 顶部图片区域 + 心形按钮 */
+.card-top {
+  position: relative;
+}
+
+/* 图片高度明显增大，突出细节；再提高高度让蛋糕更突出 */
+.cake-image {
+  width: 100%;
+  height: 620rpx;
+  display: block;
+}
+
+/* 右上角心形按钮 */
+.favorite-btn {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 30rpx;
+  background-color: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.favorite-icon {
+  font-size: 32rpx;
+  color: #ff2d55;
+}
+
+/* 文本信息区域 */
+.cake-info {
+  padding: 22rpx 24rpx 26rpx;
+}
+.cake-title {
+  display: block;
+  font-size: 34rpx;   /* 再放大标题，提升视觉重点 */
+  font-weight: 650;
+  color: #111111;
+  line-height: 1.4;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cake-subtitle {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #8e8e93;
+}
+
+/* 底部价格 + 圆形购物车按钮 */
+.cake-footer {
+  margin-top: 14rpx;
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  margin:20rpx;
-  
-  align-content: flex-start;
-  align-items:flex-start;
 }
-.body{
-  height:100vh;
-  background-color: #f0f0f0;
+
+.cake-price {
+  font-size: 34rpx;   /* 价格更醒目 */
+  font-weight: 600;
+  color: #111111;
 }
-.price{
-  font-size: 35rpx;
+
+/* 圆形购物车按钮 */
+.cart-btn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 36rpx;
+  background-color: #111111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.cake-card{
-  background-color: rgb(252, 252, 252);
-  margin-bottom: 20rpx;
+
+.cart-icon {
+  font-size: 32rpx;
+  color: #ffffff;
 }

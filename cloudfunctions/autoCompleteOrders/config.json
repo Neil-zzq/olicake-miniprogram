@@ -1,0 +1,13 @@
+{
+  "triggers": [
+  {
+    "name": "autoCompleteTrigger",
+    "type": "timer",
+    "config": "0 0 */1 * * * *" 
+  }
+],
+  "permissions": {
+    "openapi": [
+    ]
+  }
+}

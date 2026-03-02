@@ -10,7 +10,7 @@
   padding: 0rpx;
   width:732rpx;
   margin: 10rpx ;
-  height:360rpx;
+  height:400rpx;
 }
 .content{
   width: 712rpx;
@@ -114,21 +114,31 @@
   font-size: 25rpx;
   margin-top: 10rpx;
 }
-.fee,.time{
+.deliverymethod,.time{
   display: flex;
   justify-content: space-between;
-  margin: 20rpx;
- font-size:25rpx;
+  margin:10rpx 20rpx 10rpx 20rpx;
+  font-size:25rpx;
  
 }
-.feenum{
+.method{
   font-weight: 600;
+  display: flex;
+  justify-content: center;
+}
+.method view{
+  display: flex;
+  align-items: center;
+}
+
+.icon-choose{
+  width: 30rpx;
 }
 .create-time{
   font-weight: 500;
-  color: red;
+  color: rgb(12, 12, 12);
 }
-.cakecard image{
+.cakecard image{ 
    width: 160rpx;
    border-radius: 20rpx;
    margin: 20rpx 20rpx 20rpx 30rpx;
@@ -205,16 +215,18 @@
   height: 7%;
   width: 100%;
   
+  
 }
 .accounts{
   display: flex;
 }
 .bottomcontent{
   display: flex;
-  justify-content: space-between;
-  margin: 10rpx 20rpx 0 20rpx;
+  justify-content: flex-end;
+  margin-top: 10rpx;
   align-items: center;
-
+  width: 100%;
+  
 }
 .sumbitbtn{
   width: 200rpx;
@@ -233,11 +245,16 @@
 }
 .edit,.choose{
   width: 40rpx;
+  margin-left: 10rpx;
 }
 .info{
   display: flex;
-  width: 350rpx;
-  justify-content: space-evenly;
+  width: 500rpx;
+  justify-content:initial;
+}
+.info view{
+  font-size: 30rpx;
+  margin-left:10rpx ;
 }
 .consigneePopInfo{
   display: flex;
@@ -259,10 +276,14 @@
 .titleClose{
   color: rgba(140, 143, 143, 0.671);
 }
-.bottom{
+.consigneebottom{
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+  height: 7%;
   
 }
 .btn{
@@ -271,7 +292,7 @@
   color: rgb(255, 255, 255);
   border-radius: 40rpx;
   font-weight: 530;
-  height: 98%;
+  height: 95%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -386,7 +407,7 @@
   width: 100%;
   background: #fff;
   border-radius: 24rpx 24rpx 0 0;
-  max-height: 70vh;
+  max-height: 100vh;
 }
 
 .address-header {

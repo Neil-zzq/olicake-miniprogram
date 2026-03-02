@@ -1,5 +1,4 @@
 // pages/detail/detail.ts 
-const items2 = require('../../utils/items.js')
 Page({
   goback: function () {
     wx.navigateBack()
@@ -15,6 +14,9 @@ Page({
     })
   },
   data: {
+    statusBarHeight: 0,
+    navBarContentHeight: 44,
+    navBarHeight: 44,
     selectedTasteIndex : -1,
     selectedSizeIndex:-1,
     Price:0,
@@ -24,12 +26,12 @@ Page({
     Taste:'口味',
     Bag:'保温袋',
     cakeBag:[
-      {name:'需要',price:10},
+      {name:'需要',price:0.1},
       {name:'不需要',price:0}
     ],
     cakeitems:{},
     img:{},
-    cart:{},
+    cart:[],
     item:{},
     num:1,
     latitude: 22.538526,
@@ -53,7 +55,6 @@ Page({
     }],
     tipsShow: false,
     inShow:false,
-    num:1,
     phone: '', 
     message: '', 
   },
@@ -83,19 +84,73 @@ Page({
     this.onSummary()
   },
   onLoad:function(options) {
-    this.onUpdateCart()
-     for(var i in items2){
-      for ( var j in items2[i].list){
-        if  (items2[i].list[j] ['id'] == options.id ){
-          this.setData ({
-            cakeitems:items2[i].list[j],
-            Price:0,
-             })
-             
-        }
+    const sysInfo = wx.getSystemInfoSync()
+    const statusBarHeight = sysInfo.statusBarHeight || 0
+
+    let navBarContentHeight = 44
+    try {
+      const menu = wx.getMenuButtonBoundingClientRect && wx.getMenuButtonBoundingClientRect()
+      if (menu && menu.height && menu.top != null) {
+        const gap = Math.max(0, menu.top - statusBarHeight)
+        navBarContentHeight = menu.height + gap * 2
       }
+    } catch (e) {}
+
+    const navBarHeight = statusBarHeight + navBarContentHeight
+    this.setData({ statusBarHeight, navBarContentHeight, navBarHeight })
+
+    const cakeId = options.id
+    console.log('接收到的蛋糕ID:', cakeId)
+    this.onUpdateCart()
+    if (cakeId) {
+      this.getCakeDetail(cakeId)
+    } else {
+      wx.showToast({
+        title: '参数错误',
+        icon: 'none'
+      })
+      setTimeout(() => {
+        wx.navigateBack()
+      }, 1500)
     }
   },
+  
+    getCakeDetail(cakeId) {
+      wx.showLoading({
+        title: '加载中...',
+      })
+      
+      wx.cloud.callFunction({
+        name: 'getCakeDetail',  // 云函数名称
+        data: {
+          id: cakeId           // 传递蛋糕id
+        },
+        success: (res) => {
+          wx.hideLoading()
+          console.log('蛋糕详情数据:', res)
+          
+          if (res.result.code === 0) {
+            this.setData({
+              cakeitems: res.result.data,
+              loading: false
+            })
+          } else {
+            wx.showToast({
+              title: res.result.message || '获取详情失败',
+              icon: 'none'
+            })
+          }
+        },
+        fail: (err) => {
+          wx.hideLoading()
+          console.error('获取详情失败:', err)
+          wx.showToast({
+            title: '网络错误，请重试',
+            icon: 'none'
+          })
+        }
+      })
+    },
   cakesizeChoosed:function(e){
     let  cakeitems = this.data.cakeitems
     let selectedSizeIndex =this.data.selectedSizeIndex
@@ -117,7 +172,7 @@ Page({
     this.onSummary()
  },
  caketasteChoosed:function(e){
-   console.log(e)
+   
   let cakeitems = this.data.cakeitems
   let selectedTasteIndex =this.data.selectedTasteIndex
   let index = e.currentTarget.dataset.index
@@ -149,6 +204,11 @@ Page({
    }
    this.onSummary()
  },
+ navigateToShoppingCart(){
+  wx.switchTab({
+    url: '/pages/shopping-cart/shopping-cart',
+  })
+ },
  onAddcart: function () {
     // 1. 获取用户输入的值
     const { phone, message } = this.data;
@@ -163,6 +223,7 @@ Page({
           cartitem["Price"]=this.data.Price
           cartitem["phone"]=this.data.phone
           cartitem["message"]=this.data.message
+          cartitem["cartId"]=Date.now() + Math.random().toString(36).substr(2, 9)
           res.data.push(this.data.cakeitems)
           
         wx.setStorage({
@@ -173,8 +234,17 @@ Page({
          
          this.onUpdateCart()
          wx.showToast({
-           title: '加入购物车成功',
-         })
+          title: '加入购物车成功',
+          icon: 'success',
+          duration: 1500,
+          mask: true,
+          success: () => {
+            setTimeout(() => {
+              this.navigateToShoppingCart()
+            }, 1500)
+          }
+        })
+         
      },
      fail:err=>{
        //本地内存没有cart数据
@@ -193,7 +263,16 @@ Page({
        this.onUpdateCart()
        wx.showToast({
         title: '加入购物车成功',
+        icon: 'success',
+        duration: 1500,
+        mask: true,
+        success: () => {
+          setTimeout(() => {
+            this.navigateToShoppingCart()
+          }, 1500)
+        }
       })
+     
      }
    })
    
@@ -219,7 +298,8 @@ Page({
    let cakeSizePrice = this.data.cakeSizePrice;
    let cakeBagPrice = this.data.cakeBagPrice;
    let num = this.data.num;
-   Price = (cakeSizePrice + cakeBagPrice)*num
+  let total = (cakeSizePrice + cakeBagPrice)*num
+  Price = total.toFixed(2);
    this.setData({
      Price:Price
    })

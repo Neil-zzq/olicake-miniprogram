@@ -1,50 +1,59 @@
 <!--pages/wode/wode.wxml-->
-<view class="title">
-  <view class="userinfo1" bind:tap="getUserInfo" wx:if="{{getUserInfoSuccess}}">
-    <image src="{{avatarUrl}}" mode="widthFix" class="user-avatar" />
-    <view class="usernametel">
-      <text class="username">{{nickName}}</text>
+<view class="page-ios">
+  <!-- iOS 风格自定义导航栏 -->
+  <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
+      <text class="nav-title">我的</text>
     </view>
   </view>
-  <view class="userinfo1" bind:tap="getUserInfo" wx:else >
-    <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/用户头像.png" mode="widthFix" class="user-avatar" />
-    <view class="usernametel">
-      <text class="username">点击获取用户信息</text>
-    </view>
-  </view>
-  
+  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
 
-</view>
-
-<view class="card">
-  <view class="cardtitle">
-    <view class="cardtitletext">注册会员</view>
-    <image class="QRCode" src="../../img/二维码.png" mode="widthFix" />
+  <!-- 个人信息卡 -->
+  <view class="card profile-card" bindtap="onLoginTap">
+    <image class="avatar" src="{{getUserInfoSuccess ? avatarUrl : defaultAvatarUrl}}" mode="aspectFill" />
+    <view class="profile-main">
+      <text class="profile-name">{{getUserInfoSuccess ? nickName : '请登录'}}</text>
+      <text class="profile-sub">{{getUserInfoSuccess ? '欢迎回来' : '登录后查看订单、地址与个人信息'}}</text>
+    </view>
+    <text class="chevron">›</text>
   </view>
-  <view class="underline"></view>
-  <view class="cardbottom">
-    <view>再消费1000.00元升级</view>
-    <view>
-      <image class="level" src="../../img/401位置.png" mode="widthFix" />
-      <text>当前等级</text>
+
+  <!-- 会员卡 -->
+  <view class="card vip-card">
+    <view class="vip-top">
+      <text class="vip-title">注册会员</text>
+      <image class="vip-qr" src="../../img/二维码.png" mode="widthFix" />
+    </view>
+    <view class="vip-divider"></view>
+    <view class="vip-bottom">
+      <text class="vip-desc">再消费 1000.00 元升级</text>
+      <view class="vip-level">
+        <image class="vip-level-icon" src="../../img/401位置.png" mode="widthFix" />
+        <text class="vip-level-text">当前等级</text>
+      </view>
     </view>
   </view>
-</view>
-<view class="bottom">
-  <view class="bottom-card" bind:tap="navigatorToOrdercenter">
-    <text>订单中心</text>
-    <text class="jiantou"> > </text>
-  </view>
-  <view class="bottom-card" bind:tap="navigatorToAdd-address">
-    <text>收货地址</text>
-    <text class="jiantou"> > </text>
-  </view>
-  <view class="bottom-card" bind:tap="navigatorToCustomerInfo">
-    <text>个人信息</text>
-    <text class="jiantou"> > </text>
-  </view>
-  <view class="bottom-card" bind:tap="navigatorToAccountSet">
-    <text>账号设置</text>
-    <text class="jiantou"> > </text>
+
+  <!-- 功能列表（iOS 分组样式） -->
+  <view class="card group">
+    <view class="cell" bindtap="navigatorToOrdercenter">
+      <text class="cell-title">订单中心</text>
+      <text class="cell-chevron">›</text>
+    </view>
+    <view class="cell-divider"></view>
+    <view class="cell" bindtap="navigatorToAddAddress">
+      <text class="cell-title">收货地址</text>
+      <text class="cell-chevron">›</text>
+    </view>
+    <view class="cell-divider"></view>
+    <view class="cell" bindtap="navigatorToCustomerInfo">
+      <text class="cell-title">个人信息</text>
+      <text class="cell-chevron">›</text>
+    </view>
+    <view class="cell-divider"></view>
+    <view class="cell" bindtap="navigatorToAccountSet">
+      <text class="cell-title">账号设置</text>
+      <text class="cell-chevron">›</text>
+    </view>
   </view>
 </view>

@@ -1,11 +1,44 @@
-<view class="body">
-  <view class="list-wrap"  wx:for="{{item2}}" wx:key="index" wx:for-item="sec">
-    <navigator wx:for="{{sec.list}}" wx:key="index"wx:for-item="item" class="cake-card" url="/pages/detail/detail?id={{item.id}}">
-      <view>
-        <image src="{{item.cover}}" /> 
+<!--index.wxml-->
+<view class="page-ios">
+  <!-- iOS 风格自定义导航栏（更薄、更像示例图） -->
+  <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
+      <text class="ios-nav__title">Oli cake</text>
+    </view>
+  </view>
+  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
+
+  <!-- 卡片列表 -->
+  <view class="cake-grid">
+    <navigator
+      wx:for="{{item2}}"
+      wx:for-item="item"
+      wx:key="_id"
+      class="cake-card"
+      url="/pages/detail/detail?id={{item._id}}"
+    >
+      <!-- 图片 + 右上角心形按钮 -->
+      <view class="card-top">
+        <image class="cake-image" src="{{item.cover}}" mode="aspectFill" />
+        <view class="favorite-btn">
+          <text class="favorite-icon">♡</text>
+        </view>
       </view>
-      <view>{{item.title}}</view>
-      <view class="price">￥{{item.pricemin}}</view>
-    </navigator>   
+
+      <!-- 文本信息 -->
+      <view class="cake-info">
+        <text class="cake-title">{{item.title}}</text>
+        <text class="cake-subtitle">Olicake · 精选</text>
+
+        <view class="cake-footer">
+          <text class="cake-price">￥{{item.pricemin}}</text>
+
+          <!-- 底部右侧圆形购物车按钮 -->
+          <view class="cart-btn">
+            <text class="cart-icon">🛒</text>
+          </view>
+        </view>
+      </view>
+    </navigator>
   </view>
 </view>

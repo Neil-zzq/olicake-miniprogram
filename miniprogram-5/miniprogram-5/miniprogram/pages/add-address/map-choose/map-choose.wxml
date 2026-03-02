@@ -1,15 +1,28 @@
-<!--pages/add-address/map-choose/map-choose.wxml-->
 <view class="container">
-  <!-- 地图容器 -->
+  <!-- 地图在上方 -->
   <map 
     id="myMap"
     longitude="{{longitude}}"
-    latitude="{{latitude}}"
+    latitude="{{latitude}}" 
     scale="16"
     show-location
     bindregionchange="onMapMove"
-    class="map"
-  ></map>
+    style="height: 300px;"
+    animation="0" 
+    duration="0"  
+  >
+    <!-- 地图中心标记点 -->
+    <cover-view class="center-marker"></cover-view>
+  </map>
+
+  <!-- 中间搜索条 -->
+  <view class="search-bar">
+    <input 
+      placeholder="搜索地址" 
+      bindinput="onSearchInput"
+      value="{{searchKeyword}}"
+    />
+  </view>
 
   <!-- POI列表 -->
   <scroll-view class="poi-list" scroll-y>

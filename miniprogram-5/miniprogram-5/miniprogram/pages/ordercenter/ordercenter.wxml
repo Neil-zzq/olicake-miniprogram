@@ -1,2 +1,58 @@
 <!--pages/ordercenter/ordercenter.wxml-->
-<text>pages/ordercenter/ordercenter.wxml</text>
+<view class="search-block">
+  <icon type="search" class="icon"/>
+  <input type="text" placeholder="搜索订单信息" class="class-input"/>
+</view>
+<view  class="title">
+
+     <view  class="page-cur{{currentTab === 0 ? 'active' : ''}}" bind:tap="switchTab" data-tab="0"> 
+        <view>当前订单</view>
+     </view>
+     <view  class="page-his{{currentTab === 1 ? 'active' : ''}}" bind:tap="switchTab" data-tab="1">
+        <view>历史订单</view>
+     </view>
+</view>
+<view class="content" wx:if="{{currentTab === 0 }}">
+  <navigator class="items" wx:for="{{orders}}" wx:key="order" wx:for-item="order" url="/pages/orderdetail/orderdetail?id={{order.orderNo}}">
+    <view class="itemsTitle">
+      <view class="itemsTime">{{order.displayPayTime}}</view>
+      <view class="orderStatic">已支付</view>
+    </view>
+    <view class="itemsContent">
+      <view class="itemsphoto">
+        <view wx:for="{{order.productInfo}}"wx:key="*this">
+          <image src="{{item.cover}}" mode="widthFix"/>
+        </view>
+      </view>
+      <view class="itemsNum">共{{order.productInfo.length}}件</view>
+    </view>
+    <view class="itemsBottom">
+    <view class="totalFee"> 合计：￥{{order.totalFee/100}}</view>
+    <view class="deliveryFee">含运费￥{{order.customerInfo.deliveryfee}}</view>
+    </view>
+  </navigator>
+
+</view>
+<view class="content" wx:if="{{currentTab === 1 }}">
+  <navigator class="items" wx:for="{{ordersCompleted}}" wx:key="order" wx:for-item="order"url="/pages/orderdetail/orderdetail?id={{order.orderNo}}">
+    <view class="itemsTitle">
+      <view class="itemsTime">{{order.displayPayTime}}</view>
+      <view class="orderStatic">{{order.statusText}}</view>
+    </view>
+    <view class="itemsContent">
+      <view class="itemsphoto">
+        <view wx:for="{{order.productInfo}}"wx:key="*this">
+          <image src="{{item.cover}}" mode="widthFix"/>
+        </view>
+      </view>
+      <view class="itemsNum">共{{order.productInfo.length}}件</view>
+    </view>
+    <view class="itemsBottom">
+    <view class="totalFee"> 合计：￥{{order.totalFee/100}}</view>
+    <view class="deliveryFee">含运费￥{{order.customerInfo.deliveryfee}}</view>
+    </view>
+  </navigator>
+
+</view>
+
+

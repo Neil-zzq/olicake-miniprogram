@@ -1,1 +1,94 @@
 /* pages/ordercenter/ordercenter.wxss */
+page{
+  background-color: rgb(228, 226, 226);
+}
+.search-block{
+    display: flex;
+    height: 80rpx;
+    width: 100%;
+    background-color: rgb(216, 213, 213);
+    align-items:center;
+    font-size: 28rpx;
+
+}
+.icon{
+  margin: 0  10rpx  0 20rpx;
+}
+.title{
+  display: flex;
+  height: 120rpx;
+  justify-content: space-around;
+  background-color: #f0f0f0;
+}
+.page-cur,.page-his{
+  
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 300;
+  
+}
+.page-curactive,.page-hisactive{
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom:5rpx solid #161616 ;
+  font-weight:600;
+}
+.content{
+  background-color: rgb(216, 213, 213);
+  height:100vh;
+}
+.items{
+  height: 400rpx;
+  width: 95%;
+  background-color: #f0f0f0;
+  border-radius: 30rpx;
+  margin: 20rpx 0 0 18rpx;
+}
+.itemsTitle{
+  font-size: 30rpx;
+  display: flex;
+  justify-content: space-between;
+  padding: 20rpx 30rpx 30rpx 30rpx;
+}
+.orderStatic{
+  color: rgb(161, 161, 161);
+}
+.itemsphoto image{
+    height:200rpx;
+    width: 200rpx;
+    border-radius: 10rpx;
+    margin-left:20rpx ;
+   
+}
+.itemsContent{
+  display: flex;
+  justify-content: space-between;
+  padding: 0 30rpx 0 20rpx;
+}
+.itemsNum{
+  display: flex;
+  align-items: center;
+}
+.itemsBottom{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 20rpx;
+}
+.totalFee{
+  font-weight: 550;
+}
+.deliveryFee{
+  color: rgb(161, 161, 161);
+  font-size: 25rpx;
+}
+.itemsTime{
+  font-weight: 520;
+}
+.itemsphoto{
+  display: flex;
+}

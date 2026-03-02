@@ -1,0 +1,61 @@
+<!--pages/userinfo/userinfo.wxml-->
+<view class="basicinfo">
+  <view class="title">基本信息</view>
+  <view class="content">
+    <view class="avatarUrl" bindtap="chooseAvatar">
+      <view class="title2">头像</view>
+      <view class="content2">
+        <image src="{{avatarUrl}}" mode="widthFix" />
+      </view>
+      <view class='icon'>></view>
+    </view>
+    <view class="nickName">
+      <view class="title2">姓名</view>
+      <view class="content2">
+        <input type="text" placeholder="{{nickName}}" />
+      </view>
+      <view class='icon'>></view>
+    </view>
+    <view class="phone">
+      <view class="title2">手机</view>
+      <view class="content2">
+        <button  open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber" wx:if="{{!phoneNumber}}">获取手机号</button>
+        <view wx:else>{{phoneNumber}}</view>
+      </view>
+      <view class='icon'></view>
+    </view>
+    <view class="gender">
+      <view class="title2">性别</view>
+      <view class="content2">
+        <view class="genderchoose">
+          <view wx:for="{{genderOptions}}" wx:key="id" bindtap="genderSelected" data-id="{{item.id}}" class="gender-option {{genderId == item.id ?'Selected' : ''}}">
+            {{item.name}}
+          </view>
+        </view>
+
+      </view>
+      <view class='icon'></view>
+    </view>
+    <view class="birthday">
+      <view class="title2">生日</view>
+      <view class="content2">
+        <picker mode="date" value="{{birthday}}" start="1970-01-01" end="{{today}}" bindchange="onBirthdayChange" class="picker-area">
+          <view class="picker-content">
+            <text class="picker-text">{{birthday || '请选择生日'}}</text>
+          </view>
+        </picker>
+      </view>
+      <view class='icon'>></view>
+    </view>
+    <view class="area">
+      <view class="title2">地区</view>
+      <view class="content2">
+        <picker mode="region" value="{{region}}" bindchange="onRegionChange" class="picker-area" id="regionPicker">
+          <text>{{regionText || '请选择地区'}}</text>
+        </picker>
+      </view>
+      <view class='icon'>></view>
+    </view>
+  </view>
+</view>
+<button class="savebtn" bind:tap="saveUserInfo">{{btntext}}</button>

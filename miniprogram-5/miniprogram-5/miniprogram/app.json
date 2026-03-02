@@ -15,41 +15,36 @@
     "pages/consignee/consignee",
     "pages/add-address/add-address",
     "pages/add-address/map-choose/map-choose",
-    "pages/ordercenter/ordercenter"
+    "pages/ordercenter/ordercenter",
+    "pages/subscribe-auth/subscribe-auth",
+    "pages/orderdetail/orderdetail",
+    "pages/addresslist/addresslist",
+    "pages/userinfo/userinfo",
+    "components/privacy-modal/privacy-modal"
   ],
   "tabBar": {
     "color": "#333",
     "selectedColor": "#fe4f01",
     "list": [
       {
-        "pagePath": "pages/home/home",
-        "iconPath": "img/shouye.png",
-        "selectedIconPath": "img/shouye(hong).png",
-        "text": "首页"
-      },
-      {
         "pagePath": "pages/index/index",
-        "iconPath": "img/31quanbushangpin.png",
-        "selectedIconPath": "img/31quanbushangpin(hong).png",
-        "text": "全部"
+        "iconPath": "img/首页.png",
+        "selectedIconPath": "img/首页 (2).png"
       },
       {
         "pagePath": "pages/classification/classification",
-        "iconPath": "img/fenlei.png",
-        "selectedIconPath": "img/fenlei(hong).png",
-        "text": "分类"
+        "iconPath": "img/分类.png",
+        "selectedIconPath": "img/分类 (2).png"
       },
       {
         "pagePath": "pages/shopping-cart/shopping-cart",
-        "iconPath": "img/gouwuche.png",
-        "selectedIconPath": "img/gouwuche(hong).png",
-        "text": "购物车"
+        "iconPath": "img/购物车.png",
+        "selectedIconPath": "img/购物车 (2).png"
       },
       {
         "pagePath": "pages/wode/wode",
-        "iconPath": "img/wode.png",
-        "selectedIconPath": "img/wode(hong).png",
-        "text": "我的"
+        "iconPath": "img/我的.png",
+        "selectedIconPath": "img/我的 (2).png"
       }
     ]
   },
@@ -61,6 +56,9 @@
   "style": "v2",
   "cloud": true,
   "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {
+    "privacy-modal": "/components/privacy-modal/privacy-modal"
+  },
   "permission": {
     "scope.userLocation": {
       "desc": "你的位置信息将用于导航功能和提供周边服务"

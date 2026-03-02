@@ -1,48 +1,65 @@
 <!--pages/detail/detail.wxml-->
-<view  class="pagecontent" wx:if="{{cakeitems && cakeitems.img && cakeitems.img.length > 0}}">
-  <swiper class="swiperbox" indicator-dots="true" autoplay="true" interval="5000" duration="1000"  >
-    <swiper-item class="swiperitem" wx:for="{{cakeitems.img}}"  wx:key="*this"      >
-      <image src="{{item}}" mode="widthFix" class="swiperimg" />  
-    </swiper-item> 
-  </swiper>
-  <view class="detail">
-    <view class="box">
-      <view class="price">￥{{cakeitems.pricemin}}-{{cakeitems.pricemax}}</view>
-      <view class="name">{{cakeitems.title}}</view>
-    </view>
-    <view class="box">
-      <button open-type="share" class="share-button" size="mini">
-        <image src="cloud://zhang-5gjkd48bdb70c9d1.7a68-zhang-5gjkd48bdb70c9d1-1317945786/分享 (1).png" mode="widthFix" class="share-button" />
+<view class="page-ios" wx:if="{{cakeitems && cakeitems.img && cakeitems.img.length > 0}}">
+  <!-- iOS 风格自定义导航栏（更薄、标题靠左） -->
+  <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
+      <view class="nav-left" bindtap="goback">
+        <text class="nav-back">‹</text>
+      </view>
+      <text class="nav-title">详情</text>
+      <button open-type="share" class="nav-action" size="mini">
+        <image class="nav-action__icon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/分享.png" mode="widthFix" />
       </button>
     </view>
   </view>
-  <view class="detail2">
+  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
 
-    <view class="service-choose">
-      <view class="title">
-        <view>服务</view>
-        <view>选择</view>
+  <!-- 大图轮播：完整展示优先 -->
+  <swiper class="hero-swiper" indicator-dots="true" autoplay="true" interval="5000" duration="350">
+    <swiper-item class="hero-item" wx:for="{{cakeitems.img}}" wx:key="*this">
+      <image src="{{item}}" mode="aspectFit" class="hero-img" />
+    </swiper-item>
+  </swiper>
+
+  <view class="content">
+    <!-- 商品信息卡片 -->
+    <view class="card product-card">
+      <text class="price-range">￥{{cakeitems.pricemin}}-{{cakeitems.pricemax}}</text>
+      <text class="product-name">{{cakeitems.title}}</text>
+      <text class="product-sub">精选用料 · 当日制作</text>
+    </view>
+
+    <!-- iOS cell 列表 -->
+    <view class="card cell-list">
+      <view class="cell" bindtap="popupTips">
+        <text class="cell-title">服务</text>
+        <view class="cell-right">
+          <text class="cell-desc">到店自提 / 同城配送</text>
+          <text class="chevron">›</text>
+        </view>
       </view>
-      <view class="content">
-        <view>到店自提，同城配送，收货后结算</view>
-        <view>尺寸；口味；保温袋</view>
-      </view>
-      <view class="arrow">
-        <view class="service-arrow" bindtap="popupTips">></view>
-        <view class="choose-arrow" bindtap="showTan">></view>
+      <view class="divider"></view>
+      <view class="cell" bindtap="showTan">
+        <text class="cell-title">选择</text>
+        <view class="cell-right">
+          <text class="cell-desc">尺寸 / 口味 / 保温袋</text>
+          <text class="chevron">›</text>
+        </view>
       </view>
     </view>
   </view>
 </view>
-<view class="bottom">
-  <view class="cart"catchtap="goToShoppingCart">
-    <view class="cart-icon">
-      <image src="cloud://zhang-5gjkd48bdb70c9d1.7a68-zhang-5gjkd48bdb70c9d1-1317945786/icon/购物车.png" mode="widthFix"/>
-      <view class="sup">{{cart.length}}</view> 
+
+<!-- 底部固定操作条 -->
+<view class="bottom-bar">
+  <view class="cart-entry" catchtap="goToShoppingCart">
+    <view class="cart-icon-wrap">
+      <image class="cart-icon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/购物车2.png" mode="widthFix" />
+      <view class="badge" wx:if="{{cart && cart.length > 0}}">{{cart.length}}</view>
     </view>
-    <view bind:tap="goToShoppingCart">购物车</view> 
+    <text class="cart-text">购物车</text>
   </view>
-  <view class="addcart"bindtap="showTan">加入购物车</view>
+  <view class="primary-btn" bindtap="showTan">加入购物车</view>
 </view>
 <page-container show="{{tipsShow}}" round="true"> 
   <view class="tips">
@@ -63,6 +80,7 @@
 </page-container>
 <view class="tan-bg" wx:if="{{inShow==true}}">
   <view class="tan-block">
+    <view class="sheet-handle"></view>
     <view class="tan-block-title">
       <view>
         <image src="{{cakeitems.cover}}" class="tan-img" />
@@ -117,6 +135,6 @@
       <view class="input-title">祝福语</view>
       <input class="input-content" type="text" placeholder="请填写留言（8个字以内）"bindinput="bindMessageInput" value="{{message}}" />
     </view>
-    <view class="shopping-cart"bindtap="onAddcart">加入购物车</view>
+    <view class="shopping-cart" bindtap="onAddcart">加入购物车</view>
   </view>
 </view>

@@ -1,0 +1,16 @@
+<!--pages/addresslist/addresslist.wxml-->
+<scroll-view class="container" scroll-y="true" 	>
+   <view class="addresslist">
+       <view class="addressitem" wx:for="{{addressList}}" wx:key="*this">
+          <view>
+             <view class="address">{{item.address.detail}}{{item.address.region}}{{item.address.housenum}}</view>
+             <view class="name-phone">{{item.address.name}} {{item.address.phone}}</view>
+          </view>
+          <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" mode="widthFix" bind:tap="editAddress" data-id="{{item._id}}"/> 
+       </view>
+   
+   </view>
+</scroll-view>
+<view class="bottom">
+   <view class="add-addressitem" bind:tap="addAddressItem">新增地址</view>
+</view>

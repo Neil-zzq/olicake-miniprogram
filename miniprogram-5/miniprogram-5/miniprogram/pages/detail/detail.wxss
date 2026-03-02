@@ -1,323 +1,445 @@
-/* pages/detail/detail.wxss */
-page{
-  height:1355rpx;
-}
-.pagecontent{
-  height: 1265rpx;
-}
-
-.detail{
-  display:flex;
-  align-content:space-between;
-  justify-content: space-between;
-  height: 120rpx;
-  
-}
-.box{
-  display:flex;
-  flex-direction:column;
-  justify-content: center;
-  margin: 10rpx 0 0 50rpx;
-  
-  
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-.price{
-  font-size:45rpx;
-  font-weight:700;
-}
-.name{
-  text-align: center;
-  font-size: 35rpx;
-  font-weight:600;
-}
-.share-button{
-  height: 170rpx;
-  width: 130rpx;
-  margin:10rpx;
-  padding: 0%;
-  background-color: rgb(255, 255, 255);
-}
-.share-button image{
-  height: 60rpx;
-  width: 60rpx;
+/* pages/detail/detail.wxss (iOS 风格) */
+page {
+  width: 100%;
+  min-height: 100%;
+  background-color: #f5f5f7;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+    "Helvetica Neue", sans-serif;
 }
 
-.service-choose{
-  display: flex;
-  font-size: 30rpx;
-  justify-content: space-between;
-  flex-direction:row;
-  height: 130rpx;
-  background-color: rgb(255, 255, 255);
-  margin-bottom: 10rpx;
-  margin-top:10rpx;
-  
+.page-ios {
+  min-height: 100%;
+  padding-bottom: calc(124rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
 }
-.content{
-  position: relative;
-  right: 52rpx;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
+/* iOS 风格自定义导航栏 */
+.ios-nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: rgba(245, 245, 247, 0.96);
 }
-.arrow{
-  position: relative;
-  right: 32rpx;
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #999;
-}
-.title{
-  position: relative;
-  left:30rpx;
-  
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  color: #999;
-}
-.yunfei{
-  background-color: rgb(255, 255, 255);
-  height: 90rpx;
+
+.ios-nav__row {
   display: flex;
   align-items: center;
-  margin-top: 10rpx;
-  font-size: 30rpx;
+  padding: 0 16rpx;
+  box-sizing: border-box;
 }
-.yunfei-title{
-  color: #999;
-  position: relative;
-  left: 30rpx;
+
+.nav-left {
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
-.yunfei-content{
-  position: relative;
-  left: 70rpx;
+
+.nav-back {
+  font-size: 56rpx;
+  line-height: 1;
+  color: #111111;
+  transform: translateY(-2rpx);
 }
-.title,.content,.arrow{
-  height: 130rpx;
-  justify-content: space-around;
+
+.nav-title {
+  flex: 1;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: 650;
+  color: #111111;
 }
-.detail2{
+
+.nav-action {
+  width: 120rpx;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+.nav-action::after {
+  border: none;
+}
+
+.nav-action__icon {
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.nav-spacer {
+  width: 100%;
+}
+
+/* 轮播大图：完整展示优先（aspectFit） */
+.hero-swiper,
+.hero-item {
+  height: 62vh;
+  max-height: 880rpx;
+  min-height: 640rpx;
+  background-color: #ffffff;
+}
+
+.hero-img {
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  padding: 14rpx 20rpx 0;
+}
+
+.card {
+  background-color: #ffffff;
+  border-radius: 24rpx;
+  box-shadow: 0 10rpx 26rpx rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+/* 商品信息卡片 */
+.product-card {
+  padding: 18rpx 20rpx 20rpx;
+}
+
+.price-range {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 750;
+  color: #111111;
+  letter-spacing: 0.5rpx;
+}
+
+.product-name {
+  display: block;
+  margin-top: 8rpx;
+  font-size: 34rpx;
+  font-weight: 650;
+  color: #111111;
+  line-height: 1.35;
+}
+
+.product-sub {
+  display: block;
+  margin-top: 6rpx;
+  font-size: 24rpx;
+  color: #8e8e93;
+}
+
+/* iOS cell 列表 */
+.cell-list {
+  margin-top: 14rpx;
+}
+
+.cell {
+  padding: 18rpx 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cell-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111111;
+}
+
+.cell-right {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.cell-desc {
+  font-size: 26rpx;
+  color: #8e8e93;
+}
+
+.chevron {
+  font-size: 36rpx;
+  color: #c7c7cc;
+}
+
+.divider {
+  height: 2rpx;
+  background-color: #f2f2f7;
+  margin-left: 20rpx;
+}
+
+/* 底部固定操作条（iOS 风格） */
+.bottom-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 15;
+  height: 108rpx;
+  padding: 12rpx 18rpx calc(12rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+  background-color: rgba(255, 255, 255, 0.98);
+  border-top: 2rpx solid #f2f2f7;
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.cart-entry {
+  width: 140rpx;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  height: 150rpx;
-  background-color: rgba(238, 238, 238, 0.918);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  align-items: center;
+  justify-content: center;
 }
-.tips{
+
+.cart-icon-wrap {
+  position: relative;
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.cart-icon {
+  width: 56rpx;
+  height: 56rpx;
+}
+
+.badge {
+  position: absolute;
+  top: -10rpx;
+  right: -12rpx;
+  min-width: 34rpx;
+  height: 34rpx;
+  padding: 0 8rpx;
+  border-radius: 999rpx;
+  background-color: #ff3b30;
+  color: #ffffff;
+  font-size: 20rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.cart-text {
+  margin-top: 6rpx;
+  font-size: 22rpx;
+  color: #8e8e93;
+}
+
+.primary-btn {
+  flex: 1;
+  height: 84rpx;
+  border-radius: 999rpx;
+  background-color: #111111;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  font-weight: 650;
+}
+
+/* tips 弹层 */
+.tips {
   margin: 30rpx;
   font-size: 30rpx;
-  line-height:150%;
+  line-height: 150%;
 }
-.tips-title{
+
+.tips-title {
   font-size: 30rpx;
   margin-top: 10rpx;
-  margin-bottom:10rpx ;
+  margin-bottom: 10rpx;
 }
-.tips-content{
-  color: #999;
+
+.tips-content {
+  color: #8e8e93;
   margin-top: 10rpx;
-  margin-bottom:10rpx ;
+  margin-bottom: 10rpx;
 }
-.tips-button{
-  background-color: rgb(58, 57, 57);
-  color: rgb(255, 255, 255);
+
+.tips-button {
+  background-color: #111111;
+  color: #ffffff;
   width: 100%;
   border-radius: 20rpx;
 }
-.tan-bg{
+
+/* 规格选择底部弹层（保留你原逻辑，换成 iOS sheet 视觉） */
+.tan-bg {
   position: fixed;
   width: 100%;
   height: 100%;
   top: 0;
   left: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index:0;
+  z-index: 20;
 }
-.tan-block{
+
+.tan-block {
   position: fixed;
   width: 100%;
-  height: 1100rpx;
-  background-color:#fff;
-  z-index:999;
+  height: 78vh;
+  max-height: 1400rpx;
+  background-color: #ffffff;
+  z-index: 21;
   bottom: 0;
   font-size: 30rpx;
   line-height: 150%;
-  font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  border-radius: 28rpx 28rpx 0 0;
+  overflow: hidden;
 }
-.tan-img{
-  
+
+.sheet-handle {
+  width: 80rpx;
+  height: 10rpx;
+  border-radius: 999rpx;
+  background-color: #e5e5ea;
+  margin: 14rpx auto 0;
+}
+
+.tan-img {
   height: 230rpx;
   width: 230rpx;
   border-radius: 20rpx;
 }
-.tan-block-title{
+
+.tan-block-title {
   display: flex;
   position: relative;
-  margin: 30rpx;
+  margin: 24rpx;
   font-weight: 550;
 }
-.tan-detail{
+
+.tan-detail {
   text-align: center;
   width: 500rpx;
   display: flex;
   flex-direction: column;
-  justify-content:flex-end;
+  justify-content: flex-end;
 }
-.tan-close{
+
+.tan-detail .price {
+  font-size: 40rpx;
+  font-weight: 750;
+  color: #111111;
+}
+
+.tan-close {
   position: relative;
-  font-size: 35rpx;
-  bottom: 20rpx;
-  color: #999;
+  font-size: 42rpx;
+  bottom: 10rpx;
+  color: #8e8e93;
 }
-.tan-size,.tan-taste,.tan-bag{
+
+.tan-size,
+.tan-taste,
+.tan-bag {
   display: flex;
-  justify-content:flex-start;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
-.tan-size-choose,.tan-taste-choose,.tan-bag-choose{
+
+.tan-size-choose,
+.tan-taste-choose,
+.tan-bag-choose {
   width: 220rpx;
   height: 60rpx;
-  background-color: rgba(243, 238, 238, 0.973);
+  background-color: #f2f2f7;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 10rpx;
-  margin-top:10rpx; 
-  border-radius: 20rpx;
-  
+  margin-top: 10rpx;
+  border-radius: 18rpx;
 }
 
-.tan-size-choosed,.tan-taste-choosed,.tan-bag-choosed{
-  background-color: rgb(61, 60, 60);
+.tan-size-choosed,
+.tan-taste-choosed,
+.tan-bag-choosed {
+  background-color: #111111;
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: rgb(255, 255, 255);
-  border-radius: 20rpx;
+  color: #ffffff;
+  border-radius: 18rpx;
 }
-.tan-block-size,.tan-block-taste,.tan-block-bag,.tan-block-amount{
-  margin: 10rpx;
-  margin-left: 30rpx;
+
+.tan-block-size,
+.tan-block-taste,
+.tan-block-bag,
+.tan-block-amount {
+  margin: 10rpx 24rpx;
 }
-.mod{
+
+.mod {
   display: flex;
   justify-content: space-between;
 }
-.selector{
+
+.selector {
   display: flex;
   font-size: 30rpx;
-  width: 150rpx;
+  width: 170rpx;
   justify-content: space-between;
 }
-.selector view{
-  width: 30rpx;
-  background-color: rgba(243, 238, 238, 0.973);
+
+.selector view {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 12rpx;
+  background-color: #f2f2f7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.num{
-  width: 60rpx;
-  background-color: rgba(243, 238, 238, 0.973);
+
+.num {
+  width: 70rpx;
+  height: 44rpx;
+  border-radius: 12rpx;
+  background-color: #f2f2f7;
   text-align: center;
 }
-.input{
-  margin: 30rpx  0  0  30rpx;
+
+.input {
+  margin: 18rpx 24rpx 0;
   display: flex;
   flex-wrap: wrap;
-  
 }
-.input-title{
+
+.input-title {
   width: 200rpx;
-  margin: 0 20rpx 20rpx 0 ;
-}
-.input-content{
-  width: 400rpx;
-}
-.selector{
-  text-align:center
+  margin: 0 20rpx 20rpx 0;
+  color: #111111;
+  font-weight: 600;
 }
 
-.shopping-cart{
+.input-content {
+  width: 420rpx;
+  background-color: #f2f2f7;
+  border-radius: 14rpx;
+  padding: 10rpx 14rpx;
+  box-sizing: border-box;
+}
+
+.shopping-cart {
   font-size: 30rpx;
-  background-color: rgb(61, 60, 60);
-  color: #fff;
-  text-align:center;
-  height:100rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 600rpx;
-  border-radius: 30rpx;
-  position: relative;
-  left: 70rpx;
-
-  
-}
-.tan-block-amount{
-  margin-right: 40rpx;
-}
-
-.swiperimg{
-  height: 100%;
-  width: 100%;
-}
-.swiperitem,.swiperbox{
-  height: 1000rpx;
-}
-.cart image{
-  height: 60rpx;
-  width: 60rpx;
-}
-.bottom{
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100rpx;
-  position: fixed;
-  bottom: 0rpx;
-  width: 100%;
-}
-.cart,.addcart{
-  width: 50%;
+  background-color: #111111;
+  color: #ffffff;
   text-align: center;
-  height:100rpx ;
-}
-
-.cart{
-  display: flex;
-  flex-direction: column;
-  justify-items: center;
-  align-items: center;
-  justify-content:center;
-  
-}
-
-.addcart{
-  background-color: rgb(51, 50, 56);
-  
+  height: 100rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgb(255, 255, 255);
-}
-.sup{
-  border-radius: 50%;
-  border: 5rpx  solid  rgb(94, 93, 93);
-  height: 18rpx;
-  width: 18rpx;
-  position: relative;
-  left:48rpx;
-  bottom:70rpx;
-  color:rgb(56, 55, 55);
-  font-size:22rpx ;
-  font-weight: 1000;
-  line-height: 20rpx;
-}
-.cart-icon{
-  height:50rpx
+  width: calc(100% - 48rpx);
+  border-radius: 22rpx;
+  margin: 24rpx;
 }

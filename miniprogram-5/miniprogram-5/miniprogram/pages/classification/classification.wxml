@@ -1,40 +1,52 @@
 <!--pages/classification/classification.wxml-->
-<view class="search-block">
-  <icon type="search"/>
-  <input type="text" placeholder="搜索商品" class="class-input"/>
-</view>
-<!-- 
-<view class="classification">
-  <scroll-view class="title" scroll-y="true">
-    <view wx:for="{{groups}}" wx:key="item" class="btn{{currentSecName == item ? 'hover':''}}" bindtap="onTap" data-current="{{item}}">{{item}}</view>
-  </scroll-view>
-  <scroll-view class="content" scroll-y="true">
-    <view wx:for="{{currentSection}}" wx:key="item" >
-      <view class="section">{{item.id}}</view>
-      <view class="itembox" >
-        <view  class="detail">
-          <image src="{{item.img}}"/>
-          <view class="name">{{item.title}}</view>
+<view class="page-ios">
+  <!-- iOS 风格：圆形按钮导航栏（像参考图） -->
+  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
+
+  <!-- 标题 + 右侧动作按钮 -->
+  <view class="header">
+    <view class="header-row">
+      <text class="header-title">Discover products</text>
+      <view class="header-actions">
+        <view class="action-circle" bindtap="onSearchTap">
+          <text class="action-icon">⌕</text>
+        </view>
+        <view class="action-circle" bindtap="onFilterTap">
+          <text class="action-icon">⚙</text>
         </view>
       </view>
     </view>
-  </scroll-view>
-</view>
--->
-<view class="container">
-  <mp-vtabs  vtabs="{{vtabs}}" class="vtabs" >
-      <mp-vtabs-content tabIndex="{{index}}" wx:for="{{vcontents}}"   wx:for-item="content" wx:for-index="index" wx:key="index">
-        <view class="vtabs-content-item">
-          <text class="categoryName">{{content.category_name}}</text>
-          <view class="list">
-            <navigator class="item" wx:for="{{content.list}}" wx:for-item="spu"wx:key="index" url="/pages/detail/detail?id={{spu.id}}">
-              <image class="icon" src="{{spu.cover}}"></image>
-              <view class="info">
-                <text>{{spu.title}}</text>
-              </view>
-            </navigator>
-          </view>
+
+    <!-- 上方类目胶囊（横向滚动） -->
+    <scroll-view class="chips" scroll-x="true" show-scrollbar="false" enhanced="true">
+      <view class="chips-inner">
+        <view class="chip {{activeTab === index ? 'chip--active' : ''}}" wx:for="{{vtabs}}" wx:for-item="tab" wx:for-index="index" wx:key="title" data-index="{{index}}" bindtap="onChipTap">
+          <text class="chip-text">{{tab.title}}</text>
         </view>
-      </mp-vtabs-content>
-  </mp-vtabs>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 商品卡片两列 -->
+  <view class="grid">
+    <navigator class="card" hover-class="card-hover" hover-stay-time="120" wx:for="{{activeList}}" wx:for-item="spu" wx:key="id" url="/pages/detail/detail?id={{spu.id}}">
+      <view class="card-top">
+        <view class="dots">
+          <view class="dot dot--on"></view>
+          <view class="dot"></view>
+          <view class="dot"></view>
+        </view>
+        <view class="go-circle">
+          <text class="go-icon">↗</text>
+        </view>
+      </view>
+      <view class="img-wrap">
+        <image class="card-img" src="{{spu.cover}}" mode="aspectFit" />
+      </view>
+      <view class="card-body">
+        <text class="card-title">{{spu.title}}</text>
+        <text class="card-price">￥{{spu.pricemin}}</text>
+      </view>
+    </navigator>
+  </view>
 </view>

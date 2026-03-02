@@ -7,7 +7,7 @@
 }
 
 /* 表单项样式 */
-.form-item {
+.form-item,.form-item2 {
   background: white;
   width: 100%;
   padding: 10rpx;
@@ -18,8 +18,10 @@
   height: 60rpx;
   border-bottom: 1rpx solid #eee;
 }
-
-.form-item text {
+.form-item2{
+  height: 100rpx;
+}
+.form-item text, .form-item2 text{
   font-size: 28rpx;
   color: #333;
   width: 160rpx;
@@ -40,6 +42,10 @@ input {
   display: flex;
   align-items: center;
   color: #666;
+  flex: 1;
+  font-size: 28rpx;
+  padding-left: 20rpx;
+  min-height: 40rpx;
 }
 
 .location .icon {
@@ -53,16 +59,29 @@ switch {
   transform: scale(0.8);
   transform-origin: right center;
 }
-
+.btn{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  margin-top: 20rpx;
+}
 /* 保存按钮样式 */
-.save-btn {
-  background: #07c160;
+.save-btn,.del-btn {
+  background: #171817;
   color: white;
-  text-align: center;
   padding: 30rpx;
   border-radius: 50rpx;
   font-size: 32rpx;
-  margin: 60rpx 30rpx 0;
+  height: 30rpx;
+  width: 250rpx;
+  display: flex;
+  justify-content: center;
+  align-items:center ;
+}
+.del-btn{
+  background: #ffffff;
+  color: rgb(0, 0, 0);
+  border:1rpx solid #c5c5c5;
 }
 
 /* 错误提示样式（可选） */

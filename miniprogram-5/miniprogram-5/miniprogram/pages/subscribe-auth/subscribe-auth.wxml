@@ -1,0 +1,34 @@
+<!-- pages/subscribe/subscribe.wxml -->
+<view class="container">
+  <view class="header">
+    <text class="title">🔔 订单通知订阅</text>
+    <text class="subtitle">Oli Cake 客服专用</text>
+  </view>
+
+  <view class="status-card {{isSubscribed ? 'success' : 'warning'}}">
+    <text class="status-icon">{{isSubscribed ? '✅' : '⚠️'}}</text>
+    <text class="status-text">
+      {{isSubscribed ? '通知功能已开启' : '通知功能未开启'}}
+    </text>
+    <text class="status-desc">
+      {{isSubscribed ? '您将收到新订单推送' : '开启后，新订单将推送到您的微信'}}
+    </text>
+  </view>
+
+  <button 
+    class="subscribe-btn {{isSubscribed ? 'subscribed' : ''}}"
+    bindtap="subscribe"
+  >
+    {{isSubscribed ? '重新订阅' : '立即订阅'}}
+  </button>
+
+  <view class="tip-card">
+    <text class="tip-title">使用说明：</text>
+    <text class="tip-item">1. 点击"立即订阅"按钮</text>
+    <text class="tip-item">2. 在弹窗中选择"允许"</text>
+    <text class="tip-item">3. 订阅成功后即可接收订单通知</text>
+    <text class="tip-item">4. 将此页面分享给其他客服</text>
+  </view>
+
+  <button class="copy-btn" bindtap="copyPath">复制页面路径</button>
+</view>

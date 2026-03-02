@@ -12,9 +12,10 @@ Page({
       totalCount:0,
       totalPrice:0,
       touch:{
-        id:0,
+        cartId:0,
         start:0
-      }
+      },
+      showBottomModal:true,
   },
   subNum:function (e) {
     let cart = this.data.cart
@@ -154,9 +155,10 @@ Page({
      this.onSummary()
   },
   onSelectCard:function(e){
+    console.log(e)
      let cart = this.data.cart
      for(var k in cart){
-       if(cart[k].id == e.currentTarget.dataset.id){
+       if(cart[k].cartId == e.currentTarget.dataset.id){
         cart[k].selected=!cart[k].selected
         this.setData({
           cart:cart
@@ -171,8 +173,9 @@ Page({
    * 监听商品卡片开始
    */
   onTouchStart:function(e){
+
    let touch ={
-     id:e.currentTarget.dataset.id,
+     cartId:e.currentTarget.dataset.id,
      start:e.changedTouches[0].clientX
    }
    let cart =this.data.cart
@@ -183,23 +186,24 @@ Page({
       cart:cart,
       touch:touch
     })
+  
   }
 ,
 /**
    * 监听商品卡片滑动
    */
   onTouchMove:function(e){
+    
 let cart = this.data.cart
 if(this.data.touch.start - e.changedTouches[0].clientX >100){
-  
   for(var i in cart){
-    if (this.data.touch.id == cart[i].id){
+    if (this.data.touch.cartId == cart[i].cartId){
       cart[i].showDelBtn = true
     }
   }
 }else if(e.changedTouches[0].clientX -this.data.touch.start >100){
   for(var i in cart){
-    if (this.data.touch.id == e.currentTarget.dataset.id){
+    if (this.data.touch.cartId == e.currentTarget.dataset.id){
       cart[i].showDelBtn = false
     }
 }}
@@ -213,7 +217,7 @@ this.setData({
   onDeleteCard:function(e){
     let cart = this.data.cart
     for(var i in cart ){
-      if(cart[i].id == e.currentTarget.dataset.id){
+      if(cart[i].cartId == e.currentTarget.dataset.id){
         cart.splice(i,1)
         wx.setStorage({
           data:cart,

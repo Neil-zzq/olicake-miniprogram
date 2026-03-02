@@ -1,4 +1,11 @@
 <!--pages/add-address/add-address.wxml-->
+<map 
+  id="map"
+  latitude="{{selectedLocation.lat}}" 
+  longitude="{{selectedLocation.lng}}"
+  markers="{{markers}}"
+  style="width:95%; height: 54vh;margin: 20rpx;">
+</map>
 <view class="container">
   <view class="form-item">
     <text>收货人</text>
@@ -10,7 +17,7 @@
     <input type="number" value="{{phone}}" placeholder="请输入手机号" bindinput="onPhoneInput" />
   </view>
  
-  <view class="form-item" bindtap="navigateToMapChoose">
+  <view class="form-item2" bindtap="navigateToMapChoose">
     <text>收货地址</text>
     <view class="location">
       {{detail|| ''}}{{region || '请选择收货地址'}}
@@ -30,11 +37,9 @@
     data-tag="{{item}}">{{item}}
     </view>
   </view>
-
-  <view class="form-item">
-    <text>设为默认地址</text>
-    <switch checked="{{isDefault}}" bindchange="onDefaultChange" />
+  <view class="btn">
+    <view class="del-btn" bindtap="delAddress">删除该地址</view>
+    <view class="save-btn" bindtap="saveAddress">保存并使用</view>
   </view>
-
-  <view class="save-btn" bindtap="saveAddress">保存地址</view>
+  
 </view>

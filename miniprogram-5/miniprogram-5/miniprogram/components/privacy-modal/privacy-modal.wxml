@@ -1,0 +1,37 @@
+<!--components/privacy-modal/privacy-modal.wxml-->
+<view class="modal-mask" wx:if="{{show}}" bindtap="onMaskTap" catchtouchmove="preventTouchMove" >
+  <view class="modal-container" catchtap="stopPropagation">
+    <!-- 弹窗内容 -->
+    <view class="modal-content">
+      <!-- 标题 -->
+      <view class="modal-title">为给您提供更好的服务</view>
+      
+      <!-- 描述文字 -->
+      <view class="modal-desc">
+      允许我们在必要场景下，合理使用您的个人信息，并充分保障您的合法权利。
+      </view>
+      <!-- 按钮区域 -->
+      <view class="button-group">
+        <!-- 拒绝按钮 -->
+        <button 
+          class="button button-reject" 
+          bindtap="onReject"
+          hover-class="button-hover"
+        >
+          拒绝
+        </button>
+        
+        <!-- 允许按钮 -->
+        <button 
+          class="button button-allow" 
+          bindtap="onAllow"
+          hover-class="button-hover"
+          open-type="getUserInfo"
+          bindgetuserinfo="onGetUserInfo"
+        >
+          允许
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

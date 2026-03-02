@@ -33,48 +33,33 @@ Page({
       });
       return; // 终止执行
     }
-   // 1. 先读取本地存储中的历史数据
-   wx.getStorage({
-    key:"consignee",
-    success:res =>{
-     // 2. 获取已有提货人数组
-     const oldConsigneeList = res.data || []; // 处理无数据情况
-      
-     // 3. 创建新提货人对象（避免引用问题）
-     const newConsignee = {
-      name: trimmedName,
-      code: trimmedCode
-     };
-     
-     // 4. 追加到数组
-     oldConsigneeList.push(newConsignee);
-
-      wx.setStorage({
-        data:oldConsigneeList,
-        key:'consignee',
-        success: () =>{
-          wx.showToast({title: '保存成功',})
-          wx.navigateBack({url: '/pages/orderconfirm/orderconfirm'})
-        }
-       })
-       
+    
+   wx.cloud.callFunction({
+    // 云函数名称
+    name: 'addConsignee',
+    data: {
+      // 调用云函数中的下单方法
+      name: this.data.name,
+      code:this.data.code,
     },
-    fail:err=>{
-     // 首次无数据时，创建新数组
-     const newConsignee = { name, code };
-      wx.setStorage({
-        data:[{ 
-          name: trimmedName, 
-          code: trimmedCode 
-        }],
-        key:'consignee',
-        success:()=>{
-          wx.showToast({title: '保存成功',})
-          wx.navigateBack({url: '/pages/orderconfirm/orderconfirm'})
-        }
-      })
+    success: (res) => {
+      console.log('提货人创建成功',res);
+      wx.showToast({
+        title: '提货人创建成功',
+        icon: 'success'
+      });
+      wx.navigateBack()
+    },
+    fail: (err) => {
+      console.error('提货人创建失败:', err);
+      wx.showToast({
+        title: '提货人创建失败',
+        icon: 'err'
+      });
+      wx.navigateBack()
     }
-   })
+
+  });
   },
   onLoad(options) {
 

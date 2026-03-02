@@ -1,0 +1,88 @@
+/* pages/userinfo/userinfo.wxss */
+.basicinfo{
+  margin: 0 20rpx 0 20rpx;
+  
+}
+page{
+  background-color: rgb(231, 229, 229);
+}
+.content{
+  background-color: rgb(255, 255, 255);
+  padding:  0 20rpx 0 20rpx;
+  border-radius:10rpx ;
+}
+.title{
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  color: rgb(158, 156, 156);
+}
+.avatarUrl,.nickName,.phone,.gender,.birthday,.area{
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  border-bottom: 2rpx solid rgb(230, 230, 230);
+}
+.avatarUrl image{
+  height: 60rpx;
+  width: 60rpx;
+}
+.title2{
+  width: 20%;
+}
+.icon{
+  color: #999;
+}
+.content2{
+  width:  78%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+.genderchoose{
+  display: flex;
+  width: 55%;
+  justify-content: space-around;
+  height: 65%;
+}
+.genderchoose view{
+  width: 100%;
+  margin-left: 20rpx;
+}
+.gender-option{
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  border-radius: 10rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(207, 205, 205);
+}
+.gender-option.Selected{
+  background-color:rgb(255, 255, 255);
+  border:2rpx solid rgb(187, 143, 47) ;
+}
+/* 让picker覆盖整个右侧区域 */
+.picker-area {
+  flex: 1;  /* 关键：让picker占据整个右侧空间 */
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* picker内部的内容样式 */
+.picker-content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.savebtn{
+  margin-top: 20rpx;
+  border-radius: 10rpx;
+  background-color: rgb(49, 49, 49);
+  color: rgb(255, 255, 255);
+  
+}
+
+
