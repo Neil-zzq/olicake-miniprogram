@@ -12,3 +12,11 @@ $RECYCLE.BIN/
 
 # Node.js
 node_modules/
+npm-debug.log*
+
+# 微信小程序
+miniprogram_npm/
+*.log
+
+# 云函数依赖（若已上传可忽略本地）
+# cloudfunctions/*/node_modules/
