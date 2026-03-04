@@ -1,11 +1,5 @@
 <!--pages/shopping-cart/shopping-cart.wxml-->
 
-<view class="title"> 
-  <view class="home">
-    <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/logo.jpg" mode="widthFix" />
-    <view class="home-text">olicake ></view>
-  </view>
-</view>
 <view class="empty" wx:if="{{cart.length == 0}}">
    <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/购物车.png" mode="widthFix"/>
    <text class="emptyinfo">购物车空空如也</text>

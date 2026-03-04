@@ -226,9 +226,8 @@ page {
 }
 
 .go-icon {
-  font-size: 26rpx;
-  color: #ffffff;
-  transform: translateY(-1rpx);
+  height: 30rpx;
+  width: 30rpx;
 }
 
 .img-wrap {
@@ -245,7 +244,10 @@ page {
 }
 
 .card-body {
-  padding: 18rpx 18rpx 22rpx;
+  padding: 22rpx 30rpx 22rpx 30rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-title {

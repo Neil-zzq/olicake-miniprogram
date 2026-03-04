@@ -31,21 +31,22 @@
   <view class="grid">
     <navigator class="card" hover-class="card-hover" hover-stay-time="120" wx:for="{{activeList}}" wx:for-item="spu" wx:key="id" url="/pages/detail/detail?id={{spu.id}}">
       <view class="card-top">
-        <view class="dots">
-          <view class="dot dot--on"></view>
-          <view class="dot"></view>
-          <view class="dot"></view>
-        </view>
-        <view class="go-circle">
-          <text class="go-icon">↗</text>
-        </view>
+
       </view>
       <view class="img-wrap">
         <image class="card-img" src="{{spu.cover}}" mode="aspectFit" />
       </view>
       <view class="card-body">
-        <text class="card-title">{{spu.title}}</text>
-        <text class="card-price">￥{{spu.pricemin}}</text>
+        <view>
+          <text class="card-title">{{spu.title}}</text>
+          <text class="card-price">￥{{spu.pricemin}}</text>
+        </view>
+        <view>
+          <view class="go-circle">
+            <image src="../../img/倾斜箭头.png" mode="widthFix" class="go-icon"/>
+          </view>
+        </view>
+
       </view>
     </navigator>
   </view>
