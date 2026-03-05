@@ -1,225 +1,285 @@
-<!--pages/orderconfirm/orderconfirm.wxml-->
-<scroll-view class="top" scroll-y="true">
-  <view class="container">
-    <!-- 动态内容区域 -->
-    <view class="content">
-      <view class="page-page1">
-        <view class="page-page1-sp{{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-tab="0">
-          <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/定位.png" mode="widthFix" class="spicon" wx:if="{{currentTab === 0 }}" />
-          <view>自提</view>
+<!--pages/orderconfirm/orderconfirm.wxml - iOS 风格 -->
+<scroll-view class="page-scroll" scroll-y>
+  <view class="page-content">
+
+    <!-- 取件方式：Segmented Control -->
+    <view class="section">
+      <view class="segment-control">
+        <view
+          class="segment {{currentTab === 0 ? 'segment--active' : ''}}"
+          bindtap="switchTab" data-tab="0"
+        >
+          <image wx:if="{{currentTab === 0}}" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/定位.png" mode="widthFix" class="segment-icon" />
+          <text>自提</text>
         </view>
-        <view class="page-page1-deli{{currentTab === 1 ? 'active' : ''}}" bindtap="switchTab" data-tab="1">
-          <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/电动车.png" mode="widthFix" class="deliicon" wx:if="{{currentTab === 1 }}" />
-          <view>配送</view>
-        </view>
-      </view>
-    </view>
-    <view class="detail" wx:if="{{currentTab === 0 }}">
-      <view class="shop-detail" bindtap="shopLocation">
-        <view class="name">
-          <view class="brandname">Oli Cake</view>
-          <view class="shopname">深圳市南山区奥莉屿你烘焙店</view>
-        </view>
-        <view>></view>
-      </view>
-      <view class="consignee">
-        <view>提货人</view>
-        <view class="create-cone" bind:tap="createCone">
-          <text wx:if="{{!selectedConsignee}}">去创建提货人信息></text> <!-- 未选中时显示 -->
-          <text wx:else>{{selectedConsignee.name}} {{selectedConsignee.code}}</text> <!-- 选中时显示 -->
-        </view>
-      </view>
-      <view class="dod">
-        <view>提货时间</view>
-        <view class="create-dod" bindtap="openTimePicker">
-          {{selectedDateTime || '请选择提货时间>'}}
+        <view
+          class="segment {{currentTab === 1 ? 'segment--active' : ''}}"
+          bindtap="switchTab" data-tab="1"
+        >
+          <image wx:if="{{currentTab === 1}}" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/电动车.png" mode="widthFix" class="segment-icon" />
+          <text>配送</text>
         </view>
       </view>
     </view>
-    <view class="detail" wx:if="{{currentTab === 1 }}">
-      <view class="area">
-        <view>广东省深圳市</view>
-        <view class="default">默认</view>
-      </view>
-      <view class="deliverydetail" bindtap="openAddressPicker">
-        <view class="address-phone">
-          <view class="address">{{selectedAddress ? selectedAddress.detail+selectedAddress.region : '请选择配送地址>'}}</view>
-          <view class="phone" wx:if="{{selectedAddress}}">{{selectedAddress.name}} {{selectedAddress.phone}}</view>
-        </view>
-        <view>></view>
-      </view>
-      <view class="deliverymethod">
-        <view>配送方式</view>
-        <view class="method">
-          <view catch:tap="onSelectMethod" data-id="10">
-            <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" mode="widthFix" class="icon-choose" catch:tap="onSelectMethod" wx:if="{{methodId == 10}}" />
-            <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" mode="widthFix" class="icon-choose" wx:else />
-            <text>跑腿到家</text>
+
+    <!-- 自提详情 -->
+    <view class="section" wx:if="{{currentTab === 0}}">
+      <view class="card">
+        <view class="cell cell--link" bindtap="shopLocation">
+          <view class="cell-main">
+            <text class="cell-title">Oli Cake</text>
+            <text class="cell-desc">深圳市南山区奥莉屿你烘焙店</text>
           </view>
+          <text class="cell-chevron">›</text>
+        </view>
+        <view class="cell-divider"></view>
+        <view class="cell cell--link" bindtap="createCone">
+          <view class="cell-main">
+            <text class="cell-label">提货人</text>
+            <text class="cell-value {{selectedConsignee ? '' : 'cell-value--placeholder'}}">
+              {{selectedConsignee ? selectedConsignee.name + ' ' + selectedConsignee.code : '请选择提货人'}}
+            </text>
+          </view>
+          <text class="cell-chevron">›</text>
+        </view>
+        <view class="cell-divider"></view>
+        <view class="cell cell--link" bindtap="openTimePicker">
+          <view class="cell-main">
+            <text class="cell-label">提货时间</text>
+            <text class="cell-value {{selectedDateTime ? '' : 'cell-value--placeholder'}}">
+              {{selectedDateTime || '请选择提货时间'}}
+            </text>
+          </view>
+          <text class="cell-chevron">›</text>
+        </view>
+      </view>
+    </view>
 
-          <view catch:tap="onSelectMethod" data-id="11">
-            <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" mode="widthFix" class="icon-choose" catch:tap="onSelectMethod" wx:if="{{methodId == 11}}" />
-            <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" mode="widthFix" class="icon-choose" wx:else />
-            <text>顺风车</text>
+    <!-- 配送详情 -->
+    <view class="section" wx:if="{{currentTab === 1}}">
+      <view class="card">
+        <view class="cell">
+          <view class="cell-main">
+            <text class="cell-desc">广东省深圳市</text>
+            <text class="cell-badge">默认</text>
+          </view>
+        </view>
+        <view class="cell-divider"></view>
+        <view class="cell cell--link" bindtap="openAddressPicker">
+          <view class="cell-main cell-main--col">
+            <text class="cell-value {{selectedAddress ? '' : 'cell-value--placeholder'}}">
+              {{selectedAddress ? selectedAddress.address.detail + selectedAddress.address.region : '请选择配送地址'}}
+            </text>
+            <text class="cell-desc" wx:if="{{selectedAddress}}">{{selectedAddress.address.name}} {{selectedAddress.address.phone}}</text>
+          </view>
+          <text class="cell-chevron">›</text>
+        </view>
+        <view class="cell-divider"></view>
+        <view class="cell">
+          <view class="cell-main">
+            <text class="cell-label">配送方式</text>
+          </view>
+          <view class="cell-options">
+            <view class="option-item" catchtap="onSelectMethod" data-id="10">
+              <image class="option-icon" src="{{methodId == 10 ? 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png' : 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png'}}" mode="widthFix" />
+              <text>跑腿到家</text>
+            </view>
+            <view class="option-item" catchtap="onSelectMethod" data-id="11">
+              <image class="option-icon" src="{{methodId == 11 ? 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png' : 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png'}}" mode="widthFix" />
+              <text>顺风车</text>
+            </view>
+          </view>
+        </view>
+        <view class="cell-divider"></view>
+        <view class="cell cell--link" bindtap="openTimePicker">
+          <view class="cell-main">
+            <text class="cell-label">送达时间</text>
+            <text class="cell-value {{selectedDateTime ? '' : 'cell-value--placeholder'}}">
+              {{selectedDateTime || '请选择期望送达时间'}}
+            </text>
+          </view>
+          <text class="cell-chevron">›</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 商品列表 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">商品明细</text>
+        <text class="section-count">共{{count}}件</text>
+      </view>
+      <view class="card">
+        <view class="product-item" wx:for="{{cakecard}}" wx:key="name">
+          <image class="product-img" src="{{item.cover}}" mode="aspectFill" />
+          <view class="product-body">
+            <text class="product-title">{{item.title}}</text>
+            <text class="product-spec">{{item.sizechoose}} · {{item.tastechoose}} · {{item.bagchoose}}</text>
+            <text class="product-extra" wx:if="{{item.phone || item.message}}">{{item.phone}}{{item.message ? '；' + item.message : ''}}</text>
+            <view class="product-row">
+              <text class="product-price">¥{{item.Price}}.00</text>
+              <text class="product-qty">×{{item.total}}</text>
+            </view>
           </view>
         </view>
       </view>
-      <view class="time" bind:tap="openTimePicker">
-        <view>送达时间</view>
-        <view class="create-time">{{selectedDateTime || '请选择期望送达时间>'}}</view>
-      </view>
     </view>
-  </view>
-  <view>
-    <view class="cakecard" wx:for="{{cakecard}}" wx:key="name">
-      <image src="{{item.cover}}" mode="widthFix" />
-      <view class="cakeinfo">
-        <view>{{item.title}}</view>
-        <view class="cakedetail">{{item.sizechoose}}；{{item.tastechoose}}；{{item.bagchoose}}</view>
-        <view class="cakefee">
-          <view class="price">
-            <view>￥</view>
-            <view class="pricenum">{{item.Price}}.</view>
-            <view class="pricenum2">00</view>
+
+    <!-- 费用明细 -->
+    <view class="section">
+      <view class="section-header">
+        <text class="section-title">费用明细</text>
+      </view>
+      <view class="card">
+        <view class="fee-row">
+          <text class="fee-label">商品总价</text>
+          <text class="fee-value">¥{{price}}</text>
+        </view>
+        <view class="fee-divider" wx:if="{{discountRate < 1}}"></view>
+        <view class="fee-row" wx:if="{{discountRate < 1}}">
+          <view class="fee-label-wrap">
+            <text class="fee-tag">会员折扣</text>
           </view>
-          <view class="num">×{{item.total}}</view>
+          <text class="fee-value fee-value--discount">-¥{{discountAmount}}</text>
         </view>
-        <view class="other"> {{item.phone}};{{item.message}}</view>
-      </view>
-    </view>
-  </view>
-  <view class="payment">
-    <view class="total">
-      <view class="totalkey">
-        <view>商品总价</view>
-        <view>共{{count}}件商品</view>
-      </view>
-      <view>￥{{price}}</view>
-    </view>
-
-    <!-- 会员折扣行（仅折扣率<1时显示） -->
-    <view class="discount-row" wx:if="{{discountRate < 1}}">
-      <view class="discount-label">
-        <view class="discount-tag">会员折扣</view>
-      </view>
-      <view class="discount-value">-￥{{discountAmount}}</view>
-    </view>
-
-    <view class="delivery">
-      <view>配送费</view>
-      <view>￥{{deliveryfee}}</view>
-    </view>
-
-    <!-- 代金券行（可点击选择） -->
-    <view class="coupon" bindtap="openVoucherPicker">
-      <view class="coupon-left">
-        <view>代金券</view>
-        <view class="coupon-count" wx:if="{{voucherList.length > 0}}">{{voucherList.length}}张可用</view>
-      </view>
-      <view class="coupon-right">
-        <view wx:if="{{selectedVoucher}}" class="coupon-selected">
-          <text class="coupon-deduct">-￥{{voucherDeduction}}</text>
-          <text class="coupon-remove" catchtap="removeVoucher">×</text>
+        <view class="fee-divider"></view>
+        <view class="fee-row">
+          <text class="fee-label">配送费</text>
+          <text class="fee-value">¥{{deliveryfee}}</text>
         </view>
-        <view wx:elif="{{voucherList.length > 0}}" class="coupon-available">点击使用 ›</view>
-        <view wx:else class="coupon-none">暂无可用</view>
+        <view class="fee-divider"></view>
+        <view class="fee-row fee-row--link" bindtap="openVoucherPicker">
+          <view class="fee-label-wrap">
+            <text class="fee-label">代金券</text>
+            <text class="fee-count" wx:if="{{voucherList.length > 0}}">{{voucherList.length}}张可用</text>
+          </view>
+          <view class="fee-right">
+            <block wx:if="{{selectedVoucher}}">
+              <text class="fee-deduct">-¥{{voucherDeduction}}</text>
+              <text class="fee-remove" catchtap="removeVoucher">×</text>
+            </block>
+            <block wx:elif="{{voucherList.length > 0}}">
+              <text class="fee-action">点击使用</text>
+              <text class="fee-chevron">›</text>
+            </block>
+            <block wx:else>
+              <text class="fee-placeholder">暂无可用</text>
+              <text class="fee-chevron">›</text>
+            </block>
+          </view>
+        </view>
       </view>
     </view>
-  </view>
 
+  </view>
 </scroll-view>
 
-<view class="bottom">
-  <view class="bottomcontent">
-    <view class="accounts">
-      <view>应付：</view>
-      <view>
-        <view class="price">
-          <view>￥</view>
-          <view class="pricenum">{{totalPrice}}</view>
-        </view>
-        <view class="pricenum3">含运费￥{{deliveryfee}}</view>
+<!-- 底部提交栏 -->
+<view class="bottom-bar">
+  <view class="bottom-inner">
+    <view class="bottom-left">
+      <text class="bottom-label">应付</text>
+      <view class="bottom-price">
+        <text class="bottom-currency">¥</text>
+        <text class="bottom-num">{{totalPrice}}</text>
       </view>
+      <text class="bottom-note">含运费 ¥{{deliveryfee}}</text>
     </view>
-    <view class="sumbitbtn" bind:tap="deliInfoForPayment">提交订单</view>
+    <view class="bottom-btn" bindtap="deliInfoForPayment">提交订单</view>
   </view>
-
 </view>
+
+<!-- 提货人选择弹窗 -->
 <page-container show="{{tipsShow}}" round="true">
-  <view class="consigneePop">
-    <view class="consigneePopTitle">
-      <view class="Title">选择提货人</view>
-      <view class="titleClose" bind:tap="close">×</view>
+  <view class="modal-sheet">
+    <view class="modal-header">
+      <text class="modal-title">选择提货人</text>
+      <text class="modal-close" bindtap="close">×</text>
     </view>
-    <view class="consigneeflex">
-      <view class="consigneePopInfo" wx:for="{{consignee}}" wx:key="item" bindtap="selectConsignee" data-index="{{index}}">
-        <view class="info">
-          <image class="edit" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" mode="widthFix" />
-          <view>{{item.name}}</view>
-          <view>,</view>
-          <view>{{item.code}}</view>
+    <scroll-view class="modal-body" scroll-y>
+      <view
+        class="modal-item"
+        wx:for="{{consignee}}"
+        wx:key="item"
+        bindtap="selectConsignee"
+        data-index="{{index}}"
+      >
+        <view class="modal-item-main">
+          <image class="modal-edit-icon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" mode="widthFix" />
+          <text>{{item.name}} {{item.code}}</text>
         </view>
-        <image class="choose" src="{{index === selectedIndex ?'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png':'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png'}}" mode="widthFix" />
+        <image
+          class="modal-check"
+          src="{{index === selectedIndex ? 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png' : 'cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png'}}"
+          mode="widthFix"
+        />
       </view>
-    </view>
-    <view class="consigneebottom">
-      <view bind:tap="btn" class="btn">新增提货人</view>
+    </scroll-view>
+    <view class="modal-footer">
+      <view class="modal-btn" bindtap="btn">新增提货人</view>
     </view>
   </view>
 </page-container>
-<!-- 在文件末尾添加 -->
-<view class="time-picker-modal" wx:if="{{showTimePicker}}">
-  <view class="time-picker-content">
-    <!-- 头部 -->
-    <view class="picker-header">
-      <text class="header-title">选择提货时间</text>
-      <text class="close-btn" bindtap="closeTimePicker">×</text>
-    </view>
 
-    <!-- 日期时间选择区 -->
+<!-- 时间选择弹窗 -->
+<view class="time-picker-modal" wx:if="{{showTimePicker}}">
+  <view class="picker-mask" bindtap="closeTimePicker"></view>
+  <view class="picker-sheet">
+    <view class="picker-header">
+      <text class="picker-title">{{currentTab === 0 ? '选择提货时间' : '选择送达时间'}}</text>
+      <text class="picker-close" bindtap="closeTimePicker">×</text>
+    </view>
     <view class="picker-body">
-      <!-- 左侧日期选择 -->
       <scroll-view class="date-list" scroll-y>
-        <view wx:for="{{dates}}" wx:key="date" class="date-item {{selectedDate === item.date ? 'active' : ''}}" bindtap="selectDate" data-date="{{item.date}}">
-          <text class="week">{{item.week}}</text>
-          <text class="day">{{item.day}}</text>
+        <view
+          wx:for="{{dates}}"
+          wx:key="date"
+          class="date-item {{selectedDate === item.date ? 'date-item--active' : ''}}"
+          bindtap="selectDate"
+          data-date="{{item.date}}"
+        >
+          <text class="date-week">{{item.week}}</text>
+          <text class="date-day">{{item.day}}</text>
         </view>
       </scroll-view>
-
-      <!-- 右侧时间选择 -->
       <scroll-view class="time-list" scroll-y>
-        <view wx:for="{{times}}" wx:key="time" class="time-item {{selectedTime === item ? 'active' : ''}}" bindtap="selectTime" data-time="{{item}}">
+        <view
+          wx:for="{{times}}"
+          wx:key="*this"
+          class="time-item {{selectedTime === item ? 'time-item--active' : ''}}"
+          bindtap="selectTime"
+          data-time="{{item}}"
+        >
           {{item}}
         </view>
       </scroll-view>
     </view>
-
-    <!-- 底部按钮 -->
     <view class="picker-footer">
-      <view class="confirm-btn" bindtap="confirmTime">确定</view>
+      <view class="picker-btn" bindtap="confirmTime">确定</view>
     </view>
   </view>
 </view>
+
 <!-- 代金券选择弹窗 -->
 <view class="address-modal" wx:if="{{showVoucherPicker}}">
-  <view class="mask" catch:touchmove="preventScroll" bindtap="closeVoucherPicker"></view>
-  <view class="address-content">
-    <view class="address-header">
-      <text class="title">选择代金券</text>
-      <text class="close" bindtap="closeVoucherPicker">×</text>
+  <view class="modal-mask" catchtouchmove="preventScroll" bindtap="closeVoucherPicker"></view>
+  <view class="modal-sheet modal-sheet--bottom">
+    <view class="modal-header">
+      <text class="modal-title">选择代金券</text>
+      <text class="modal-close" bindtap="closeVoucherPicker">×</text>
     </view>
-    <scroll-view class="address-list" scroll-y>
-      <view wx:if="{{voucherList.length === 0}}" class="voucher-empty">暂无可用代金券</view>
+    <scroll-view class="modal-body" scroll-y>
+      <view wx:if="{{voucherList.length === 0}}" class="modal-empty">暂无可用代金券</view>
       <view
         wx:for="{{voucherList}}"
         wx:key="_id"
-        class="voucher-item {{selectedVoucher && selectedVoucher._id === item._id ? 'voucher-selected' : ''}}"
+        class="voucher-card {{selectedVoucher && selectedVoucher._id === item._id ? 'voucher-card--selected' : ''}}"
         bindtap="selectVoucher"
         data-index="{{index}}"
       >
         <view class="voucher-left">
           <text class="voucher-amount">¥{{item.amount}}</text>
-          <text class="voucher-min">{{item.minSpend > 0 ? '满'+item.minSpend+'元可用' : '无门槛'}}</text>
+          <text class="voucher-min">{{item.minSpend > 0 ? '满' + item.minSpend + '元可用' : '无门槛'}}</text>
         </view>
         <view class="voucher-right">
           <text class="voucher-desc">{{item.desc || '代金券'}}</text>
@@ -232,34 +292,33 @@
 
 <!-- 地址选择弹窗 -->
 <view class="address-modal" wx:if="{{showAddressPicker}}">
-  <!-- 遮罩层 -->
-  <view class="mask" catch:touchmove="preventScroll" bindtap="closeAddressPicker"></view>
-
-  <!-- 弹窗内容 -->
-  <view class="address-content">
-    <view class="address-header">
-      <text class="title">选择收货地址</text>
-      <text class="close" bindtap="closeAddressPicker">×</text>
+  <view class="modal-mask" catchtouchmove="preventScroll" bindtap="closeAddressPicker"></view>
+  <view class="modal-sheet modal-sheet--bottom">
+    <view class="modal-header">
+      <text class="modal-title">选择收货地址</text>
+      <text class="modal-close" bindtap="closeAddressPicker">×</text>
     </view>
-
-    <scroll-view class="address-list" scroll-y>
-      <view wx:for="{{addressList}}" wx:key="index" class="address-item {{item.isDefault ? 'default' : ''}}">
-        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" mode="widthFix" class="chooseicon" />
-        <view class="addressInfo" bindtap="selectAddress" data-index="{{index}}">
-          <view class="addressDetail">{{item.address.detail}}{{item.address.region}}{{item.address.housenum}}</view>
-          <view class="top">
-            <text class="name2">{{item.address.name}}</text>
-            <text class="phone2">{{item.address.phone}}</text>
-            <text class="tag" wx:if="{{item.address.tag}}">{{item.address.tag}}</text>
-            <text class="default-badge" wx:if="{{item.address.isDefault}}">默认</text>
+    <scroll-view class="modal-body" scroll-y>
+      <view
+        wx:for="{{addressList}}"
+        wx:key="index"
+        class="address-card {{item.isDefault ? 'address-card--default' : ''}}"
+      >
+        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" mode="widthFix" class="address-check" />
+        <view class="address-info" bindtap="selectAddress" data-index="{{index}}">
+          <text class="address-detail">{{item.address.detail}}{{item.address.region}}{{item.address.housenum}}</text>
+          <view class="address-meta">
+            <text class="address-name">{{item.address.name}}</text>
+            <text class="address-phone">{{item.address.phone}}</text>
+            <text class="address-tag" wx:if="{{item.address.tag}}">{{item.address.tag}}</text>
+            <text class="address-default" wx:if="{{item.address.isDefault}}">默认</text>
           </view>
         </view>
-        <image class="editicon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" bindtap="editAddress" data-id="{{item._id}}" />
+        <image class="address-edit" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/编辑.png" bindtap="editAddress" data-id="{{item._id}}" mode="widthFix" />
       </view>
     </scroll-view>
-
-    <view class="footer">
-      <view class="add-btn" bindtap="navigateToAddAddress">新增收货地址</view>
+    <view class="modal-footer">
+      <view class="modal-btn" bindtap="navigateToAddAddress">新增收货地址</view>
     </view>
   </view>
 </view>

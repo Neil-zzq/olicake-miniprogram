@@ -1,465 +1,312 @@
-/* pages/orderdetail/orderdetail.wxss */
-page{
-  background-color: rgb(231, 233, 233) ;
+/* pages/orderdetail/orderdetail.wxss - iOS 原生风格 */
+
+page {
+  background-color: #f2f2f7;
   height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
-.top{
-  height: 92%;
+
+.page-scroll {
+  height: calc(100vh - 120rpx);
 }
-.container{
-  padding: 0rpx;
-  width:732rpx;
-  margin: 10rpx ;
-  height:400rpx;
+
+.page-content {
+  padding: 24rpx 28rpx 140rpx;
+  min-height: 100%;
 }
-.content{
-  width: 712rpx;
+
+/* ======== 分组 ======== */
+.section {
+  margin-bottom: 32rpx;
 }
-.page-page1{
+
+.section-header {
   display: flex;
-  align-items:flex-end;
+  align-items: center;
   justify-content: space-between;
-  
-}
-.page-page1-title{
-  display: flex;
-
-}
-.spicon{
-  width: 40rpx;
-}
-.deliicon{
-  width: 50rpx;
+  padding: 0 8rpx 16rpx;
 }
 
-.page-page1-deli,
-.page-page1-sp{
-  width:356rpx;
-  height: 100rpx;
-  background-color: rgb(193, 194, 194);
-  display: flex;
-  font-size: 35rpx;
-  align-items:center;
-  justify-content: center;
-} 
-.page-page1-spactive,
-.page-page1-deliactive{
-  width:356rpx;
-  height: 100rpx;
-  background-color: rgb(255, 255, 255);
-  display: flex;
-  font-size: 35rpx;
-  align-items:center;
-  justify-content: center;
-  font-weight: bold;
-}
-.detail{
-  background-color: rgb(255, 255, 255);
-  width: 712rpx;
-  height:300rpx;
-}
-.brandname{
-  font-size: 40rpx;
+.section-title {
+  font-size: 28rpx;
   font-weight: 600;
+  color: #8e8e93;
+  letter-spacing: 0.5rpx;
 }
-.shopname{
-  font-size: 27rpx;
+
+.section-count {
+  font-size: 24rpx;
+  color: #8e8e93;
 }
-.name{
+
+/* ======== 卡片 ======== */
+.card {
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+/* ======== 只读 Segment ======== */
+.segment-readonly {
+  display: flex;
+  padding: 6rpx;
+  background-color: #e5e5ea;
+  border-radius: 24rpx;
+  margin: 24rpx;
+  gap: 0;
+}
+
+.segment-readonly .segment {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10rpx;
+  border-radius: 20rpx;
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #8e8e93;
+}
+
+.segment-readonly .segment--active {
+  background-color: #ffffff;
+  color: #111111;
+  font-weight: 600;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+.segment-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+/* ======== Cell ======== */
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  min-height: 88rpx;
+}
+
+.cell-main {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
+  gap: 6rpx;
 }
-.shop-detail{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin: 20rpx;
+
+.cell-main--col {
+  flex-direction: column;
 }
-.consignee,.dod{
-  margin: 20rpx;
-  display: flex;
-  justify-content: space-between;
-  font-size: 25rpx;
+
+.cell-label {
+  font-size: 26rpx;
+  color: #8e8e93;
+  margin-bottom: 4rpx;
 }
-.create-cone,.create-dod {
+
+.cell-title {
+  font-size: 32rpx;
   font-weight: 600;
+  color: #111111;
 }
-.default{
-  background-color: rgb(19, 19, 20);
-  color:rgb(255, 255, 255);
+
+.cell-desc {
+  font-size: 26rpx;
+  color: #8e8e93;
+  line-height: 1.4;
+}
+
+.cell-value {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #111111;
+}
+
+.cell-badge {
+  display: inline-block;
+  margin-left: 12rpx;
+  padding: 4rpx 14rpx;
+  background-color: #111111;
+  color: #ffffff;
+  font-size: 22rpx;
+  font-weight: 500;
   border-radius: 10rpx;
-  font-size: 25rpx;
+}
+
+.cell-divider {
+  height: 1rpx;
+  background-color: #f2f2f7;
+  margin-left: 32rpx;
+}
+
+.cell-options {
   display: flex;
   align-items: center;
-  margin-left: 10rpx;
-  width: 60rpx;
+  gap: 32rpx;
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #111111;
+}
+
+.option-icon {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+/* ======== 商品卡片 ======== */
+.product-item {
+  display: flex;
+  padding: 24rpx 32rpx;
+  gap: 24rpx;
+}
+
+.product-item + .product-item {
+  border-top: 1rpx solid #f2f2f7;
+}
+
+.product-img {
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 16rpx;
+  flex-shrink: 0;
+  background-color: #f7f7f8;
+}
+
+.product-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.product-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #111111;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.product-spec {
+  font-size: 24rpx;
+  color: #8e8e93;
+}
+
+.product-extra {
+  font-size: 22rpx;
+  color: #c7c7cc;
+}
+
+.product-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 4rpx;
+}
+
+.product-price {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #111111;
+}
+
+.product-qty {
+  font-size: 26rpx;
+  color: #8e8e93;
+}
+
+/* ======== 费用明细 ======== */
+.fee-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24rpx 32rpx;
+}
+
+.fee-label {
+  font-size: 28rpx;
+  color: #333333;
+}
+
+.fee-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111111;
+}
+
+.fee-mono {
+  font-size: 24rpx;
+  color: #8e8e93;
+  font-family: "SF Mono", "Menlo", monospace;
+}
+
+.fee-divider {
+  height: 1rpx;
+  background-color: #f2f2f7;
+  margin-left: 32rpx;
+}
+
+/* ======== 加载 ======== */
+.loading-wrap {
+  display: flex;
+  align-items: center;
   justify-content: center;
-}
-.area{
-  display: flex;
-  font-size: 25rpx;
-  margin: 20rpx;
-  
-}
-.deliverydetail{
-   display: flex;
-   justify-content: space-between;
-   margin: 20rpx;
-}
-.address{
- font-weight: 600;
-}
-.phone{
-  font-weight: 400;
-  font-size: 25rpx;
-  margin-top: 10rpx;
-}
-.fee,.time{
-  display: flex;
-  justify-content: space-between;
-  margin: 20rpx;
- font-size:25rpx;
- 
-}
-.feenum{
-  font-weight: 600;
-}
-.create-time{
-  font-weight: 500;
-  color: red;
-}
-.cakecard image{
-   width: 160rpx;
-   border-radius: 20rpx;
-   margin: 20rpx 20rpx 20rpx 30rpx;
-   
-}
-.cakecard{
-  background-color: white;
-  margin: 20rpx;
-  border-radius: 20rpx;
-  display: flex;
-}
-.cakedetail{
-  font-size: 23rpx;
-  color: gray;
-}
-.price{
-  font-weight: 500;
-  font-size: 25rpx;
-  display: flex;
-  align-items:baseline;
-}
-.pricenum{
-  font-weight: 600;
-  font-size: 35rpx;
-}
-.pricenum2{
-  font-weight: 600;
-}
-.num{
-  color: gray;
-  font-size: 25rpx;
-}
-.cakefee{
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-top: 5rpx;
-}
-.other,.pricenum3{
-  color: gray;
-  font-size: 23rpx;
-}
-.cakeinfo{
-  width: 500rpx;
-  line-height: 45rpx;
-  margin-top:10rpx ;
-}
-.payment{
-  background-color: white;
-  margin: 20rpx;
-  border-radius: 20rpx;
- font-size: 28rpx;
- height: 250rpx;
- 
-}
-.total,.delivery,.orderNo,.wechatOrderNo{
-  display: flex;
-  justify-content: space-between;
-  padding: 20rpx 20rpx 0 20rpx;
-}
-.totalkey,.balancekey,.balancevalue{
-  display: flex;
- align-items: center;
+  min-height: 60vh;
 }
 
-
-.balancevalue image{
-  width: 32rpx;
+.loading-text {
+  font-size: 28rpx;
+  color: #8e8e93;
 }
-.bottom{
-  background-color: white;
+
+/* ======== 底部栏 ======== */
+.bottom-bar {
   position: fixed;
   bottom: 0;
-  height: 7%;
-  width: 100%;
-  
-}
-.accounts{
-  display: flex;
-}
-.bottomcontent{
-  display: flex;
-  justify-content: space-between;
-  margin: 10rpx 20rpx 0 20rpx;
-  align-items: center;
-
-}
-.cancelOrder{
-  width: 200rpx;
-  color: rgb(161, 159, 159);
-  font-weight: 400;
-  text-align: center;
-  border-radius: 30rpx;
-  height: 60rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2rpx solid #999;
-}
-.consigneePop{
-  height: 1000rpx;
-}
-.edit,.choose{
-  width: 40rpx;
-}
-.info{
-  display: flex;
-  width: 350rpx;
-  justify-content: space-evenly;
-}
-.consigneePopInfo{
-  display: flex;
-  justify-content: space-between;
-  margin: 40rpx  20rpx  40rpx  20rpx;
-}
-
-.consigneePopTitle{
-  width: 100%;
-  display: flex;
-  margin: 20rpx;
-  
-}
-.Title{
-  width: 92%;
-  text-align: center;
-  font-weight: 500;
-}
-.titleClose{
-  color: rgba(140, 143, 143, 0.671);
-}
-.bottom{
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  
-}
-.btn{
-  width: 90%;
-  background-color: rgb(8, 6, 37);
-  color: rgb(255, 255, 255);
-  border-radius: 40rpx;
-  font-weight: 530;
-  height: 98%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.time-picker-modal {
-  position: fixed;
-  top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background: rgba(0,0,0,0.5);
+  background-color: #ffffff;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: constant(safe-area-inset-bottom);
+  box-shadow: 0 -4rpx 24rpx rgba(0, 0, 0, 0.06);
+}
+
+.bottom-inner {
   display: flex;
   align-items: center;
-  justify-content: center;
-  z-index: 999;
+  justify-content: flex-end;
+  padding: 20rpx 28rpx;
 }
 
-.time-picker-content {
-  background: #fff;
-  width: 85%;
-  border-radius: 16rpx;
-  overflow: hidden;
-}
-
-.picker-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 30rpx;
-  border-bottom: 1rpx solid #eee;
-}
-
-.header-title {
-  font-size: 32rpx;
-  font-weight: bold;
-}
-
-.close-btn {
-  font-size: 50rpx;
-  color: #999;
-}
-
-.picker-body {
-  display: flex;
-  height: 500rpx;
-}
-
-.date-list {
-  width: 35%;
-  background: #f5f5f5;
-}
-
-.date-item {
-  padding: 30rpx;
-  text-align: center;
-  border-bottom: 1rpx solid #eee;
-}
-
-.date-item.active {
-  background: #fff;
-  color: black;
-  font-weight: bold;
-}
-
-.time-list {
-  width: 65%;
-}
-
-.time-item {
-  padding: 30rpx;
-  border-bottom: 1rpx solid #eee;
-  
-}
-
-.time-item.active {
-  color: black;
-  font-weight: bold;
-}
-
-.picker-footer {
-  padding: 30rpx;
-  border-top: 1rpx solid #eee;
-}
-
-.confirm-btn {
-  background: black;
-  color: #fff;
-  text-align: center;
-  padding: 20rpx;
-  border-radius: 50rpx;
-}
-/* 地址弹窗样式 */
-.address-modal {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 999;
-}
-
-.mask {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-}
-
-.address-content {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #fff;
-  border-radius: 24rpx 24rpx 0 0;
-  max-height: 70vh;
-}
-
-.address-header {
-  padding: 32rpx;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1rpx solid #eee;
-}
-
-.address-list {
- 
-  max-height: 60vh;
-}
-
-.address-item {
-  margin: 20rpx;
-  border-bottom: 1rpx solid #eee;
-  display: flex;
-  width: 95%;
-  justify-content: space-between;
-  align-items: center;
-  height: 150rpx;
-}
-
-.default {
-  background: #f5f5f5;
-}
-
-.default-badge {
-  background: #07c160;
-  color: white;
-  padding: 4rpx 12rpx;
-  border-radius: 8rpx;
-  font-size: 24rpx;
-  margin-left: 16rpx;
-}
-
-.footer {
-  padding: 32rpx;
-  background: #fff;
-}
-
-.add-btn {
-  background: black;
-  color: white;
-  text-align: center;
-  padding: 24rpx;
-  border-radius: 48rpx;
-}
-.chooseicon{
-  width: 35rpx;
-}
-.editicon{
-  height: 45rpx;
-  width: 45rpx;
-}
-.name2,.phone2{
-  font-size: 28rpx;
-  color: #999;
-}
-.addressInfo{
-  width: 85%;
-}
-.icon-choose{
-  width: 30rpx;
-}
-.method{
+.bottom-btn {
+  min-width: 200rpx;
+  height: 88rpx;
+  font-size: 30rpx;
   font-weight: 600;
-  display: flex;
-  justify-content: center;
-}
-.method view{
+  border-radius: 44rpx;
   display: flex;
   align-items: center;
+  justify-content: center;
+}
+
+.bottom-btn--outline {
+  background-color: transparent;
+  color: #8e8e93;
+  border: 2rpx solid #e5e5ea;
 }

@@ -11,6 +11,19 @@ Page({
      methodI:null,
      totalFee:'',
   },
+  cancelOrder() {
+    wx.showModal({
+      title: '取消订单',
+      content: '确定要取消该订单吗？',
+      success: (res) => {
+        if (res.confirm) {
+          wx.showToast({ title: '取消成功', icon: 'success' })
+          wx.navigateBack()
+        }
+      }
+    })
+  },
+
   loadOrders() {
     if (this.data.isLoading ) return
     
@@ -26,10 +39,14 @@ Page({
         console.log(res)
         if (res.result && res.result.success) {
           const getorder = res.result.order
-          const totalFee =getorder.totalFee/100
+          const totalFee = getorder.totalFee / 100
+          // 兼容 selectedAddress 的两种存储结构（.address 或扁平）
+          if (getorder.customerInfo && getorder.customerInfo.selectedAddress && getorder.customerInfo.selectedAddress.address) {
+            getorder.customerInfo.selectedAddress = getorder.customerInfo.selectedAddress.address
+          }
           this.setData({
             orderDetail: getorder,
-            totalFee:totalFee
+            totalFee: totalFee
           })
           console.log(this.data.orderDetail)
         } else {

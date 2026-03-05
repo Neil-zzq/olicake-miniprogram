@@ -249,6 +249,75 @@ page {
   color: #ffffff;
 }
 
+/* ======== 会员卡 Swiper ======== */
+.vip-swiper-wrap {
+  margin-top: 18rpx;
+  
+  height: 300rpx;
+}
+
+.vip-swiper {
+  height: 300rpx;
+}
+
+.vip-swiper .vip-card {
+ 
+  height: 300rpx;
+  padding: 22rpx 24rpx 18rpx;
+}
+
+/* 未解锁状态：半透明遮罩 + 白色文字 */
+.vip-locked {
+  position: relative;
+}
+
+.vip-locked .vip-header {
+  opacity: 0.6;
+}
+
+.vip-locked .vip-divider {
+  opacity: 0.5;
+}
+
+.vip-locked-mask {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx 0;
+  gap: 8rpx;
+}
+
+.vip-locked-text {
+  font-size: 32rpx;
+  font-weight: 700;
+  letter-spacing: 4rpx;
+}
+
+/* 浅色卡（会员、白银）用深色字 */
+.vip-generalMember.vip-locked .vip-locked-text,
+.vip-silver.vip-locked .vip-locked-text {
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.vip-generalMember.vip-locked .vip-locked-hint,
+.vip-silver.vip-locked .vip-locked-hint {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* 深色卡用浅色字 */
+.vip-platinum.vip-locked .vip-locked-text,
+.vip-blackGold.vip-locked .vip-locked-text,
+.vip-diamond.vip-locked .vip-locked-text {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.vip-platinum.vip-locked .vip-locked-hint,
+.vip-blackGold.vip-locked .vip-locked-hint,
+.vip-diamond.vip-locked .vip-locked-hint {
+  color: rgba(255, 255, 255, 0.7);
+}
+
 /* 默认（未注册） */
 .vip-default {
   background: linear-gradient(135deg, #f8f7f5, #ece7df);

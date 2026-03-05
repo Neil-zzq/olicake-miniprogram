@@ -248,8 +248,9 @@ Page({
         day: `${month}/${day}`
       })
     }
-    this.setData({ dates })
-    this.generateTimes(dates[0].date)
+    const firstDate = dates[0].date
+    this.setData({ dates, selectedDate: firstDate })
+    this.generateTimes(firstDate)
   },
   generateTimes(date) {
     const starttimes = []
@@ -261,7 +262,7 @@ Page({
       endtimes.push(`${String(currentHour).padStart(2, '0')}:00`)
     }
     const times = starttimes.map((item, i) => item + '-' + endtimes[i])
-    this.setData({ starttimes, endtimes, times })
+    this.setData({ starttimes, endtimes, times, selectedTime: times[0] || '' })
   },
   selectDate(e) {
     this.setData({ selectedDate: e.currentTarget.dataset.date })

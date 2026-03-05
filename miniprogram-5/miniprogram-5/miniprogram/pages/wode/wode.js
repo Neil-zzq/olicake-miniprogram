@@ -1,12 +1,13 @@
 // pages/wode/wode.js
 
-// 会员等级配置
+// 会员等级配置（顺序即卡片滑动顺序）
+const TIER_ORDER = ['generalMember', 'silver', 'platinum', 'blackGold', 'diamond']
 const TIER_CONFIG = {
-  generalMember: { name: '会员',   nextThreshold: 1000,  nextName: '白银会员', discountLabel: '10折',  discount: 1.00 },
-  silver:        { name: '白银会员', nextThreshold: 3000, nextName: '铂金会员', discountLabel: '9.8折', discount: 0.98 },
-  platinum:      { name: '铂金会员', nextThreshold: 5000, nextName: '黑金会员', discountLabel: '9.5折', discount: 0.95 },
-  blackGold:     { name: '黑金会员', nextThreshold: 10000, nextName: '钻石会员', discountLabel: '9折',  discount: 0.90 },
-  diamond:       { name: '钻石会员', nextThreshold: null,  nextName: '',        discountLabel: '8.8折', discount: 0.88 },
+  generalMember: { name: '注册会员',   nextThreshold: 1000,  nextName: '白银会员', discountLabel: '--折',  discount: 1.00 },
+  silver:        { name: '白银会员', nextThreshold: 1000, nextName: '铂金会员', discountLabel: '9.8折', discount: 0.98 },
+  platinum:      { name: '铂金会员', nextThreshold: 3000, nextName: '黑金会员', discountLabel: '9.5折', discount: 0.95 },
+  blackGold:     { name: '黑金会员', nextThreshold: 5000, nextName: '钻石会员', discountLabel: '9折',  discount: 0.90 },
+  diamond:       { name: '钻石会员', nextThreshold: 10000,  nextName: '',        discountLabel: '8.8折', discount: 0.88 },
 }
 
 Page({
@@ -26,6 +27,7 @@ Page({
     nextLevelSpend: '0.00',
     nextLevelName: '',
     isDiamond: false,
+    tierList: [],  // 5 种会员卡，含 isUnlocked
   },
 
   // ===== 导航方法 =====
@@ -123,7 +125,7 @@ Page({
         if (res.result && res.result.success && res.result.userInfo) {
           const user = res.result.userInfo
           const usertype = user.usertype || ''
-          const spending = user.cumulativeSpending || 0
+          const spending = parseFloat(user.cumulativeSpending || 0)
           const tierInfo = TIER_CONFIG[usertype] || null
 
           let memberName = tierInfo ? tierInfo.name : ''
@@ -137,6 +139,34 @@ Page({
             nextLevelName = tierInfo.nextName
           }
 
+          // 构建 5 种会员卡列表，标记是否解锁
+          const tierList = TIER_ORDER.map(key => {
+            const cfg = TIER_CONFIG[key]
+            let isUnlocked = false
+            if (key === 'generalMember') {
+              isUnlocked = !!usertype  // 注册即解锁会员
+            } else if (key === 'silver') {
+              isUnlocked = spending >= 1000
+            } else if (key === 'platinum') {
+              isUnlocked = spending >= 3000
+            } else if (key === 'blackGold') {
+              isUnlocked = spending >= 5000
+            } else if (key === 'diamond') {
+              isUnlocked = spending >= 10000
+            }
+            const nextTh = cfg.nextThreshold
+            const needMore = nextTh ? Math.max(0, nextTh - spending).toFixed(2) : '0.00'
+            return {
+              key,
+              name: cfg.name,
+              discountLabel: cfg.discountLabel,
+              nextName: cfg.nextName,
+              nextThreshold: nextTh,
+              isUnlocked,
+              needMore
+            }
+          })
+
           this.setData({
             usertype,
             memberName,
@@ -144,10 +174,10 @@ Page({
             cumulativeSpending: spending.toFixed(2),
             nextLevelSpend,
             nextLevelName,
-            isDiamond
+            isDiamond,
+            tierList
           })
 
-          // 更新本地缓存
           const cached = wx.getStorageSync('userInfo') || {}
           wx.setStorageSync('userInfo', { ...cached, usertype, cumulativeSpending: spending })
         }
@@ -180,7 +210,8 @@ Page({
       this.setData({
         avatarUrl: userInfo.avatarUrl || '',
         nickName: userInfo.nickName || '',
-        getUserInfoSuccess: true
+        getUserInfoSuccess: true,
+        usertype: userInfo.usertype || ''
       })
       this.loadMemberInfo(userInfo.openid)
     }

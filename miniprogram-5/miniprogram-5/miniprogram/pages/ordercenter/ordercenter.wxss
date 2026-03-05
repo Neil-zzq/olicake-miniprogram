@@ -1,94 +1,182 @@
-/* pages/ordercenter/ordercenter.wxss */
-page{
-  background-color: rgb(228, 226, 226);
-}
-.search-block{
-    display: flex;
-    height: 80rpx;
-    width: 100%;
-    background-color: rgb(216, 213, 213);
-    align-items:center;
-    font-size: 28rpx;
+/* pages/ordercenter/ordercenter.wxss - iOS 原生风格 */
 
+page {
+  background-color: #f2f2f7;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }
-.icon{
-  margin: 0  10rpx  0 20rpx;
+
+.page {
+  min-height: 100vh;
+  padding-bottom: env(safe-area-inset-bottom);
 }
-.title{
+
+/* ======== 搜索栏 ======== */
+.search-bar {
   display: flex;
-  height: 120rpx;
-  justify-content: space-around;
-  background-color: #f0f0f0;
-}
-.page-cur,.page-his{
-  
-  text-align: center;
-  display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: 300;
-  
+  height: 88rpx;
+  padding: 0 28rpx;
+  background-color: #ffffff;
+  border-bottom: 1rpx solid #f2f2f7;
 }
-.page-curactive,.page-hisactive{
-  text-align: center;
+
+.search-icon {
+  margin-right: 16rpx;
+  color: #8e8e93;
+}
+
+.search-input {
+  flex: 1;
+  font-size: 28rpx;
+  color: #111111;
+}
+
+.search-placeholder {
+  color: #c7c7cc;
+}
+
+/* ======== Segmented Control ======== */
+.segment-control {
   display: flex;
-  justify-content: center;
+  background-color: #e5e5ea;
+  margin: 24rpx 28rpx;
+  padding: 6rpx;
+  border-radius: 24rpx;
+}
+
+.segment {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
   align-items: center;
-  border-bottom:5rpx solid #161616 ;
-  font-weight:600;
-}
-.content{
-  background-color: rgb(216, 213, 213);
-  height:100vh;
-}
-.items{
-  height: 400rpx;
-  width: 95%;
-  background-color: #f0f0f0;
-  border-radius: 30rpx;
-  margin: 20rpx 0 0 18rpx;
-}
-.itemsTitle{
+  justify-content: center;
+  border-radius: 20rpx;
   font-size: 30rpx;
+  font-weight: 500;
+  color: #8e8e93;
+  transition: all 0.25s ease;
+}
+
+.segment--active {
+  background-color: #ffffff;
+  color: #111111;
+  font-weight: 600;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.06);
+}
+
+/* ======== 内容区 ======== */
+.content {
+  width: 94%;
+  height: calc(100vh - 220rpx);
+  padding: 0 20rpx 32rpx 20rpx;
+}
+
+.section {
   display: flex;
-  justify-content: space-between;
-  padding: 20rpx 30rpx 30rpx 30rpx;
+  flex-direction: column;
+  gap: 24rpx;
 }
-.orderStatic{
-  color: rgb(161, 161, 161);
+
+/* ======== 订单卡片 ======== */
+.order-card {
+  background-color: #ffffff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 }
-.itemsphoto image{
-    height:200rpx;
-    width: 200rpx;
-    border-radius: 10rpx;
-    margin-left:20rpx ;
-   
+
+.order-inner {
+  display: block;
+  padding: 24rpx 28rpx;
 }
-.itemsContent{
-  display: flex;
-  justify-content: space-between;
-  padding: 0 30rpx 0 20rpx;
-}
-.itemsNum{
+
+.order-header {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
 }
-.itemsBottom{
+
+.order-time {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #111111;
+}
+
+.order-status {
+  font-size: 26rpx;
+  font-weight: 500;
+  color: #34c759;
+}
+
+.order-status--muted {
+  color: #8e8e93;
+}
+
+.order-gallery {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  padding: 16rpx 0;
+  border-top: 1rpx solid #f2f2f7;
+  border-bottom: 1rpx solid #f2f2f7;
+}
+
+.gallery-imgs {
+  display: flex;
+  gap: 16rpx;
+  flex-wrap: wrap;
+}
+
+.gallery-img {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 12rpx;
+  background-color: #f7f7f8;
+}
+
+.gallery-count {
+  font-size: 26rpx;
+  color: #8e8e93;
+  flex-shrink: 0;
+}
+
+.order-footer {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  padding: 20rpx;
+  gap: 6rpx;
 }
-.totalFee{
-  font-weight: 550;
-}
-.deliveryFee{
-  color: rgb(161, 161, 161);
-  font-size: 25rpx;
-}
-.itemsTime{
-  font-weight: 520;
-}
-.itemsphoto{
+
+.order-total {
   display: flex;
+  align-items: baseline;
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: #8e8e93;
+  margin-right: 6rpx;
+}
+
+.total-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -1rpx;
+}
+
+.order-delivery {
+  font-size: 24rpx;
+  color: #8e8e93;
+}
+
+/* ======== 空状态 ======== */
+.empty-tip {
+  text-align: center;
+  padding: 120rpx 0;
+  font-size: 28rpx;
+  color: #8e8e93;
 }

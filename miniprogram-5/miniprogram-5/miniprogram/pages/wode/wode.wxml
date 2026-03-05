@@ -1,6 +1,5 @@
 <!--pages/wode/wode.wxml-->
 <view class="page-ios">
-  <!-- iOS 风格自定义导航栏 -->
   <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
       <text class="nav-title">我的</text>
@@ -18,32 +17,42 @@
     <text class="chevron">›</text>
   </view>
 
-  <!-- ====== 已注册会员：动态等级卡 ====== -->
-  <view class="card vip-card vip-{{usertype}}" wx:if="{{getUserInfoSuccess && usertype}}">
-    <view class="vip-header">
-      <view class="vip-title-row">
-        <text class="vip-tier-name">{{memberName}}</text>
-        <text class="vip-discount-badge">{{discountLabel}}</text>
-      </view>
-      <text class="vip-discount-hint">会员专属折扣</text>
-    </view>
-    <view class="vip-divider"></view>
-    <view class="vip-footer">
-      <view class="vip-spending-row">
-        <text class="vip-spending-label">累计消费</text>
-        <text class="vip-spending-value">¥{{cumulativeSpending}}</text>
-      </view>
-      <view class="vip-upgrade-row" wx:if="{{!isDiamond}}">
-        <text class="vip-upgrade-text">再消费 ¥{{nextLevelSpend}} 升级{{nextLevelName}}</text>
-      </view>
-      <view class="vip-upgrade-row" wx:else>
-        <text class="vip-upgrade-text vip-top-text">✦ 已达最高等级，尽享全年优惠</text>
-      </view>
-    </view>
+  <!-- 已注册：5 种会员卡可滑动 -->
+  <view class="vip-swiper-wrap" wx:if="{{getUserInfoSuccess && usertype && tierList.length > 0}}">
+    <swiper class="vip-swiper" circular indicator-dots indicator-color="rgba(255,255,255,0.4)" indicator-active-color="#fff" autoplay="{{false}}">
+      <swiper-item wx:for="{{tierList}}" wx:key="key">
+        <view class="card vip-card vip-{{item.key}} {{item.isUnlocked ? '' : 'vip-locked'}}">
+          <view class="vip-header">
+            <view class="vip-title-row">
+              <text class="vip-tier-name">{{item.name}}</text>
+              <text class="vip-discount-badge">{{item.discountLabel}}</text>
+            </view>
+            <text class="vip-discount-hint">会员专属折扣</text>
+          </view>
+          <view class="vip-divider"></view>
+          <view class="vip-footer" wx:if="{{item.isUnlocked}}">
+            <view class="vip-spending-row">
+              <text class="vip-spending-label">累计消费</text>
+              <text class="vip-spending-value">¥{{cumulativeSpending}}</text>
+            </view>
+            <view class="vip-upgrade-row" wx:if="{{item.nextThreshold}}">
+              <text class="vip-upgrade-text">累计消费 ¥{{item.needMore}} 升级{{item.nextName}}</text>
+            </view>
+            <view class="vip-upgrade-row" wx:else>
+              <text class="vip-upgrade-text vip-top-text">✦ 已达最高等级，尽享全年优惠</text>
+            </view>
+          </view>
+          <view class="vip-locked-mask" wx:else>
+            <text class="vip-locked-text">未解锁</text>
+            <text class="vip-locked-hint" wx:if="{{item.nextThreshold}}">累计消费 ¥{{item.nextThreshold}} 解锁</text>
+          </view>
+        </view>
+      </swiper-item>
+    </swiper>
   </view>
 
-  <!-- ====== 未注册会员：引导注册卡 ====== -->
-  <view class="card vip-card vip-default" wx:else>
+  <!-- 已登录未注册：引导注册卡 -->
+  <view class="card vip-card vip-default" wx:elif="{{getUserInfoSuccess && !usertype}}">
     <view class="vip-header">
       <view class="vip-title-row">
         <text class="vip-tier-name vip-default-name">成为会员</text>
@@ -58,6 +67,24 @@
       <view class="mini-badge mini-platinum">铂金 9.5折</view>
       <view class="mini-badge mini-blackgold">黑金 9折</view>
       <view class="mini-badge mini-diamond">钻石 8.8折</view>
+    </view>
+  </view>
+
+  <!-- 未登录：占位预览 -->
+  <view class="card vip-card vip-default" wx:else>
+    <view class="vip-header">
+      <view class="vip-title-row">
+        <text class="vip-tier-name vip-default-name">成为会员</text>
+      </view>
+      <text class="vip-discount-hint vip-default-hint">登录后查看您的会员等级</text>
+    </view>
+    <view class="vip-divider"></view>
+    <view class="vip-tiers-row">
+      <view class="mini-badge mini-member">会员</view>
+      <view class="mini-badge mini-silver">白银</view>
+      <view class="mini-badge mini-platinum">铂金</view>
+      <view class="mini-badge mini-blackgold">黑金</view>
+      <view class="mini-badge mini-diamond">钻石</view>
     </view>
   </view>
 
