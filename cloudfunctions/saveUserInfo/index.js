@@ -2,13 +2,82 @@
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
-// ===== 会员等级工具函数（与 wxpayOrderCallback 保持一致）=====
+// ===== 会员等级工具函数 =====
 function calcUserType(spending) {
   if (spending >= 10000) return 'diamond'
   if (spending >= 5000)  return 'blackGold'
   if (spending >= 3000)  return 'platinum'
   if (spending >= 1000)  return 'silver'
   return 'generalMember'
+}
+
+function getPhoneVariants(phone) {
+  const p = (phone || '').trim().replace(/\s/g, '')
+  if (!p) return []
+  const set = new Set([p])
+  if (/^\d{11}$/.test(p)) set.add('86' + p)
+  if (/^86\d{11}$/.test(p)) set.add(p.slice(2))
+  return [...set]
+}
+
+// 累计消费 = 该手机号关联的所有 openid 的已支付订单金额汇总
+async function calcCumulativeSpending(db, phoneNumber) {
+  try {
+    const _ = db.command
+    const variants = getPhoneVariants(phoneNumber)
+    const openids = []
+    for (const p of variants) {
+      const usersRes = await db.collection('user').where({ phoneNumber: p }).get()
+      for (const u of usersRes.data) {
+        const oid = u._openid || u.openid
+        if (oid) openids.push(oid)
+      }
+    }
+    const uniqueOpenids = [...new Set(openids)]
+    if (uniqueOpenids.length === 0) return 0
+    let sum = 0
+    const batchSize = 20
+    for (let i = 0; i < uniqueOpenids.length; i += batchSize) {
+      const batch = uniqueOpenids.slice(i, i + batchSize)
+      const ordersRes = await db.collection('orders')
+        .where(_.and([
+          { openid: _.in(batch) },
+          { status: _.in(['paid', 'completed']) }
+        ]))
+        .get()
+      for (const order of ordersRes.data) {
+        sum += (order.cashFee || order.totalFee || 0) / 100
+      }
+    }
+    return parseFloat(sum.toFixed(2))
+  } catch (e) {
+    console.error('计算累计消费失败:', e)
+    return 0
+  }
+}
+
+// 重算并更新该手机号关联的所有用户的累计消费
+async function recalcAndUpdateUsersByPhone(db, phoneNumber) {
+  const variants = getPhoneVariants(phoneNumber)
+  if (variants.length === 0) return
+  try {
+    const cumulativeSpending = await calcCumulativeSpending(db, phoneNumber)
+    const usertype = calcUserType(cumulativeSpending)
+    const seen = new Set()
+    for (const p of variants) {
+      const usersRes = await db.collection('user').where({ phoneNumber: p }).get()
+      for (const u of usersRes.data) {
+        if (seen.has(u._id)) continue
+        seen.add(u._id)
+        await db.collection('user').doc(u._id).update({
+          data: { cumulativeSpending, usertype, updateTime: new Date() }
+        })
+      }
+    }
+    console.log(`手机号 ${phoneNumber} 关联用户累计消费重算：¥${cumulativeSpending}，等级=${usertype}`)
+  } catch (e) {
+    console.error('recalcAndUpdateUsersByPhone 失败:', e)
+  }
 }
 
 exports.main = async (event) => {
@@ -20,7 +89,6 @@ exports.main = async (event) => {
 
   try {
     const db = cloud.database()
-    const _ = db.command
 
     // 1. 查询用户是否已存在
     const queryRes = await db.collection('user')
@@ -36,37 +104,6 @@ exports.main = async (event) => {
       delete safeUpdateData.usertype
       delete safeUpdateData.cumulativeSpending
 
-      // 检测是否首次绑定手机号（之前无手机或手机号变了）
-      const isNewPhone = userData.phoneNumber &&
-        (!existingUser.phoneNumber || existingUser.phoneNumber !== userData.phoneNumber)
-
-      if (isNewPhone) {
-        // 查询以该手机号下单（非本 openid）的已支付订单，合并消费金额
-        const phoneOrders = await db.collection('orders')
-          .where(_.or([
-            { 'customerInfo.selectedConsignee.code': userData.phoneNumber, status: 'paid' },
-            { 'customerInfo.selectedAddress.phone': userData.phoneNumber, status: 'paid' }
-          ]))
-          .get()
-
-        let additionalSpending = 0
-        phoneOrders.data.forEach(order => {
-          // 排除已属于该 openid 的订单（避免重复计算）
-          if (order.openid !== openid) {
-            additionalSpending += (order.cashFee || order.totalFee || 0) / 100
-          }
-        })
-
-        if (additionalSpending > 0) {
-          const newSpending = parseFloat(
-            ((existingUser.cumulativeSpending || 0) + additionalSpending).toFixed(2)
-          )
-          safeUpdateData.cumulativeSpending = newSpending
-          safeUpdateData.usertype = calcUserType(newSpending)
-          console.log(`手机号合并消费：新增 ¥${additionalSpending}，累计 ¥${newSpending}，等级 ${safeUpdateData.usertype}`)
-        }
-      }
-
       await db.collection('user')
         .doc(existingUser._id)
         .update({
@@ -76,6 +113,13 @@ exports.main = async (event) => {
           }
         })
 
+      // 绑定/变更手机号后，重算该手机号关联用户的累计消费
+      if (userData.phoneNumber) {
+        await recalcAndUpdateUsersByPhone(db, userData.phoneNumber)
+      }
+      if (existingUser.phoneNumber && existingUser.phoneNumber !== userData.phoneNumber) {
+        await recalcAndUpdateUsersByPhone(db, existingUser.phoneNumber)
+      }
       console.log('用户信息更新成功')
       return { code: 0, msg: '更新成功' }
 
@@ -92,6 +136,10 @@ exports.main = async (event) => {
 
       const addRes = await db.collection('user').add({ data: newUser })
       console.log('用户创建成功，ID:', addRes._id)
+
+      if (userData.phoneNumber) {
+        await recalcAndUpdateUsersByPhone(db, userData.phoneNumber)
+      }
 
       // 发放 20 元注册代金券
       const now = new Date()

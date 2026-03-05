@@ -37,7 +37,7 @@ page {
 
 .nav-spacer { width: 100%; }
 
-/* 通用卡片 */
+/* 通用卡片 - 上下圆角统一 */
 .card {
   background-color: #ffffff;
   border-radius: 28rpx;
@@ -252,8 +252,9 @@ page {
 /* ======== 会员卡 Swiper ======== */
 .vip-swiper-wrap {
   margin-top: 18rpx;
-  
   height: 300rpx;
+  border-radius: 28rpx;
+  overflow: hidden;
 }
 
 .vip-swiper {
@@ -261,9 +262,9 @@ page {
 }
 
 .vip-swiper .vip-card {
- 
   height: 300rpx;
   padding: 22rpx 24rpx 18rpx;
+  border-radius: 28rpx;
 }
 
 /* 未解锁状态：半透明遮罩 + 白色文字 */
@@ -318,43 +319,27 @@ page {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* 默认（未注册） */
+/* 默认（未注册/未登录）- 与注册会员卡样式一致 */
 .vip-default {
-  background: linear-gradient(135deg, #f8f7f5, #ece7df);
+  background: linear-gradient(135deg, #e8e4de, #ccc6bc);
+  min-height: 300rpx;
+  padding: 22rpx 24rpx 18rpx;
+  border-radius: 28rpx;
 }
-.vip-default-name { color: #1a1a1a !important; }
-.vip-default-hint { color: #666 !important; opacity: 1 !important; }
-.vip-register-link {
-  font-size: 26rpx;
+.vip-default-name { color: #3a3530 !important; }
+.vip-default-hint { color: #3a3530 !important; opacity: 0.75 !important; }
+.vip-default-badge {
+  color: #3a3530 !important;
+  background-color: rgba(0, 0, 0, 0.08) !important;
+}
+.vip-default .vip-divider { background-color: rgba(0, 0, 0, 0.1); }
+.vip-register-card .vip-upgrade-text {
+  color: #3a3530;
+}
+.vip-register-cta {
+  color: #3a3530;
   font-weight: 600;
-  color: #c9a227;
 }
-.vip-default .vip-divider { background-color: rgba(0, 0, 0, 0.08); }
-
-/* 未注册等级预览 */
-.vip-tiers-row {
-  display: flex;
-  justify-content: space-between;
-  gap: 8rpx;
-}
-
-.mini-badge {
-  flex: 1;
-  height: 44rpx;
-  border-radius: 22rpx;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18rpx;
-  font-weight: 600;
-  color: #ffffff;
-}
-
-.mini-member   { background: linear-gradient(135deg, #c8c8c0, #a0a098); color: #333; }
-.mini-silver   { background: linear-gradient(135deg, #b8b8c0, #888898); }
-.mini-platinum { background: linear-gradient(135deg, #9b7fd4, #c9a227); }
-.mini-blackgold { background: linear-gradient(135deg, #2a2a2a, #c9a227); }
-.mini-diamond  { background: linear-gradient(135deg, #1a237e, #42a5f5); }
 
 /* 分组列表 */
 .group { margin-top: 18rpx; }

@@ -10,35 +10,86 @@ function calcUserType(spending) {
   return 'generalMember'
 }
 
-// 支付成功后更新会员消费金额与等级
-async function updateMemberSpending(db, openid, paidAmountYuan, voucherId, orderNo) {
-  if (!openid) return
+function getPhoneVariants(phone) {
+  const p = (phone || '').trim().replace(/\s/g, '')
+  if (!p) return []
+  const set = new Set([p])
+  if (/^\d{11}$/.test(p)) set.add('86' + p)
+  if (/^86\d{11}$/.test(p)) set.add(p.slice(2))
+  return [...set]
+}
+
+// 累计消费 = 该手机号关联的所有 openid 的已支付订单金额汇总
+async function calcCumulativeSpending(db, phoneNumber) {
   try {
-    const userRes = await db.collection('user').where({ _openid: openid }).get()
-    if (userRes.data.length === 0) return
-
-    const user = userRes.data[0]
-    const oldSpending = user.cumulativeSpending || 0
-    const newSpending = parseFloat((oldSpending + paidAmountYuan).toFixed(2))
-    const newUserType = calcUserType(newSpending)
-
-    await db.collection('user').doc(user._id).update({
-      data: {
-        cumulativeSpending: newSpending,
-        usertype: newUserType,
-        updateTime: new Date()
+    const _ = db.command
+    const variants = getPhoneVariants(phoneNumber)
+    const openids = []
+    for (const p of variants) {
+      const usersRes = await db.collection('user').where({ phoneNumber: p }).get()
+      for (const u of usersRes.data) {
+        const oid = u._openid || u.openid
+        if (oid) openids.push(oid)
       }
-    })
-    console.log(`会员消费更新：openid=${openid}，新增¥${paidAmountYuan}，累计¥${newSpending}，等级=${newUserType}`)
+    }
+    const uniqueOpenids = [...new Set(openids)]
+    if (uniqueOpenids.length === 0) return 0
+    let sum = 0
+    const batchSize = 20
+    for (let i = 0; i < uniqueOpenids.length; i += batchSize) {
+      const batch = uniqueOpenids.slice(i, i + batchSize)
+      const ordersRes = await db.collection('orders')
+        .where(_.and([
+          { openid: _.in(batch) },
+          { status: _.in(['paid', 'completed']) }
+        ]))
+        .get()
+      for (const order of ordersRes.data) {
+        sum += (order.cashFee || order.totalFee || 0) / 100
+      }
+    }
+    return parseFloat(sum.toFixed(2))
+  } catch (e) {
+    console.error('计算累计消费失败:', e)
+    return 0
+  }
+}
 
-    // 如果使用了代金券，标记为已使用
+// 支付成功后：重算该订单下单者手机号关联的所有用户的累计消费
+async function updateMemberSpending(db, orderOpenid, voucherId, orderNo) {
+  if (!orderOpenid) return
+  try {
+    let userRes = await db.collection('user').where({ _openid: orderOpenid }).get()
+    if (userRes.data.length === 0) {
+      userRes = await db.collection('user').where({ openid: orderOpenid }).get()
+    }
+    const phoneNumber = userRes.data[0] && userRes.data[0].phoneNumber
+    if (!phoneNumber) {
+      if (voucherId) {
+        await db.collection('vouchers').doc(voucherId).update({
+          data: { used: true, usedOrderId: orderNo, usedAt: new Date() }
+        }).catch(e => console.error('核销代金券失败:', e))
+      }
+      return
+    }
+    const cumulativeSpending = await calcCumulativeSpending(db, phoneNumber)
+    const usertype = calcUserType(cumulativeSpending)
+    const variants = getPhoneVariants(phoneNumber)
+    const seen = new Set()
+    for (const p of variants) {
+      const usersRes = await db.collection('user').where({ phoneNumber: p }).get()
+      for (const u of usersRes.data) {
+        if (seen.has(u._id)) continue
+        seen.add(u._id)
+        await db.collection('user').doc(u._id).update({
+          data: { cumulativeSpending, usertype, updateTime: new Date() }
+        })
+      }
+    }
+    console.log(`会员消费更新：手机号关联，累计¥${cumulativeSpending}，等级=${usertype}`)
     if (voucherId) {
       await db.collection('vouchers').doc(voucherId).update({
-        data: {
-          used: true,
-          usedOrderId: orderNo,
-          usedAt: new Date()
-        }
+        data: { used: true, usedOrderId: orderNo, usedAt: new Date() }
       }).catch(e => console.error('核销代金券失败:', e))
     }
   } catch (e) {
@@ -240,15 +291,13 @@ exports.main = async (event, context) => {
       console.log('新订单创建结果:', createResult)
     }
 
-    // 6. 💰 更新会员消费金额与等级
-    // 先获取完整订单以拿到 openid 和 voucherId
+    // 6. 💰 更新会员消费金额与等级（按手机号关联的所有 openid 重算）
     const orderForMember = await db.collection('orders').where({ orderNo: orderNo }).get()
     if (orderForMember.data.length > 0) {
       const dbOrderForMember = orderForMember.data[0]
       const memberOpenid = dbOrderForMember.openid || event.subOpenid || event.openid
-      const paidAmountYuan = (cashFee || totalFee || 0) / 100
       const voucherId = (dbOrderForMember.customerInfo || {}).voucherId || null
-      await updateMemberSpending(db, memberOpenid, paidAmountYuan, voucherId, orderNo)
+      await updateMemberSpending(db, memberOpenid, voucherId, orderNo)
     }
 
     // 7. 🎯 构建 orderInfo 并调用通知函数

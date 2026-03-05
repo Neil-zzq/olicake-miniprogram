@@ -51,40 +51,37 @@
     </swiper>
   </view>
 
-  <!-- 已登录未注册：引导注册卡 -->
-  <view class="card vip-card vip-default" wx:elif="{{getUserInfoSuccess && !usertype}}">
+  <!-- 已登录未注册：引导注册卡（样式与会员卡一致） -->
+  <view class="card vip-card vip-default vip-register-card" wx:elif="{{getUserInfoSuccess && !usertype}}">
     <view class="vip-header">
       <view class="vip-title-row">
-        <text class="vip-tier-name vip-default-name">成为会员</text>
-        <text class="vip-register-link" bindtap="navigateToRegister">注册 ›</text>
+        <text class="vip-tier-name vip-default-name">注册会员</text>
+        <text class="vip-discount-badge vip-default-badge">--折</text>
       </view>
       <text class="vip-discount-hint vip-default-hint">注册即送 20 元代金券，享专属折扣</text>
     </view>
     <view class="vip-divider"></view>
-    <view class="vip-tiers-row">
-      <view class="mini-badge mini-member">会员 10折</view>
-      <view class="mini-badge mini-silver">白银 9.8折</view>
-      <view class="mini-badge mini-platinum">铂金 9.5折</view>
-      <view class="mini-badge mini-blackgold">黑金 9折</view>
-      <view class="mini-badge mini-diamond">钻石 8.8折</view>
+    <view class="vip-footer">
+      <view class="vip-upgrade-row">
+        <text class="vip-upgrade-text vip-register-cta" bindtap="navigateToRegister">点击注册，解锁会员等级 ›</text>
+      </view>
     </view>
   </view>
 
   <!-- 未登录：占位预览 -->
-  <view class="card vip-card vip-default" wx:else>
+  <view class="card vip-card vip-default vip-register-card" wx:else>
     <view class="vip-header">
       <view class="vip-title-row">
-        <text class="vip-tier-name vip-default-name">成为会员</text>
+        <text class="vip-tier-name vip-default-name">注册会员</text>
+        <text class="vip-discount-badge vip-default-badge">--折</text>
       </view>
       <text class="vip-discount-hint vip-default-hint">登录后查看您的会员等级</text>
     </view>
     <view class="vip-divider"></view>
-    <view class="vip-tiers-row">
-      <view class="mini-badge mini-member">会员</view>
-      <view class="mini-badge mini-silver">白银</view>
-      <view class="mini-badge mini-platinum">铂金</view>
-      <view class="mini-badge mini-blackgold">黑金</view>
-      <view class="mini-badge mini-diamond">钻石</view>
+    <view class="vip-footer">
+      <view class="vip-upgrade-row">
+        <text class="vip-upgrade-text">登录后即可查看会员权益</text>
+      </view>
     </view>
   </view>
 
