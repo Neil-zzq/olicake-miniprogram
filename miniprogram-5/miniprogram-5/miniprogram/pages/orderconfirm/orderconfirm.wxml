@@ -96,23 +96,33 @@
       </view>
       <view>￥{{price}}</view>
     </view>
+
+    <!-- 会员折扣行（仅折扣率<1时显示） -->
+    <view class="discount-row" wx:if="{{discountRate < 1}}">
+      <view class="discount-label">
+        <view class="discount-tag">会员折扣</view>
+      </view>
+      <view class="discount-value">-￥{{discountAmount}}</view>
+    </view>
+
     <view class="delivery">
       <view>配送费</view>
       <view>￥{{deliveryfee}}</view>
     </view>
-    <view class="coupon">
-      <view>优惠券</view>
-      <view>暂无可用 ></view>
-    </view>
 
-    <view class="balance">
-      <view class="balancekey">
-        <view>余额/卡</view>
-        <view>（可用￥0.00）＞</view>
+    <!-- 代金券行（可点击选择） -->
+    <view class="coupon" bindtap="openVoucherPicker">
+      <view class="coupon-left">
+        <view>代金券</view>
+        <view class="coupon-count" wx:if="{{voucherList.length > 0}}">{{voucherList.length}}张可用</view>
       </view>
-      <view class="balancevalue">
-        <view>暂无可用</view>
-        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" mode="widthFix" />
+      <view class="coupon-right">
+        <view wx:if="{{selectedVoucher}}" class="coupon-selected">
+          <text class="coupon-deduct">-￥{{voucherDeduction}}</text>
+          <text class="coupon-remove" catchtap="removeVoucher">×</text>
+        </view>
+        <view wx:elif="{{voucherList.length > 0}}" class="coupon-available">点击使用 ›</view>
+        <view wx:else class="coupon-none">暂无可用</view>
       </view>
     </view>
   </view>
@@ -190,6 +200,36 @@
     </view>
   </view>
 </view>
+<!-- 代金券选择弹窗 -->
+<view class="address-modal" wx:if="{{showVoucherPicker}}">
+  <view class="mask" catch:touchmove="preventScroll" bindtap="closeVoucherPicker"></view>
+  <view class="address-content">
+    <view class="address-header">
+      <text class="title">选择代金券</text>
+      <text class="close" bindtap="closeVoucherPicker">×</text>
+    </view>
+    <scroll-view class="address-list" scroll-y>
+      <view wx:if="{{voucherList.length === 0}}" class="voucher-empty">暂无可用代金券</view>
+      <view
+        wx:for="{{voucherList}}"
+        wx:key="_id"
+        class="voucher-item {{selectedVoucher && selectedVoucher._id === item._id ? 'voucher-selected' : ''}}"
+        bindtap="selectVoucher"
+        data-index="{{index}}"
+      >
+        <view class="voucher-left">
+          <text class="voucher-amount">¥{{item.amount}}</text>
+          <text class="voucher-min">{{item.minSpend > 0 ? '满'+item.minSpend+'元可用' : '无门槛'}}</text>
+        </view>
+        <view class="voucher-right">
+          <text class="voucher-desc">{{item.desc || '代金券'}}</text>
+          <text class="voucher-expire">有效期至 {{item.expireTime}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+
 <!-- 地址选择弹窗 -->
 <view class="address-modal" wx:if="{{showAddressPicker}}">
   <!-- 遮罩层 -->

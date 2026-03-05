@@ -1,44 +1,150 @@
 <!--index.wxml-->
-<view class="page-ios">
-  <!-- iOS 风格自定义导航栏（更薄、更像示例图） -->
-  <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
-    <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
-      <text class="ios-nav__title">Oli cake</text>
+
+<!-- 固定导航栏 -->
+<view class="nav" style="height: {{navBarHeight}}px; padding-top: {{statusBarHeight}}px; background-color: {{cake.bg}};">
+  <text class="nav-logo">Oli Cake</text>
+  <view class="nav-right" bindtap="goToList">
+    <text class="nav-all">全部 ›</text>
+  </view>
+</view>
+
+<!-- 可滚动主体内容 -->
+<scroll-view
+  wx:if="{{cake}}"
+  class="page-scroll"
+  scroll-y
+  style="margin-top: {{navBarHeight}}px; height: {{swiperHeight}}px; background-color: {{cake.bg}};"
+>
+
+  <!-- 顶部信息栏：日期 · 标签 · 时间 -->
+  <view class="slide-topbar">
+    <text class="topbar-date">{{currentDate}}</text>
+    <view class="topbar-badge" style="border-color: {{cake.accent}};">
+      <text class="topbar-badge-dot" style="background-color: {{cake.accent}};"></text>
+      <text class="topbar-badge-text" style="color: {{cake.accent}};">{{cake.tag}}</text>
+      <text class="topbar-badge-dot" style="background-color: {{cake.accent}};"></text>
+    </view>
+    <text class="topbar-time">{{currentTime}}</text>
+  </view>
+
+  <!-- 装饰大字 -->
+  <view class="slide-deco">
+    <text class="deco-main" style="color: {{cake.accent}};">{{cake.decoMain}}</text>
+    <text class="deco-sub" style="color: {{cake.accent}};">{{cake.decoSub}}</text>
+  </view>
+
+  <!-- 图片轮播 -->
+  <view class="slide-img-wrap" bindtap="goToDetail" data-id="{{currentCake._id}}">
+    <swiper
+      class="img-swiper"
+      circular
+      autoplay
+      interval="3000"
+      duration="500"
+      easing-function="easeInOutCubic"
+      bindchange="onImgChange"
+    >
+      <swiper-item wx:for="{{imgList}}" wx:key="*this">
+        <image class="slide-img" src="{{item}}" mode="aspectFill" />
+      </swiper-item>
+    </swiper>
+
+    <!-- 底部渐变 -->
+    <view class="slide-img-fade" style="background: linear-gradient(to bottom, transparent 55%, {{cake.bg}} 100%);"></view>
+
+    <!-- 指示点 -->
+    <view class="img-dots" wx:if="{{imgList.length > 1}}">
+      <view
+        wx:for="{{imgList}}"
+        wx:key="*this"
+        class="img-dot {{imgIndex === index ? 'img-dot-active' : ''}}"
+        style="{{imgIndex === index ? 'background-color:' + cake.accent : ''}}"
+      ></view>
     </view>
   </view>
-  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
 
-  <!-- 卡片列表 -->
-  <view class="cake-grid">
-    <navigator
-      wx:for="{{item2}}"
-      wx:for-item="item"
-      wx:key="_id"
-      class="cake-card"
-      url="/pages/detail/detail?id={{item._id}}"
-    >
-      <!-- 图片 + 右上角心形按钮 -->
-      <view class="card-top">
-        <image class="cake-image" src="{{item.cover}}" mode="aspectFill" />
-        <view class="favorite-btn">
-          <text class="favorite-icon">♡</text>
-        </view>
+  <!-- 三图标快捷入口 -->
+  <view class="quick-bar">
+    <view class="quick-item" bindtap="goToContact">
+      <view class="quick-icon-wrap" style="border-color: {{cake.accent}}30;">
+        <image class="quick-icon" src="../../img/订购须知.png" mode="aspectFit" />
       </view>
-
-      <!-- 文本信息 -->
-      <view class="cake-info">
-        <text class="cake-title">{{item.title}}</text>
-        <text class="cake-subtitle">Olicake · 精选</text>
-
-        <view class="cake-footer">
-          <text class="cake-price">￥{{item.pricemin}}</text>
-
-          <!-- 底部右侧圆形购物车按钮 -->
-          <view class="cart-btn">
-            <text class="cart-icon">🛒</text>
-          </view>
-        </view>
+      <text class="quick-label">订购须知</text>
+      <text class="quick-sub">CONTACT US</text>
+    </view>
+    <view class="quick-divider"></view>
+    <view class="quick-item" bindtap="goToIngredient">
+      <view class="quick-icon-wrap" style="border-color: {{cake.accent}}30;">
+        <image class="quick-icon" src="../../img/icon-ingredient.png" mode="aspectFit" />
       </view>
-    </navigator>
+      <text class="quick-label">关于原料</text>
+      <text class="quick-sub">INGREDIENTS</text>
+    </view>
+    <view class="quick-divider"></view>
+    <view class="quick-item" bindtap="goToRecommend">
+      <view class="quick-icon-wrap" style="border-color: {{cake.accent}}30;">
+        <image class="quick-icon" src="../../img/icon-contact.png" mode="aspectFit" />
+      </view>
+      <text class="quick-label">联系我们</text>
+      <text class="quick-sub">RECOMMEND</text>
+    </view>
+  </view>
+
+</scroll-view>
+
+<!-- 加载占位 -->
+<view
+  class="loading-placeholder"
+  wx:if="{{!cake}}"
+  style="margin-top: {{navBarHeight}}px; height: {{swiperHeight}}px;"
+></view>
+
+<!-- ====== 登录弹窗 ====== -->
+<view class="modal-overlay" wx:if="{{showLoginModal}}" bindtap="closeLoginModal">
+  <view class="modal-card" catchtap="">
+    <view class="modal-brand-block">
+      <text class="modal-logo">🎂</text>
+      <text class="modal-brand-name">Oli Cake</text>
+      <text class="modal-brand-slogan">甜蜜每一刻</text>
+    </view>
+    <view class="modal-divider"></view>
+    <text class="modal-title">登录后体验完整服务</text>
+    <text class="modal-desc">查看订单 · 会员专属折扣 · 代金券</text>
+    <button class="modal-login-btn" bindtap="onLoginTap">
+      <text class="modal-btn-text">微信一键登录</text>
+    </button>
+    <text class="modal-skip" bindtap="closeLoginModal">稍后再说</text>
+  </view>
+</view>
+
+<!-- ====== 注册会员引导弹窗 ====== -->
+<view class="modal-overlay" wx:if="{{showMemberModal}}" bindtap="closeMemberModal">
+  <view class="modal-card" catchtap="">
+    <text class="modal-crown">👑</text>
+    <text class="modal-title">成为 Oli Cake 会员</text>
+    <text class="modal-desc">注册即送 20 元代金券，立享专属优惠</text>
+    <view class="modal-benefits">
+      <view class="benefit-row">
+        <text class="benefit-dot">◆</text>
+        <text class="benefit-text">注册即赠 20 元代金券，可购蛋糕使用</text>
+      </view>
+      <view class="benefit-row">
+        <text class="benefit-dot">◆</text>
+        <text class="benefit-text">5 大等级专属折扣，最高享 8.8 折</text>
+      </view>
+      <view class="benefit-row">
+        <text class="benefit-dot">◆</text>
+        <text class="benefit-text">累计消费自动升级，权益越来越丰厚</text>
+      </view>
+    </view>
+    <view class="modal-tiers">
+      <view class="tier-badge tier-member">会员</view>
+      <view class="tier-badge tier-silver">白银</view>
+      <view class="tier-badge tier-platinum">铂金</view>
+      <view class="tier-badge tier-blackgold">黑金</view>
+      <view class="tier-badge tier-diamond">钻石</view>
+    </view>
+    <view class="modal-register-btn" bindtap="navigateToRegister">立即注册会员</view>
+    <text class="modal-skip" bindtap="closeMemberModal">稍后再说</text>
   </view>
 </view>

@@ -1,58 +1,61 @@
 <!--pages/shopping-cart/shopping-cart.wxml-->
 
 <view class="empty" wx:if="{{cart.length == 0}}">
-   <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/购物车.png" mode="widthFix"/>
-   <text class="emptyinfo">购物车空空如也</text>
-
+  <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/购物车.png" mode="widthFix" />
+  <text class="emptyinfo">购物车空空如也</text>
 </view>
+
 <scroll-view class="content" scroll-y="true" wx:else>
-  <view class="cart" wx:for="{{cart}}" wx:key="item" >
-    <view class="item {{item.showDelBtn?'show':''}}" bindtouchstart="onTouchStart" data-id="{{item.cartId}}" bindtouchmove="onTouchMove">
-      <image class="icon-choose" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" wx:if="{{item.selected}}" catch:tap="onSelectCard" data-id="{{item.cartId}}" />  
-      <image class="icon-choose" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" wx:else catch:tap="onSelectCard" data-id="{{item.cartId}}" />
-      <image class="item-image" src="{{item.cover}}" catch:tap="switchToDetail" data-id="{{item.id}}" />
-      <view class="detail">
-        <view class="name">{{item.title}}</view>
-        <view class="info">
-          <view>{{item.sizechoose}},{{item.tastechoose}},{{item.bagchoose}}</view>
-          <image class="xiala" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/下拉.png" /> 
+  <view class="cart-list">
+    <view class="cart-card" wx:for="{{cart}}" wx:key="item">
+      <view class="item {{item.showDelBtn ? 'show' : ''}}" bindtouchstart="onTouchStart" data-id="{{item.cartId}}" bindtouchmove="onTouchMove">
+
+        <view class="checkbox {{item.selected ? 'checked' : ''}}" catch:tap="onSelectCard" data-id="{{item.cartId}}">
+          <text class="check-mark" wx:if="{{item.selected}}">✓</text>
         </view>
-        <view class="sub-info">
-          <view class="price">￥{{item.Price}}</view>
-          <view class="selector">
-            <view catchtap="subNum" data-id="{{item.id}}">-</view>
-            <input class="num" value="{{item.total}}" />
-            <view catchtap="addNum" data-id="{{item.id}}">+</view>
+
+        <image class="item-image" src="{{item.cover}}" catch:tap="switchToDetail" data-id="{{item.id}}" />
+
+        <view class="detail">
+          <view class="name">{{item.title}}</view>
+          <view class="spec">{{item.sizechoose}} · {{item.tastechoose}} · {{item.bagchoose}}</view>
+          <view class="sub-info">
+            <view class="price">￥{{item.Price}}</view>
+            <view class="selector">
+              <view class="sel-btn" catchtap="subNum" data-id="{{item.id}}">−</view>
+              <input class="num" value="{{item.total}}" />
+              <view class="sel-btn" catchtap="addNum" data-id="{{item.id}}">+</view>
+            </view>
           </view>
         </view>
 
       </view>
-
+      <view class="delete {{item.showDelBtn ? 'show' : ''}}" bind:tap="onDeleteCard" data-id="{{item.cartId}}">删除</view>
     </view>
-    <view class=" delete {{item.showDelBtn?'show':''}}" bind:tap="onDeleteCard" data-id="{{item.cartId}}">删除</view>
   </view>
+  <view class="bottom-placeholder"></view>
 </scroll-view>
+
 <view class="bottom">
-  <view class="select-all"  > 
-    <image class="icon-choose" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/chenggong.png" wx:if="{{selectAll}}" bind:tap="onSelectAll" />
-    <image class="icon-choose" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/weixuanzhong.png" wx:else bind:tap="onSelectAll" />
-    <view>全选</view>
-  </view>
-  <view class="checkout">
-    <view class="total-discount">
-      <view class="total">
-        <view> 合计：</view>
-        <view class="total-price"> ￥{{totalPrice}}</view>
-      </view>
-      <view class="discount">费用明细
-        <image src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/上拉.png" m />
-      </view>
+  <view class="select-all" bind:tap="onSelectAll">
+    <view class="checkbox {{selectAll ? 'checked' : ''}}">
+      <text class="check-mark" wx:if="{{selectAll}}">✓</text>
     </view>
-    <button class="checkout-button" size="mini"
-    bind:tap="orderConfirm">去结算({{totalCount}})</button>
+    <text class="select-all-text">全选</text>
+  </view>
+
+  <view class="right-section">
+    <view class="total-area">
+      <text class="total-label">合计：</text>
+      <text class="total-price">￥{{totalPriceStr}}</text>
+    </view>
+    <view class="checkout-button" bind:tap="orderConfirm">
+      去结算<text wx:if="{{totalCount > 0}}">({{totalCount}})</text>
+    </view>
   </view>
 </view>
+
 <page-container show="{{showBottomModal}}" position="bottom" round>
-    <view>为了给您提供更好的服务</view>
-    <view>允许我们在必要场景下，合理使用您的个人信息，我们承诺</view>
+  <view>为了给您提供更好的服务</view>
+  <view>允许我们在必要场景下，合理使用您的个人信息，我们承诺</view>
 </page-container>

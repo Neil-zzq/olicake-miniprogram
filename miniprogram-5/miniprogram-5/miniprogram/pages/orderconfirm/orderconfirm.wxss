@@ -472,3 +472,157 @@
 .addressInfo{
   width: 85%;
 }
+
+/* ======== 会员折扣行 ======== */
+.discount-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.discount-label {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.discount-tag {
+  font-size: 24rpx;
+  color: #ffffff;
+  background: linear-gradient(135deg, #c9a227, #e8c050);
+  padding: 4rpx 14rpx;
+  border-radius: 16rpx;
+}
+
+.discount-value {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+/* ======== 代金券行 ======== */
+.coupon {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.coupon-left {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.coupon-count {
+  font-size: 22rpx;
+  color: #e74c3c;
+  background-color: #fef0f0;
+  padding: 2rpx 12rpx;
+  border-radius: 12rpx;
+}
+
+.coupon-right {
+  display: flex;
+  align-items: center;
+}
+
+.coupon-selected {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.coupon-deduct {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #e74c3c;
+}
+
+.coupon-remove {
+  font-size: 32rpx;
+  color: #999;
+  padding: 0 8rpx;
+}
+
+.coupon-available {
+  font-size: 26rpx;
+  color: #c9a227;
+  font-weight: 600;
+}
+
+.coupon-none {
+  font-size: 26rpx;
+  color: #999;
+}
+
+/* ======== 代金券选择弹窗内容 ======== */
+.voucher-empty {
+  text-align: center;
+  padding: 60rpx 0;
+  font-size: 28rpx;
+  color: #999;
+}
+
+.voucher-item {
+  display: flex;
+  align-items: center;
+  padding: 28rpx 24rpx;
+  border-bottom: 1rpx solid #f5f5f5;
+  border-radius: 16rpx;
+  margin-bottom: 12rpx;
+  background-color: #fff8ee;
+  border: 1.5rpx solid #e8c050;
+}
+
+.voucher-selected {
+  background-color: #fff3cd;
+  border-color: #c9a227;
+}
+
+.voucher-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 140rpx;
+  flex-shrink: 0;
+  border-right: 1.5rpx dashed #e8c050;
+  padding-right: 20rpx;
+  margin-right: 20rpx;
+}
+
+.voucher-amount {
+  font-size: 44rpx;
+  font-weight: 750;
+  color: #c9a227;
+}
+
+.voucher-min {
+  font-size: 20rpx;
+  color: #999;
+  margin-top: 4rpx;
+}
+
+.voucher-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.voucher-desc {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.voucher-expire {
+  font-size: 22rpx;
+  color: #aaa;
+}

@@ -1,6 +1,9 @@
 <!--pages/classification/classification.wxml-->
+
+<!-- 排序菜单遮罩（点击关闭） -->
+<view class="sort-mask" wx:if="{{showSortMenu}}" bindtap="closeSortMenu"></view>
+
 <view class="page-ios">
-  <!-- iOS 风格：圆形按钮导航栏（像参考图） -->
   <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
 
   <!-- 标题 + 右侧动作按钮 -->
@@ -8,45 +11,108 @@
     <view class="header-row">
       <text class="header-title">Discover products</text>
       <view class="header-actions">
-        <view class="action-circle" bindtap="onSearchTap">
-          <text class="action-icon">⌕</text>
+
+        <!-- 价格排序按钮 -->
+        <view
+          class="action-circle {{sortOrder ? 'action-circle--active' : ''}}"
+          bindtap="onSortTap"
+        >
+          <view class="sort-icon">
+            <text class="sort-symbol">¥</text>
+            <text class="sort-arrow">
+              {{sortOrder === 'asc' ? '↑' : sortOrder === 'desc' ? '↓' : '↕'}}
+            </text>
+          </view>
         </view>
-        <view class="action-circle" bindtap="onFilterTap">
-          <text class="action-icon">⚙</text>
+
+        <!-- 布局切换按钮：两列 ↔ 一列 -->
+        <view class="action-circle" bindtap="onLayoutTap">
+          <view class="layout-icon {{isListView ? 'layout-icon--list' : 'layout-icon--grid'}}">
+            <view class="li-row"><view class="li-cell"></view><view class="li-cell"></view></view>
+            <view class="li-row"><view class="li-cell"></view><view class="li-cell"></view></view>
+            <view class="li-row li-row--wide" wx:if="{{isListView}}"></view>
+            <view class="li-row li-row--wide" wx:if="{{isListView}}"></view>
+            <view class="li-row li-row--wide" wx:if="{{isListView}}"></view>
+          </view>
         </view>
       </view>
     </view>
 
-    <!-- 上方类目胶囊（横向滚动） -->
+    <!-- 类目胶囊 -->
     <scroll-view class="chips" scroll-x="true" show-scrollbar="false" enhanced="true">
       <view class="chips-inner">
-        <view class="chip {{activeTab === index ? 'chip--active' : ''}}" wx:for="{{vtabs}}" wx:for-item="tab" wx:for-index="index" wx:key="title" data-index="{{index}}" bindtap="onChipTap">
+        <view
+          class="chip {{activeTab === index ? 'chip--active' : ''}}"
+          wx:for="{{vtabs}}" wx:for-item="tab" wx:for-index="index" wx:key="title"
+          data-index="{{index}}" bindtap="onChipTap"
+        >
           <text class="chip-text">{{tab.title}}</text>
         </view>
       </view>
     </scroll-view>
+
+    <!-- 排序下拉菜单 -->
+    <view class="sort-dropdown" wx:if="{{showSortMenu}}">
+      <view
+        class="sort-option {{sortOrder === '' ? 'sort-option--active' : ''}}"
+        bindtap="onSortSelect" data-order=""
+      >
+        <text class="sort-option-text">默认排序</text>
+        <text class="sort-check" wx:if="{{sortOrder === ''}}">✓</text>
+      </view>
+      <view class="sort-divider"></view>
+      <view
+        class="sort-option {{sortOrder === 'asc' ? 'sort-option--active' : ''}}"
+        bindtap="onSortSelect" data-order="asc"
+      >
+        <text class="sort-option-text">价格从低到高  ↑</text>
+        <text class="sort-check" wx:if="{{sortOrder === 'asc'}}">✓</text>
+      </view>
+      <view class="sort-divider"></view>
+      <view
+        class="sort-option {{sortOrder === 'desc' ? 'sort-option--active' : ''}}"
+        bindtap="onSortSelect" data-order="desc"
+      >
+        <text class="sort-option-text">价格从高到低  ↓</text>
+        <text class="sort-check" wx:if="{{sortOrder === 'desc'}}">✓</text>
+      </view>
+    </view>
   </view>
 
-  <!-- 商品卡片两列 -->
-  <view class="grid">
-    <navigator class="card" hover-class="card-hover" hover-stay-time="120" wx:for="{{activeList}}" wx:for-item="spu" wx:key="id" url="/pages/detail/detail?id={{spu.id}}">
-      <view class="card-top">
-
-      </view>
+  <!-- 商品卡片，grid 或 list 模式 -->
+  <view class="grid {{isListView ? 'grid--list' : ''}}">
+    <navigator
+      class="card {{isListView ? 'card--list' : ''}}"
+      hover-class="card-hover"
+      hover-stay-time="120"
+      wx:for="{{activeList}}"
+      wx:for-item="spu"
+      wx:key="id"
+      url="/pages/detail/detail?id={{spu.id}}"
+    >
+      <!-- 图片区 -->
       <view class="img-wrap">
-        <image class="card-img" src="{{spu.cover}}" mode="aspectFit" />
+        <image
+          class="card-img"
+          src="{{spu.cover}}"
+          mode="{{isListView ? 'aspectFill' : 'aspectFit'}}"
+        />
+        <!-- 列表模式：右上角收藏按钮 -->
+        <view class="img-heart" wx:if="{{isListView}}">
+          <text class="heart-icon">♡</text>
+        </view>
       </view>
-      <view class="card-body">
-        <view>
+
+      <!-- 信息区 -->
+      <view class="card-body"> 
+        <view class="card-info">
           <text class="card-title">{{spu.title}}</text>
+          <text class="card-sub" wx:if="{{isListView}}">Olicake · 精选</text>
           <text class="card-price">￥{{spu.pricemin}}</text>
         </view>
-        <view>
-          <view class="go-circle">
-            <image src="../../img/倾斜箭头.png" mode="widthFix" class="go-icon"/>
-          </view>
+        <view class="go-circle">
+          <image src="../../img/cake-2-line.png" mode="widthFix" class="go-icon"/>
         </view>
-
       </view>
     </navigator>
   </view>

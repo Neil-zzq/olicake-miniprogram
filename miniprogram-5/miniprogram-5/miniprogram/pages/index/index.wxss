@@ -1,139 +1,398 @@
 /**index.wxss**/
+
 page {
   width: 100%;
   height: 100%;
-  background-color: #f5f5f7;
+  background-color: #f5f0e4;
+  overflow: hidden;
 }
 
-.page-ios {
-  min-height: 100%;
-  padding: 0 24rpx 40rpx;
-  box-sizing: border-box;
-}
-
-/* iOS 风格自定义导航栏（替代系统导航栏，整体更薄） */
-.ios-nav {
+/* ======== 固定导航栏 ======== */
+.nav {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
-  background-color: #f5f5f7;
-}
-
-.ios-nav__row {
+  z-index: 100;
   display: flex;
-  align-items: center;
-  padding: 0 24rpx;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding: 0 32rpx 14rpx;
   box-sizing: border-box;
 }
 
-.ios-nav__title {
-  font-size: 40rpx;
-  font-weight: 650;
+.nav-logo {
+  font-size: 38rpx;
+  font-weight: 750;
   color: #111111;
+  letter-spacing: 1rpx;
 }
 
-.nav-spacer {
+.nav-all {
+  font-size: 26rpx;
+  color: #666666;
+  font-weight: 500;
+}
+
+/* ======== 可滚动主体 ======== */
+.page-scroll {
   width: 100%;
+  box-sizing: border-box;
 }
 
-/* 列表容器：改成一列大卡片 */
-.cake-grid {
-  display: flex;
-  flex-direction: column;
-  padding-top: 16rpx;
-}
-
-/* 单个卡片：占满宽度，更高、更大气 */
-.cake-card {
-  width: 100%;
-  margin-bottom: 32rpx;
-  background-color: #ffffff;
-  border-radius: 28rpx;
-  overflow: hidden;
-  box-shadow: 0 10rpx 26rpx rgba(0, 0, 0, 0.08);
-}
-
-/* 顶部图片区域 + 心形按钮 */
-.card-top {
-  position: relative;
-}
-
-/* 图片高度明显增大，突出细节；再提高高度让蛋糕更突出 */
-.cake-image {
-  width: 100%;
-  height: 620rpx;
-  display: block;
-}
-
-/* 右上角心形按钮 */
-.favorite-btn {
-  position: absolute;
-  top: 20rpx;
-  right: 20rpx;
-  width: 60rpx;
-  height: 60rpx;
-  border-radius: 30rpx;
-  background-color: rgba(255, 255, 255, 0.9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.favorite-icon {
-  font-size: 32rpx;
-  color: #ff2d55;
-}
-
-/* 文本信息区域 */
-.cake-info {
-  padding: 22rpx 24rpx 26rpx;
-}
-.cake-title {
-  display: block;
-  font-size: 34rpx;   /* 再放大标题，提升视觉重点 */
-  font-weight: 650;
-  color: #111111;
-  line-height: 1.4;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.cake-subtitle {
-  display: block;
-  margin-top: 8rpx;
-  font-size: 24rpx;
-  color: #8e8e93;
-}
-
-/* 底部价格 + 圆形购物车按钮 */
-.cake-footer {
-  margin-top: 14rpx;
+/* ===== 顶部信息栏 ===== */
+.slide-topbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 25rpx 36rpx 0;
 }
 
-.cake-price {
-  font-size: 34rpx;   /* 价格更醒目 */
+.topbar-date,
+.topbar-time {
+  font-size: 22rpx;
+  color: #888888;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  letter-spacing: 1rpx;
+}
+
+.topbar-badge {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  border: 1.5rpx solid;
+  border-radius: 30rpx;
+  padding: 6rpx 18rpx;
+}
+
+.topbar-badge-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.topbar-badge-text {
+  font-size: 20rpx;
   font-weight: 600;
-  color: #111111;
+  letter-spacing: 2rpx;
 }
 
-/* 圆形购物车按钮 */
-.cart-btn {
-  width: 72rpx;
-  height: 72rpx;
+/* ===== 装饰大字 ===== */
+.slide-deco {
+  padding: 18rpx 36rpx 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.deco-main {
+  font-size: 90rpx;
+  font-style: italic;
+  font-weight: 300;
+  font-family: "Georgia", "Times New Roman", Times, serif;
+  line-height: 1.0;
+  letter-spacing: -2rpx;
+  opacity: 0.92;
+}
+
+.deco-sub {
+  font-size: 72rpx;
+  font-style: italic;
+  font-weight: 300;
+  font-family: "Georgia", "Times New Roman", Times, serif;
+  line-height: 1.0;
+  letter-spacing: -1rpx;
+  opacity: 0.92;
+  margin-top: -4rpx;
+}
+
+/* ===== 图片轮播区 ===== */
+.slide-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 1000rpx;
+  margin-top: 22rpx;
+}
+
+.img-swiper {
+  width: 100%;
+  height: 100%;
+}
+
+.slide-img {
+  width: 100%;
+  height: 100%;
+  mix-blend-mode: multiply;
+  display: block;
+}
+
+.slide-img-fade {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 120rpx;
+  pointer-events: none;
+}
+
+/* ===== 图片指示点 ===== */
+.img-dots {
+  position: absolute;
+  bottom: 18rpx;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rpx;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.img-dot {
+  width: 10rpx;
+  height: 10rpx;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
+}
+
+.img-dot-active {
+  width: 28rpx;
+  border-radius: 5rpx;
+}
+
+/* ===== 三图标快捷入口 ===== */
+.quick-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 20rpx 16rpx 10rpx;
+}
+
+.quick-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.quick-icon-wrap {
+  width: 130rpx;
+  height: 130rpx;
   border-radius: 36rpx;
-  background-color: #111111;
+  border: 1.5rpx solid;
+  background-color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.cart-icon {
+.quick-icon {
+  width: 84rpx;
+  height: 84rpx;
+}
+
+.quick-label {
+  font-size: 30rpx;
+  font-weight: 650;
+  color: #333333;
+  letter-spacing: 1rpx;
+}
+
+.quick-sub {
+  font-size: 20rpx;
+  color: #aaaaaa;
+  letter-spacing: 1rpx;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.quick-divider {
+  width: 1.5rpx;
+  height: 100rpx;
+  background-color: rgba(154, 116, 32, 0.15);
+  flex-shrink: 0;
+}
+
+/* ======== 加载占位 ======== */
+.loading-placeholder {
+  width: 100%;
+  background-color: #f5f0e4;
+}
+
+/* ======== 弹窗 ======== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-card {
+  width: 620rpx;
+  background-color: #ffffff;
+  border-radius: 32rpx;
+  padding: 52rpx 44rpx 44rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 24rpx 60rpx rgba(0, 0, 0, 0.25);
+}
+
+.modal-brand-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.modal-logo {
+  font-size: 80rpx;
+  margin-bottom: 14rpx;
+}
+
+.modal-brand-name {
+  font-size: 40rpx;
+  font-weight: 750;
+  color: #111111;
+  letter-spacing: 2rpx;
+}
+
+.modal-brand-slogan {
+  font-size: 24rpx;
+  color: #8e8e93;
+  margin-top: 6rpx;
+}
+
+.modal-divider {
+  width: 100%;
+  height: 1.5rpx;
+  background-color: #f2f2f7;
+  margin: 28rpx 0;
+}
+
+.modal-title {
   font-size: 32rpx;
+  font-weight: 700;
+  color: #111111;
+  text-align: center;
+}
+
+.modal-desc {
+  font-size: 26rpx;
+  color: #8e8e93;
+  margin-top: 12rpx;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.modal-login-btn {
+  width: 100%;
+  height: 90rpx;
+  background-color: #1a1a1a;
+  border-radius: 45rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 36rpx;
+  border: none;
+}
+
+.modal-btn-text {
+  font-size: 30rpx;
+  font-weight: 600;
   color: #ffffff;
+  letter-spacing: 1rpx;
+}
+
+.modal-login-btn::after { border: none; }
+
+.modal-skip {
+  margin-top: 24rpx;
+  font-size: 26rpx;
+  color: #b0b0b5;
+}
+
+.modal-crown {
+  font-size: 80rpx;
+  margin-bottom: 16rpx;
+}
+
+.modal-benefits {
+  width: 100%;
+  margin-top: 28rpx;
+  background-color: #f8f7f5;
+  border-radius: 16rpx;
+  padding: 22rpx 24rpx;
+  box-sizing: border-box;
+}
+
+.benefit-row {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 14rpx;
+}
+
+.benefit-row:last-child { margin-bottom: 0; }
+
+.benefit-dot {
+  font-size: 18rpx;
+  color: #c9a227;
+  margin-right: 12rpx;
+  margin-top: 4rpx;
+  flex-shrink: 0;
+}
+
+.benefit-text {
+  font-size: 26rpx;
+  color: #333333;
+  line-height: 1.5;
+}
+
+.modal-tiers {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 28rpx;
+}
+
+.tier-badge {
+  flex: 1;
+  margin: 0 5rpx;
+  height: 48rpx;
+  border-radius: 24rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22rpx;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.tier-member   { background: linear-gradient(135deg, #c8c8c8, #a0a0a0); color: #333; }
+.tier-silver   { background: linear-gradient(135deg, #b8b8c0, #888898); }
+.tier-platinum { background: linear-gradient(135deg, #9b7fd4, #c9a227); }
+.tier-blackgold { background: linear-gradient(135deg, #2a2a2a, #c9a227); }
+.tier-diamond  { background: linear-gradient(135deg, #1a237e, #42a5f5); }
+
+.modal-register-btn {
+  width: 100%;
+  height: 90rpx;
+  background: linear-gradient(135deg, #1a237e, #42a5f5);
+  border-radius: 45rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 32rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 1rpx;
 }

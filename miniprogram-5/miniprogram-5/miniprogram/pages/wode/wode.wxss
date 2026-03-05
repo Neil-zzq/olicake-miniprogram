@@ -3,8 +3,7 @@ page {
   width: 100%;
   min-height: 100%;
   background-color: #f5f5f7;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
-    "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
 }
 
 .page-ios {
@@ -36,11 +35,9 @@ page {
   color: #111111;
 }
 
-.nav-spacer {
-  width: 100%;
-}
+.nav-spacer { width: 100%; }
 
-/* 通用卡片质感 */
+/* 通用卡片 */
 .card {
   background-color: #ffffff;
   border-radius: 28rpx;
@@ -51,7 +48,7 @@ page {
 /* 个人信息卡 */
 .profile-card {
   margin-top: 18rpx;
-  padding: 22rpx 22rpx;
+  padding: 22rpx;
   display: flex;
   align-items: center;
   gap: 18rpx;
@@ -69,7 +66,6 @@ page {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   gap: 6rpx;
   min-width: 0;
 }
@@ -96,70 +92,206 @@ page {
   color: #c7c7cc;
 }
 
-/* 会员卡 */
+/* ======== 会员卡通用结构 ======== */
 .vip-card {
   margin-top: 18rpx;
-  padding: 22rpx;
+  padding: 26rpx 26rpx 22rpx;
 }
 
-.vip-top {
+.vip-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6rpx;
+}
+
+.vip-title-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.vip-title {
-  font-size: 30rpx;
+.vip-tier-name {
+  font-size: 34rpx;
   font-weight: 750;
-  color: #111111;
 }
 
-.vip-qr {
-  width: 44rpx;
-  height: 44rpx;
+.vip-discount-badge {
+  font-size: 26rpx;
+  font-weight: 700;
+  background-color: rgba(255, 255, 255, 0.25);
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.vip-discount-hint {
+  font-size: 22rpx;
+  opacity: 0.75;
 }
 
 .vip-divider {
-  height: 2rpx;
-  background-color: #f2f2f7;
+  height: 1.5rpx;
+  background-color: rgba(255, 255, 255, 0.3);
   margin: 18rpx 0;
 }
 
-.vip-bottom {
+.vip-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.vip-spending-row {
   display: flex;
   align-items: center;
+  gap: 12rpx;
+}
+
+.vip-spending-label {
+  font-size: 24rpx;
+  opacity: 0.75;
+}
+
+.vip-spending-value {
+  font-size: 28rpx;
+  font-weight: 700;
+}
+
+.vip-upgrade-row {
+  display: flex;
+}
+
+.vip-upgrade-text {
+  font-size: 22rpx;
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.12);
+  padding: 4rpx 14rpx;
+  border-radius: 12rpx;
+}
+
+.vip-top-text {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ======== 5 种等级卡配色 ======== */
+
+/* 会员（暖灰） - 深色文字 */
+.vip-generalMember {
+  background: linear-gradient(135deg, #e8e4de, #ccc6bc);
+}
+.vip-generalMember .vip-tier-name,
+.vip-generalMember .vip-discount-badge,
+.vip-generalMember .vip-discount-hint,
+.vip-generalMember .vip-spending-label,
+.vip-generalMember .vip-spending-value,
+.vip-generalMember .vip-upgrade-text {
+  color: #3a3530;
+}
+.vip-generalMember .vip-divider { background-color: rgba(0, 0, 0, 0.1); }
+.vip-generalMember .vip-discount-badge { background-color: rgba(0, 0, 0, 0.08); }
+
+/* 白银 - 深色文字 */
+.vip-silver {
+  background: linear-gradient(135deg, #d8d8e0, #a8a8b8);
+}
+.vip-silver .vip-tier-name,
+.vip-silver .vip-discount-badge,
+.vip-silver .vip-discount-hint,
+.vip-silver .vip-spending-label,
+.vip-silver .vip-spending-value,
+.vip-silver .vip-upgrade-text {
+  color: #2a2a3a;
+}
+.vip-silver .vip-divider { background-color: rgba(0, 0, 0, 0.1); }
+.vip-silver .vip-discount-badge { background-color: rgba(255, 255, 255, 0.35); }
+
+/* 铂金 - 白色文字 */
+.vip-platinum {
+  background: linear-gradient(135deg, #7b5ea7, #c9a227);
+}
+.vip-platinum .vip-tier-name,
+.vip-platinum .vip-discount-badge,
+.vip-platinum .vip-discount-hint,
+.vip-platinum .vip-spending-label,
+.vip-platinum .vip-spending-value,
+.vip-platinum .vip-upgrade-text {
+  color: #ffffff;
+}
+
+/* 黑金 - 白色/金色文字 */
+.vip-blackGold {
+  background: linear-gradient(135deg, #1a1a1a, #3a3020);
+}
+.vip-blackGold .vip-tier-name {
+  color: #c9a227;
+}
+.vip-blackGold .vip-discount-badge {
+  color: #c9a227;
+  background-color: rgba(201, 162, 39, 0.15);
+}
+.vip-blackGold .vip-discount-hint,
+.vip-blackGold .vip-spending-label,
+.vip-blackGold .vip-spending-value,
+.vip-blackGold .vip-upgrade-text {
+  color: rgba(255, 255, 255, 0.85);
+}
+.vip-blackGold .vip-divider { background-color: rgba(201, 162, 39, 0.3); }
+
+/* 钻石 - 白色文字 + 蓝色光感 */
+.vip-diamond {
+  background: linear-gradient(135deg, #1a237e, #283593, #42a5f5);
+}
+.vip-diamond .vip-tier-name,
+.vip-diamond .vip-discount-badge,
+.vip-diamond .vip-discount-hint,
+.vip-diamond .vip-spending-label,
+.vip-diamond .vip-spending-value,
+.vip-diamond .vip-upgrade-text {
+  color: #ffffff;
+}
+
+/* 默认（未注册） */
+.vip-default {
+  background: linear-gradient(135deg, #f8f7f5, #ece7df);
+}
+.vip-default-name { color: #1a1a1a !important; }
+.vip-default-hint { color: #666 !important; opacity: 1 !important; }
+.vip-register-link {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #c9a227;
+}
+.vip-default .vip-divider { background-color: rgba(0, 0, 0, 0.08); }
+
+/* 未注册等级预览 */
+.vip-tiers-row {
+  display: flex;
   justify-content: space-between;
+  gap: 8rpx;
 }
 
-.vip-desc {
-  font-size: 24rpx;
-  color: #8e8e93;
-}
-
-.vip-level {
+.mini-badge {
+  flex: 1;
+  height: 44rpx;
+  border-radius: 22rpx;
   display: flex;
   align-items: center;
-  gap: 10rpx;
-  color: #111111;
+  justify-content: center;
+  font-size: 18rpx;
+  font-weight: 600;
+  color: #ffffff;
 }
 
-.vip-level-icon {
-  width: 28rpx;
-  height: 28rpx;
-}
-
-.vip-level-text {
-  font-size: 24rpx;
-  font-weight: 650;
-}
+.mini-member   { background: linear-gradient(135deg, #c8c8c0, #a0a098); color: #333; }
+.mini-silver   { background: linear-gradient(135deg, #b8b8c0, #888898); }
+.mini-platinum { background: linear-gradient(135deg, #9b7fd4, #c9a227); }
+.mini-blackgold { background: linear-gradient(135deg, #2a2a2a, #c9a227); }
+.mini-diamond  { background: linear-gradient(135deg, #1a237e, #42a5f5); }
 
 /* 分组列表 */
-.group {
-  margin-top: 18rpx;
-}
+.group { margin-top: 18rpx; }
 
 .cell {
-  padding: 22rpx 22rpx;
+  padding: 22rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;

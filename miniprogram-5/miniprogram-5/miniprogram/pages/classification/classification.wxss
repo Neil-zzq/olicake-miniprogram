@@ -83,6 +83,7 @@ page {
 /* 标题区 */
 .header {
   padding-top: 22rpx;
+  position: relative;
 }
 
 .header-row {
@@ -143,7 +144,7 @@ page {
 }
 
 .chip--active {
-  background-color: #111111;
+  background-color:#f5e9b6;
 }
 
 .chip-text {
@@ -153,7 +154,7 @@ page {
 }
 
 .chip--active .chip-text {
-  color: #ffffff;
+  color: #111111;
 }
 
 /* 商品卡片网格 */
@@ -219,15 +220,15 @@ page {
   width: 60rpx;
   height: 60rpx;
   border-radius: 999rpx;
-  background-color: #111111;
+  background-color: #f5e9b6;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .go-icon {
-  height: 30rpx;
-  width: 30rpx;
+  height: 40rpx;
+  width: 40rpx;
 }
 
 .img-wrap {
@@ -267,4 +268,312 @@ page {
   font-size: 26rpx;
   font-weight: 650;
   color: #111111;
+}
+
+/* 奶油搅拌动态图标 */
+.cream-stir {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(135deg, #fffaf4, #fff3e0);
+  box-shadow: 0 4rpx 14rpx rgba(220, 160, 80, 0.18), inset 0 2rpx 6rpx rgba(255, 220, 160, 0.3);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.cream-ring {
+  position: absolute;
+  border-radius: 50%;
+  border-style: solid;
+  border-color: transparent;
+}
+
+.cream-ring-outer {
+  width: 36rpx;
+  height: 36rpx;
+  border-width: 4rpx;
+  border-top-color: rgba(230, 170, 100, 0.75);
+  border-right-color: rgba(230, 170, 100, 0.45);
+  animation: cream-spin-cw 1.4s linear infinite;
+}
+
+.cream-ring-mid {
+  width: 22rpx;
+  height: 22rpx;
+  border-width: 3rpx;
+  border-bottom-color: rgba(240, 190, 120, 0.8);
+  border-left-color: rgba(240, 190, 120, 0.5);
+  animation: cream-spin-ccw 1s linear infinite;
+}
+
+.cream-swirl-arc {
+  position: absolute;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  border: 2rpx solid transparent;
+  border-top-color: rgba(255, 200, 120, 0.9);
+  animation: cream-spin-cw 0.7s linear infinite;
+}
+
+.cream-dot {
+  position: absolute;
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle, #ffdda0, #f5c07a);
+  box-shadow: 0 0 4rpx rgba(240, 180, 80, 0.5);
+  animation: cream-pulse 1.3s ease-in-out infinite;
+}
+
+@keyframes cream-spin-cw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes cream-spin-ccw {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(-360deg); }
+}
+
+@keyframes cream-pulse {
+  0%, 100% { transform: scale(1);   opacity: 0.7; }
+  50%       { transform: scale(1.5); opacity: 1; }
+}
+
+/* ======== 排序按钮 ======== */
+.action-circle--active {
+  background-color: #111111;
+}
+
+.sort-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  line-height: 1;
+}
+
+.sort-symbol {
+  font-size: 22rpx;
+  font-weight: 700;
+  color: #111111;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.action-circle--active .sort-symbol {
+  color: #ffffff;
+}
+
+.sort-arrow {
+  font-size: 18rpx;
+  color: #111111;
+  margin-top: 2rpx;
+}
+
+.action-circle--active .sort-arrow {
+  color: #ffffff;
+}
+
+/* 排序遮罩 */
+.sort-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99;
+}
+
+/* 排序下拉菜单 */
+.sort-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  margin-top: 12rpx;
+  z-index: 200;
+  background-color: #ffffff;
+  border-radius: 22rpx;
+  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  min-width: 280rpx;
+}
+
+.sort-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 30rpx 36rpx;
+}
+
+.sort-option-text {
+  font-size: 28rpx;
+  color: #333333;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+.sort-option--active .sort-option-text {
+  color: #111111;
+  font-weight: 700;
+}
+
+.sort-check {
+  font-size: 28rpx;
+  color: #111111;
+  font-weight: 700;
+  margin-left: 24rpx;
+}
+
+.sort-divider {
+  height: 1rpx;
+  background-color: #f2f2f7;
+  margin: 0 24rpx;
+}
+
+/* ======== 布局切换图标 ======== */
+.layout-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 5rpx;
+  width: 34rpx;
+  height: 34rpx;
+  justify-content: center;
+}
+
+.li-row {
+  display: flex;
+  gap: 5rpx;
+}
+
+.li-cell {
+  flex: 1;
+  height: 12rpx;
+  border-radius: 3rpx;
+  background-color: #111111;
+}
+
+/* 列表模式：宽单行 */
+.li-row--wide {
+  display: flex;
+}
+
+.li-row--wide::after {
+  content: '';
+  flex: 1;
+  height: 8rpx;
+  border-radius: 3rpx;
+  background-color: #111111;
+}
+
+/* 列表模式下，隐藏 2x2 格子行 */
+.layout-icon--list .li-row:not(.li-row--wide) {
+  display: none;
+}
+
+/* 网格模式下，隐藏宽行 */
+.layout-icon--grid .li-row--wide {
+  display: none;
+}
+
+/* ======== 列表模式：grid 覆盖 ======== */
+.grid--list {
+  flex-direction: column;
+}
+
+.card--list {
+  width: 100%;
+  margin-bottom: 28rpx;
+  height: 700rpx;
+}
+
+/* 列表模式图片：更高，无外边距圆角 */
+.card--list .img-wrap {
+  margin: 0;
+  border-radius: 0;
+  border-top-left-radius: 34rpx;
+  border-top-right-radius: 34rpx;
+  position: relative;
+  height: 530rpx;
+}
+
+.card--list .card-img {
+  height: 530rpx;
+}
+
+/* 图片右上角收藏按钮 */
+.img-heart {
+  position: absolute;
+  top: 20rpx;
+  right: 20rpx;
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.92);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.heart-icon {
+  font-size: 32rpx;
+  color: #e57373;
+}
+
+/* 列表模式 card-body */
+.card--list .card-body {
+  padding: 20rpx 32rpx 20rpx;
+  align-items: center;
+}
+
+.card--list .card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 副标题（列表模式显示） */
+.card-sub {
+  display: block;
+  font-size: 22rpx;
+  color: #aaaaaa;
+  margin-top: 6rpx;
+  letter-spacing: 1rpx;
+}
+
+/* 列表模式字体放大 */
+.card--list .card-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  white-space: normal;
+}
+
+.card--list .card-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  margin-top: 5rpx;
+}
+
+/* 列表模式 go-circle 改为深色 */
+.card--list .go-circle {
+  width: 76rpx;
+  height: 76rpx;
+  background-color: #f5e9b6;
+  flex-shrink: 0;
+  margin-left: 20rpx;
+}
+
+.card--list .go-icon {
+  width: 40rpx;
+  height: 40rpx;
+  filter: invert(1);
+}
+
+/* card-info 在 grid 模式下不需要额外样式 */
+.card-info {
+  flex: 1;
+  min-width: 0;
 }

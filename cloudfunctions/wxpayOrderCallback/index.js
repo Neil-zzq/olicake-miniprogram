@@ -1,6 +1,51 @@
 const cloud = require('wx-server-sdk')
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 
+// ===== 会员等级工具函数 =====
+function calcUserType(spending) {
+  if (spending >= 10000) return 'diamond'
+  if (spending >= 5000)  return 'blackGold'
+  if (spending >= 3000)  return 'platinum'
+  if (spending >= 1000)  return 'silver'
+  return 'generalMember'
+}
+
+// 支付成功后更新会员消费金额与等级
+async function updateMemberSpending(db, openid, paidAmountYuan, voucherId, orderNo) {
+  if (!openid) return
+  try {
+    const userRes = await db.collection('user').where({ _openid: openid }).get()
+    if (userRes.data.length === 0) return
+
+    const user = userRes.data[0]
+    const oldSpending = user.cumulativeSpending || 0
+    const newSpending = parseFloat((oldSpending + paidAmountYuan).toFixed(2))
+    const newUserType = calcUserType(newSpending)
+
+    await db.collection('user').doc(user._id).update({
+      data: {
+        cumulativeSpending: newSpending,
+        usertype: newUserType,
+        updateTime: new Date()
+      }
+    })
+    console.log(`会员消费更新：openid=${openid}，新增¥${paidAmountYuan}，累计¥${newSpending}，等级=${newUserType}`)
+
+    // 如果使用了代金券，标记为已使用
+    if (voucherId) {
+      await db.collection('vouchers').doc(voucherId).update({
+        data: {
+          used: true,
+          usedOrderId: orderNo,
+          usedAt: new Date()
+        }
+      }).catch(e => console.error('核销代金券失败:', e))
+    }
+  } catch (e) {
+    console.error('updateMemberSpending 失败:', e)
+  }
+}
+
 // 修复的日期格式化函数
 function formatDateForWeChat(dateString) {
   try {
@@ -195,7 +240,18 @@ exports.main = async (event, context) => {
       console.log('新订单创建结果:', createResult)
     }
 
-    // 6. 🎯 构建 orderInfo 并调用通知函数
+    // 6. 💰 更新会员消费金额与等级
+    // 先获取完整订单以拿到 openid 和 voucherId
+    const orderForMember = await db.collection('orders').where({ orderNo: orderNo }).get()
+    if (orderForMember.data.length > 0) {
+      const dbOrderForMember = orderForMember.data[0]
+      const memberOpenid = dbOrderForMember.openid || event.subOpenid || event.openid
+      const paidAmountYuan = (cashFee || totalFee || 0) / 100
+      const voucherId = (dbOrderForMember.customerInfo || {}).voucherId || null
+      await updateMemberSpending(db, memberOpenid, paidAmountYuan, voucherId, orderNo)
+    }
+
+    // 7. 🎯 构建 orderInfo 并调用通知函数
     console.log('🔍 开始构建 orderInfo...')
     
     // 从数据库获取完整订单信息（用于通知）
@@ -227,7 +283,7 @@ exports.main = async (event, context) => {
     
     console.log('📦 构建的 orderInfo:', orderInfo)
     
-    // 7. 📞 调用通知函数（关键修复：添加实际调用）
+    // 8. 📞 调用通知函数
     const customerOpenId = await getCustomerServiceOpenId() // 获取客服OpenID
     if (customerOpenId) {
       console.log('👤 获取到客服OpenID:', customerOpenId)
@@ -236,7 +292,7 @@ exports.main = async (event, context) => {
       console.log('⚠️ 未找到客服OpenID，跳过通知')
     }
 
-    // 8. ✅ 返回成功响应
+    // 9. ✅ 返回成功响应
     console.log('✅ 支付回调处理完成')
     return { code: 'SUCCESS', message: '接收成功' }
 

@@ -1,45 +1,182 @@
-// index.ts
-// 获取应用实例
+// index.js
+
+// 页面固定主题配色（米黄色调）
+const PAGE_THEME = { 
+  bg: '#f5f0e4',
+  accent: '#9a7420',
+  tag: '精选推荐',
+  decoMain: 'Our Cakes',
+  decoSub: 'Collection'
+}
+
 Page({
   data: {
-    item2: [],
+    cake: null,          // 页面主题（颜色、装饰文字）
+    cakes: [],           // 所有蛋糕数据
+    imgList: [],         // 所有蛋糕封面，用于轮播
+    imgIndex: 0,         // 当前轮播索引
+    currentCake: null,   // 当前轮播对应的蛋糕（显示在 footer）
+    currentDate: '',
+    currentTime: '',
+    swiperHeight: 0,
     statusBarHeight: 0,
-    navBarContentHeight: 44,
-    navBarHeight: 44,
+    navBarHeight: 0,
+    showLoginModal: false,
+    showMemberModal: false,
   },
-  
-  // 初始化蛋糕数据
-  initCakeList(){
-    // 调用云函数获取蛋糕数据
+
+  // ===== 加载所有蛋糕，随机取5个，用 img[0] 轮播 =====
+  initCakeList() {
     wx.cloud.callFunction({
-      name: 'getCakeList', // 云函数名称
+      name: 'getCakeList',
       success: (res) => {
         if (res.result.code === 0) {
-          // 将返回的数据设置到item2
+          const all = res.result.data || []
+          if (all.length === 0) return
+
+          // 随机打乱后取前5个，且该蛋糕必须有 img 数组且第一张不为空
+          const shuffled = all
+            .filter(item => item.img && item.img.length > 0 && item.img[0])
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 5)
+
+          // 没有 img 字段的兜底：从 cover 凑数
+          if (shuffled.length === 0) {
+            const fallback = all.filter(item => item.cover).sort(() => Math.random() - 0.5).slice(0, 5)
+            shuffled.push(...fallback)
+          }
+
+          const imgList = shuffled.map(item =>
+            (item.img && item.img.length > 0) ? item.img[0] : item.cover
+          )
+
+          const cake = { ...PAGE_THEME, imgList }
           this.setData({
-            item2: res.result.data
+            cakes: shuffled,
+            imgList,
+            cake,
+            currentCake: shuffled[0]
           })
-          console.log('获取蛋糕数据成功:', res.result.data)
-        } else {
-          console.error('获取数据失败:', res.result.message)
         }
       },
-      fail: (err) => {
-        console.error('调用云函数失败:', err)
-        // 可以添加失败提示
-        wx.showToast({
-          title: '数据加载失败',
-          icon: 'none'
-        })
+      fail: () => {
+        wx.showToast({ title: '数据加载失败', icon: 'none' })
       }
     })
   },
-  
-  onLoad: function() {
+
+  // ===== 图片轮播切换，同步更新底部蛋糕信息 =====
+  onImgChange(e) {
+    const idx = e.detail.current
+    const currentCake = this.data.cakes[idx] || null
+    this.setData({ imgIndex: idx, currentCake })
+  },
+
+  // ===== 时间日期 =====
+  updateDateTime() {
+    const now = new Date()
+    const y = now.getFullYear()
+    const m = now.getMonth() + 1
+    const d = now.getDate()
+    const h = now.getHours()
+    const min = String(now.getMinutes()).padStart(2, '0')
+    const ampm = h >= 12 ? 'PM' : 'AM'
+    const h12 = h % 12 || 12
+    this.setData({
+      currentDate: `${y}/${m}/${d}`,
+      currentTime: `${h12}:${min} ${ampm}`
+    })
+  },
+
+  goToDetail(e) {
+    wx.navigateTo({ url: `/pages/detail/detail?id=${e.currentTarget.dataset.id}` })
+  },
+
+  goToList() {
+    wx.switchTab({ url: '/pages/classification/classification' })
+  },
+
+  goToContact() {
+    wx.navigateTo({ url: '/pages/wode/wode' })
+  },
+
+  goToIngredient() {
+    wx.showToast({ title: '关于原料', icon: 'none' })
+  },
+
+  goToRecommend() {
+    wx.switchTab({ url: '/pages/classification/classification' })
+  },
+
+  // ===== 登录弹窗 =====
+  checkLoginAndMember() {
+    const userInfo = wx.getStorageSync('userInfo')
+    if (!userInfo || !userInfo.openid) {
+      this.setData({ showLoginModal: true })
+    } else {
+      this.checkMemberStatus(userInfo.openid)
+    }
+  },
+
+  checkMemberStatus(openid) {
+    wx.cloud.callFunction({
+      name: 'getUserInfo',
+      data: { openid },
+      success: (res) => {
+        if (!(res.result && res.result.success && res.result.userInfo && res.result.userInfo.usertype)) {
+          this.setData({ showMemberModal: true })
+        }
+      },
+      fail: () => {}
+    })
+  },
+
+  onLoginTap() {
+    wx.getUserProfile({
+      desc: '用于完善会员资料',
+      success: (userRes) => { this.wxLogin(userRes.userInfo) },
+      fail: () => { wx.showToast({ title: '需要授权才能登录', icon: 'none' }) }
+    })
+  },
+
+  wxLogin(userInfo) {
+    wx.login({
+      success: (loginRes) => {
+        if (loginRes.code) this.getOpenIdForLogin(loginRes.code, userInfo)
+      }
+    })
+  },
+
+  getOpenIdForLogin(code, userInfo) {
+    wx.cloud.callFunction({
+      name: 'getOpenId',
+      data: { code },
+      success: (cloudRes) => {
+        if (cloudRes.result && cloudRes.result.openid) {
+          const openid = cloudRes.result.openid
+          wx.setStorageSync('userInfo', { avatarUrl: userInfo.avatarUrl, nickName: userInfo.nickName, openid })
+          this.setData({ showLoginModal: false })
+          wx.showToast({ title: '登录成功', icon: 'success' })
+          setTimeout(() => { this.checkMemberStatus(openid) }, 1800)
+        }
+      },
+      fail: () => { wx.showToast({ title: '登录失败，请重试', icon: 'none' }) }
+    })
+  },
+
+  closeLoginModal()   { this.setData({ showLoginModal: false }) },
+  closeMemberModal()  { this.setData({ showMemberModal: false }) },
+  navigateToRegister() {
+    this.setData({ showMemberModal: false })
+    wx.navigateTo({ url: '/pages/userinfo/userinfo' })
+  },
+
+  // ===== 生命周期 =====
+  onLoad() {
     const sysInfo = wx.getSystemInfoSync()
     const statusBarHeight = sysInfo.statusBarHeight || 0
+    const windowHeight = sysInfo.windowHeight || 750
 
-    // 让自定义导航栏高度贴近胶囊按钮区域，整体更像 iOS 示例图
     let navBarContentHeight = 44
     try {
       const menu = wx.getMenuButtonBoundingClientRect && wx.getMenuButtonBoundingClientRect()
@@ -50,9 +187,18 @@ Page({
     } catch (e) {}
 
     const navBarHeight = statusBarHeight + navBarContentHeight
-    this.setData({ statusBarHeight, navBarContentHeight, navBarHeight })
+    const swiperHeight = windowHeight - navBarHeight
 
-    // 页面加载时调用初始化函数
+    this.setData({ statusBarHeight, navBarHeight, swiperHeight })
+
+    this.updateDateTime()
+    this._timer = setInterval(() => this.updateDateTime(), 60000)
+
     this.initCakeList()
+    this.checkLoginAndMember()
+  },
+
+  onUnload() {
+    if (this._timer) clearInterval(this._timer)
   }
 })

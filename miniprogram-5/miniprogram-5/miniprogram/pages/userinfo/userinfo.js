@@ -77,13 +77,22 @@ Page({
       console.log('保存结果:', saveRes);
 
       if (saveRes.result.code === 0) {
+        const isNewUser = saveRes.result.isNewUser
+
+        // 更新本地缓存中的会员信息
+        const cached = wx.getStorageSync('userInfo') || {}
+        wx.setStorageSync('userInfo', {
+          ...cached,
+          usertype: 'generalMember',
+          cumulativeSpending: 0
+        })
+
         wx.showToast({
-          title: '保存成功',
+          title: isNewUser ? '注册成功！已赠 20 元券' : '保存成功',
           icon: 'success',
           duration: 2000
         });
 
-        // 返回上一页
         setTimeout(() => {
           wx.navigateBack();
         }, 1500);

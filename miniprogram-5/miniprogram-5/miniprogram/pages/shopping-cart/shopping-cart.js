@@ -11,6 +11,7 @@ Page({
       cart:[],
       totalCount:0,
       totalPrice:0,
+      totalPriceStr:'0.00',
       touch:{
         cartId:0,
         start:0
@@ -110,18 +111,21 @@ Page({
        if (cart[i].selected){
         totalPrice += cart[i].Price * cart[i].total
         totalCount += 1
-        this.setData({
-          totalPrice : totalPrice,
-          totalCount : totalCount
-        })
-        wx.setStorage({
-          data:{
-            totalCount: this.data.totalCount,
-            totalPrice: this.data.totalPrice} ,
-          key:'total',
-        })
        }
      }
+     let totalPriceStr = totalPrice.toFixed(2)
+     this.setData({
+       totalPrice: totalPrice,
+       totalPriceStr: totalPriceStr,
+       totalCount: totalCount
+     })
+     wx.setStorage({
+       data:{
+         totalCount: totalCount,
+         totalPrice: totalPrice
+       },
+       key:'total',
+     })
   },
 
   /**
@@ -129,30 +133,18 @@ Page({
    */
   onSelectAll:function(){
     let cart = this.data.cart
-    let selectAll=this.data.selectAll
-    let totalPrice = this.data.totalPrice
-     let totalCount = this.data.totalCount
-    if(this.data.selectAll == false){
-      for (var j in cart){
-        cart[j].selected = true
-        this.setData({
-         cart:cart,
-         selectAll:!selectAll
-        })
-      }
-     }
-     else{
-      for (var j in cart){
-        cart[j].selected = false
-        this.setData({
-         cart:cart,
-         selectAll:!selectAll,
-         totalPrice: 0,
-         totalCount: 0
-        })
-      }
-     }
-     this.onSummary()
+    let newSelectAll = !this.data.selectAll
+    for (var j in cart){
+      cart[j].selected = newSelectAll
+    }
+    this.setData({
+      cart: cart,
+      selectAll: newSelectAll,
+      totalPrice: 0,
+      totalPriceStr: '0.00',
+      totalCount: 0
+    })
+    this.onSummary()
   },
   onSelectCard:function(e){
     console.log(e)

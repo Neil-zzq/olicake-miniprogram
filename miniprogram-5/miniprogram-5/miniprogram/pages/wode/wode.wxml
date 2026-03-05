@@ -18,23 +18,50 @@
     <text class="chevron">›</text>
   </view>
 
-  <!-- 会员卡 -->
-  <view class="card vip-card">
-    <view class="vip-top">
-      <text class="vip-title">注册会员</text>
-      <image class="vip-qr" src="../../img/二维码.png" mode="widthFix" />
+  <!-- ====== 已注册会员：动态等级卡 ====== -->
+  <view class="card vip-card vip-{{usertype}}" wx:if="{{getUserInfoSuccess && usertype}}">
+    <view class="vip-header">
+      <view class="vip-title-row">
+        <text class="vip-tier-name">{{memberName}}</text>
+        <text class="vip-discount-badge">{{discountLabel}}</text>
+      </view>
+      <text class="vip-discount-hint">会员专属折扣</text>
     </view>
     <view class="vip-divider"></view>
-    <view class="vip-bottom">
-      <text class="vip-desc">再消费 1000.00 元升级</text>
-      <view class="vip-level">
-        <image class="vip-level-icon" src="../../img/401位置.png" mode="widthFix" />
-        <text class="vip-level-text">当前等级</text>
+    <view class="vip-footer">
+      <view class="vip-spending-row">
+        <text class="vip-spending-label">累计消费</text>
+        <text class="vip-spending-value">¥{{cumulativeSpending}}</text>
+      </view>
+      <view class="vip-upgrade-row" wx:if="{{!isDiamond}}">
+        <text class="vip-upgrade-text">再消费 ¥{{nextLevelSpend}} 升级{{nextLevelName}}</text>
+      </view>
+      <view class="vip-upgrade-row" wx:else>
+        <text class="vip-upgrade-text vip-top-text">✦ 已达最高等级，尽享全年优惠</text>
       </view>
     </view>
   </view>
 
-  <!-- 功能列表（iOS 分组样式） -->
+  <!-- ====== 未注册会员：引导注册卡 ====== -->
+  <view class="card vip-card vip-default" wx:else>
+    <view class="vip-header">
+      <view class="vip-title-row">
+        <text class="vip-tier-name vip-default-name">成为会员</text>
+        <text class="vip-register-link" bindtap="navigateToRegister">注册 ›</text>
+      </view>
+      <text class="vip-discount-hint vip-default-hint">注册即送 20 元代金券，享专属折扣</text>
+    </view>
+    <view class="vip-divider"></view>
+    <view class="vip-tiers-row">
+      <view class="mini-badge mini-member">会员 10折</view>
+      <view class="mini-badge mini-silver">白银 9.8折</view>
+      <view class="mini-badge mini-platinum">铂金 9.5折</view>
+      <view class="mini-badge mini-blackgold">黑金 9折</view>
+      <view class="mini-badge mini-diamond">钻石 8.8折</view>
+    </view>
+  </view>
+
+  <!-- 功能列表 -->
   <view class="card group">
     <view class="cell" bindtap="navigatorToOrdercenter">
       <text class="cell-title">订单中心</text>

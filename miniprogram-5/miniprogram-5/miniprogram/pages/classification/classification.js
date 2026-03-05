@@ -8,9 +8,13 @@ Page({
     vtabs: [],
     vcontents: [],
     activeList: [],
+    originalList: [],    // 当前 tab 原始顺序，用于重置排序
     loading: true,
     activeTab: 0,
-    cartCount: 0
+    cartCount: 0,
+    isListView: false,   // false = 两列网格，true = 单列列表
+    sortOrder: '',       // '' | 'asc' | 'desc'
+    showSortMenu: false,
   },
 
   onLoad() {
@@ -126,21 +130,54 @@ Page({
       })
     })
 
+    const firstList = vcontents[0] ? vcontents[0].list : []
     this.setData({
       vtabs,
       vcontents,
       loading: false,
       activeTab: 0,
-      activeList: vcontents[0] ? vcontents[0].list : []
+      originalList: firstList,
+      activeList: this._applySort(firstList)
     })
   },
 
   // 顶部类目胶囊点击
   onChipTap(e) {
     const index = Number(e.currentTarget.dataset.index || 0)
+    const list = this.data.vcontents[index] ? this.data.vcontents[index].list : []
     this.setData({
       activeTab: index,
-      activeList: this.data.vcontents[index] ? this.data.vcontents[index].list : []
+      originalList: list,
+      activeList: this._applySort(list)
+    })
+  },
+
+  // ===== 价格排序 =====
+  onSortTap() {
+    this.setData({ showSortMenu: !this.data.showSortMenu })
+  },
+
+  closeSortMenu() {
+    this.setData({ showSortMenu: false })
+  },
+
+  onSortSelect(e) {
+    const order = e.currentTarget.dataset.order
+    this.setData({
+      sortOrder: order,
+      showSortMenu: false,
+      activeList: this._applySort(this.data.originalList, order)
+    })
+  },
+
+  // 排序辅助：按 order 对 list 排序并返回新数组
+  _applySort(list, order) {
+    const o = order !== undefined ? order : this.data.sortOrder
+    if (!o) return [...list]
+    return [...list].sort((a, b) => {
+      const pa = Number(a.pricemin) || 0
+      const pb = Number(b.pricemin) || 0
+      return o === 'asc' ? pa - pb : pb - pa
     })
   },
 
@@ -161,8 +198,8 @@ Page({
     wx.showToast({ title: '搜索（可后续接入）', icon: 'none' })
   },
 
-  onFilterTap() {
-    wx.showToast({ title: '筛选（可后续接入）', icon: 'none' })
+  onLayoutTap() {
+    this.setData({ isListView: !this.data.isListView })
   },
 
   goToShoppingCart() {

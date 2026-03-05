@@ -3,16 +3,24 @@ const QQMapWX = require('../../utils/qqmap-wx-jssdk.min');
 const qqmapsdk = new QQMapWX({
   key: 'NLEBZ-3LFLL-3VUP4-MGOSC-6IXOE-YDFMF'
 });
-Page({
 
-  /**
-   * 页面的初始数据
-   */
+// 会员折扣率映射
+const DISCOUNT_MAP = {
+  generalMember: 1.00,
+  silver:        0.98,
+  platinum:      0.95,
+  blackGold:     0.90,
+  diamond:       0.88,
+}
+
+Page({
   data: {
     currentTab: 0,
     cakecard: [],
     count: 0,
-    price: 0,
+    price: 0,           // 原始商品价（折扣前）
+    discountRate: 1.0,  // 会员折扣率
+    discountAmount: 0,  // 会员折扣减免金额
     deliveryfee: 0,
     totalPrice: 0,
     phone: "",
@@ -30,63 +38,49 @@ Page({
     selectedTime: '',
     selectedDateTime: '',
     showAddressPicker: false,
-    addressList: [], // 存储地址数据
+    addressList: [],
     selectedAddress: null,
     methodId: 0,
     distanceForCount: 0,
     openid: '',
+    // 代金券相关
+    voucherList: [],
+    selectedVoucher: null,
+    voucherDeduction: 0,
+    showVoucherPicker: false,
   },
+
   onSelectMethod(e) {
-    const methodId = -1;
-    this.setData({
-      methodId: e.currentTarget.dataset.id
-    })
+    this.setData({ methodId: e.currentTarget.dataset.id })
     this.calculateDeliveryFee()
   },
+
   deliInfoForPayment() {
-    const {
-      currentTab,
-      selectedConsignee,
-      selectedDateTime,
-      selectedAddress,
-      methodId
-    } = this.data;
+    const { currentTab, selectedConsignee, selectedDateTime, selectedAddress, methodId } = this.data
     if (currentTab == 0) {
       if (selectedConsignee && selectedDateTime) {
         this.RequestPayment()
       } else {
-        wx.showToast({
-          title: '请完善自提信息',
-          icon: "error"
-        })
+        wx.showToast({ title: '请完善自提信息', icon: 'error' })
       }
     } else {
       if (selectedAddress && methodId && selectedDateTime) {
         this.RequestPayment()
       } else {
-        wx.showToast({
-          title: '请完善配送信息',
-          icon: "error"
-        })
+        wx.showToast({ title: '请完善配送信息', icon: 'error' })
       }
     }
   },
-  RequestPayment(totalPrice) {
-    const actualTotalPrice = this.data.totalPrice;
-    console.log('实际支付金额:', actualTotalPrice, '元');
-    console.log('转换为分:', Math.round(actualTotalPrice * 100));
+
+  RequestPayment() {
+    const actualTotalPrice = this.data.totalPrice
     if (!actualTotalPrice || actualTotalPrice <= 0) {
-      wx.showToast({
-        title: '金额计算错误，请重新下单',
-        icon: 'none'
-      });
-      return;
+      wx.showToast({ title: '金额计算错误，请重新下单', icon: 'none' })
+      return
     }
     wx.cloud.callFunction({
-      // 云函数名称
       name: 'wxpayFunctions',
       data: {
-        // 调用云函数中的下单方法
         type: 'wxpay_order',
         total_fee: Math.round(actualTotalPrice * 100),
         product_info: this.data.cakecard,
@@ -97,517 +91,358 @@ Page({
           selectedConsignee: this.data.selectedConsignee,
           deliveryMethod2: this.data.methodId,
           deliveryfee: this.data.deliveryfee,
-
+          // 会员折扣与代金券信息（用于 callback 核销）
+          originalPrice: this.data.price,
+          discountRate: this.data.discountRate,
+          discountAmount: this.data.discountAmount,
+          voucherId: this.data.selectedVoucher ? this.data.selectedVoucher._id : null,
+          voucherDeduction: this.data.voucherDeduction,
         }
-
-        // 业务其他参数...
-        // 这里的参数会传入wxpayFunctions/wxpay_order/index.js下的函数，通过event获取
       },
-
       success: (res) => {
-        console.log('云函数返回:', res);
-        const paymentData = res.result.payment;
-        // 唤起微信支付组件，完成支付
+        const paymentData = res.result.payment
         wx.requestPayment({
           timeStamp: paymentData.timeStamp,
           nonceStr: paymentData.nonceStr,
           package: paymentData.package,
           paySign: paymentData.paySign,
           signType: paymentData.signType || 'MD5',
-          success(payRes) {
-            // 支付成功回调，实现自定义的业务逻辑
-            console.log('支付成功:', payRes);
-            wx.showToast({
-              title: '支付成功'
-            });
-            wx.navigateTo({
-              url: '../ordercenter/ordercenter',
-            })
+          success() {
+            wx.showToast({ title: '支付成功' })
+            wx.navigateTo({ url: '../ordercenter/ordercenter' })
           },
-          fail(payErr) {
-            // 支付失败回调
-            console.error('支付失败:', payErr);
-            wx.showToast({
-              title: '支付取消或失败',
-              icon: 'none'
-            });
+          fail() {
+            wx.showToast({ title: '支付取消或失败', icon: 'none' })
           },
-        });
+        })
       },
       fail: (err) => {
-        console.error('调用云函数失败:', err);
-        wx.showToast({
-          title: '网络错误，请重试',
-          icon: 'none'
-        });
+        console.error('调用云函数失败:', err)
+        wx.showToast({ title: '网络错误，请重试', icon: 'none' })
       }
-
-    });
-  },
-  // 打开地址弹窗
-  openAddressPicker() {
-    this.setData({
-      showAddressPicker: true
     })
   },
 
-  // 关闭地址弹窗
-  closeAddressPicker() {
+  // ===== 代金券选择 =====
+  openVoucherPicker() {
+    this.setData({ showVoucherPicker: true })
+  },
+  closeVoucherPicker() {
+    this.setData({ showVoucherPicker: false })
+  },
+  selectVoucher(e) {
+    const index = e.currentTarget.dataset.index
+    const voucher = this.data.voucherList[index]
     this.setData({
-      showAddressPicker: false
+      selectedVoucher: voucher,
+      voucherDeduction: voucher.amount,
+      showVoucherPicker: false
+    })
+    this.calcTotal()
+  },
+  removeVoucher() {
+    this.setData({
+      selectedVoucher: null,
+      voucherDeduction: 0
+    })
+    this.calcTotal()
+  },
+
+  // 加载代金券列表
+  loadVouchers(openid) {
+    if (!openid) return
+    wx.cloud.callFunction({
+      name: 'getVouchers',
+      data: { openid },
+      success: (res) => {
+        if (res.result && res.result.code === 0) {
+          this.setData({ voucherList: res.result.vouchers || [] })
+        }
+      },
+      fail: () => {}
     })
   },
 
-  // 选择地址
+  // 加载会员折扣率
+  loadMemberDiscount(openid) {
+    if (!openid) return
+    // 优先从本地缓存取
+    const cached = wx.getStorageSync('userInfo') || {}
+    const usertype = cached.usertype || ''
+    const rate = DISCOUNT_MAP[usertype] || 1.0
+    this.setData({ discountRate: rate })
+    this.calcTotal()
+
+    // 同时从云端刷新（避免缓存过时）
+    wx.cloud.callFunction({
+      name: 'getUserInfo',
+      data: { openid },
+      success: (res) => {
+        if (res.result && res.result.success && res.result.userInfo) {
+          const serverType = res.result.userInfo.usertype || ''
+          const serverRate = DISCOUNT_MAP[serverType] || 1.0
+          if (serverRate !== this.data.discountRate) {
+            this.setData({ discountRate: serverRate })
+            this.calcTotal()
+          }
+          // 更新本地缓存
+          const updatedCache = wx.getStorageSync('userInfo') || {}
+          wx.setStorageSync('userInfo', { ...updatedCache, usertype: serverType })
+        }
+      },
+      fail: () => {}
+    })
+  },
+
+  // 计算最终合计金额
+  calcTotal() {
+    const price = parseFloat(this.data.price) || 0
+    const discountRate = this.data.discountRate || 1.0
+    const voucherDeduction = this.data.voucherDeduction || 0
+    const deliveryfee = parseFloat(this.data.deliveryfee) || 0
+
+    const discountedPrice = parseFloat((price * discountRate).toFixed(2))
+    const discountAmount = parseFloat((price - discountedPrice).toFixed(2))
+    let totalPrice = discountedPrice - voucherDeduction + deliveryfee
+    totalPrice = Math.max(0.01, totalPrice)
+    totalPrice = parseFloat(totalPrice.toFixed(2))
+
+    this.setData({ discountAmount, totalPrice })
+  },
+
+  // ===== 地址弹窗 =====
+  openAddressPicker() { this.setData({ showAddressPicker: true }) },
+  closeAddressPicker() { this.setData({ showAddressPicker: false }) },
   selectAddress(e) {
     const index = e.currentTarget.dataset.index
-    this.setData({
-      selectedAddress: this.data.addressList[index],
-      showAddressPicker: false
-    })
+    this.setData({ selectedAddress: this.data.addressList[index], showAddressPicker: false })
     this.calculateDeliveryFee()
   },
-
-  // 编辑地址
   editAddress(e) {
-    console.log(e)
     const id = e.currentTarget.dataset.id
-    // 获取对应的地址信息
-    const address = this.data.addressList[id]
-    console.log('要编辑的地址:', address)
-    wx.navigateTo({
-      url: `/pages/add-address/add-address?addressId=${id}`
-    })
+    wx.navigateTo({ url: `/pages/add-address/add-address?addressId=${id}` })
   },
-
-  // 新增地址跳转
   navigateToAddAddress() {
-    wx.navigateTo({
-      url: '/pages/add-address/add-address'
-    })
+    wx.navigateTo({ url: '/pages/add-address/add-address' })
   },
 
-  // 阻止滚动穿透
   preventScroll() {},
+
+  // ===== 时间选择 =====
   openTimePicker() {
-    this.generateDates();
-    this.setData({
-      showTimePicker: true
-    });
+    this.generateDates()
+    this.setData({ showTimePicker: true })
   },
-
-  // 生成可选日期（示例生成未来7天）
   generateDates() {
-    const dates = [];
-    const days = ['日', '一', '二', '三', '四', '五', '六'];
+    const dates = []
+    const days = ['日', '一', '二', '三', '四', '五', '六']
     for (let i = 1; i < 8; i++) {
-      const date = new Date(); //获取当前时间 
-      date.setDate(date.getDate() + i); //获取日期几号（数字），+i后再转回日期格式
-      // 获取年、月、日
-      const year = date.getFullYear();
-      const month = date.getMonth() + 1;
-      const day = date.getDate();
-      // 生成固定的中文日期格式
-      const dateStr = `${year}年${month}月${day}日`;
+      const date = new Date()
+      date.setDate(date.getDate() + i)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
       dates.push({
-        date: dateStr,
-        week: `周${days[date.getDay()]}`, //获取周几的数字再去对应days，提取对应的文字
-        day: `${date.getMonth() + 1}/${date.getDate()}` //获取月份和日期的具体数字
-      });
+        date: `${year}年${month}月${day}日`,
+        week: `周${days[date.getDay()]}`,
+        day: `${month}/${day}`
+      })
     }
-    this.setData({
-      dates
-    });
-    this.generateTimes(dates[0].date); // 默认生成第一个日期的时间
+    this.setData({ dates })
+    this.generateTimes(dates[0].date)
   },
-
-  // 生成时间段
   generateTimes(date) {
-    const startHour = 12; // 12点开始
-    const starttimes = [];
-    const endtimes = [];
-    let currentHour = startHour;
-    let currentMinute = 0;
-
-    while (currentHour < 20) { // 示例到晚8点结束
-      const starttime = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
-      starttimes.push(starttime);
-      currentHour += 1;
-
-      const endtime = `${currentHour.toString().padStart(2, '0')}:${currentMinute.toString().padStart(2, '0')}`;
-      endtimes.push(endtime);
+    const starttimes = []
+    const endtimes = []
+    let currentHour = 12
+    while (currentHour < 20) {
+      starttimes.push(`${String(currentHour).padStart(2, '0')}:00`)
+      currentHour += 1
+      endtimes.push(`${String(currentHour).padStart(2, '0')}:00`)
     }
-
-    this.setData({
-      starttimes
-    });
-    this.setData({
-      endtimes
-    });
-    const times = starttimes.map((item, index) => {
-      return item + "-" + endtimes[index];
-    });
-    this.setData({
-      times
-    });
+    const times = starttimes.map((item, i) => item + '-' + endtimes[i])
+    this.setData({ starttimes, endtimes, times })
   },
-
-  // 选择日期
   selectDate(e) {
-    const date = e.currentTarget.dataset.date;
-    this.setData({
-      selectedDate: date
-    });
-    this.generateTimes(date);
+    this.setData({ selectedDate: e.currentTarget.dataset.date })
+    this.generateTimes(e.currentTarget.dataset.date)
   },
-
-  // 选择时间
   selectTime(e) {
-    this.setData({
-      selectedTime: e.currentTarget.dataset.time
-    });
+    this.setData({ selectedTime: e.currentTarget.dataset.time })
   },
-
-  // 确认选择
   confirmTime() {
-    console.log(this.data.selectedDate)
-    console.log(this.data.selectedTime)
     if (!this.data.selectedDate || !this.data.selectedTime) {
-      wx.showToast({
-        title: '请选择完整时间',
-        icon: 'none'
-      });
-      return;
+      wx.showToast({ title: '请选择完整时间', icon: 'none' })
+      return
     }
-
     this.setData({
       selectedDateTime: `${this.data.selectedDate} ${this.data.selectedTime}`,
       showTimePicker: false
-    });
+    })
   },
+  closeTimePicker() { this.setData({ showTimePicker: false }) },
 
-  // 关闭时间选择
-  closeTimePicker() {
-    this.setData({
-      showTimePicker: false
-    });
-  },
   shopLocation() {
-    const shopLocation = {
-      lat: 22.486348, // 店铺纬度
-      lng: 113.925079, // 店铺经度
-      name: "OliCake",
-      address: "深圳市蛇口街道蛇口老街129号中孚泰大厦4楼"
-    }
-
     wx.navigateTo({
-      url: `/pages/location/location?lat=${shopLocation.lat}&lng=${shopLocation.lng}&name=${shopLocation.name}&address=${shopLocation.address}`
-    });
+      url: '/pages/location/location?lat=22.486348&lng=113.925079&name=OliCake&address=深圳市蛇口街道蛇口老街129号中孚泰大厦4楼'
+    })
   },
 
   switchTab(e) {
+    this.setData({ currentTab: parseInt(e.currentTarget.dataset.tab) })
+  },
+  createCone() { this.setData({ tipsShow: true }) },
+  close() { this.setData({ tipsShow: false }) },
+  btn() { wx.navigateTo({ url: '/pages/consignee/consignee' }) },
 
-    let tab = parseInt(e.currentTarget.dataset.tab)
-    this.setData({
-      currentTab: tab
-    })
-
-  },
-  createCone() {
-    this.setData({
-      tipsShow: true
-    })
-  },
-  close() {
-    this.setData({
-      tipsShow: false
-    })
-  },
-  btn() {
-    wx.navigateTo({
-      url: '/pages/consignee/consignee'
-    })
-  }
-  /**
-   * 生命周期函数--监听页面加载
-   */
-  ,
+  // ===== 数据加载 =====
   onLoad() {
-    this.onRefresh();
-    
+    this.onRefresh()
   },
-  //从数据库加载用户地址列表
-  async loadAddressList(){
-     if(!this.data.openid){
+
+  async loadAddressList() {
+    if (!this.data.openid) {
       await this.initOpenId()
       return
     }
     wx.cloud.callFunction({
       name: 'getAddressList',
-      data: {openid: this.data.openid},
+      data: { openid: this.data.openid },
       success: (res) => {
-
         if (res.result && res.result.success) {
-         const addressList = res.result.addressList
-         console.log(res.result.addressList)
-          this.setData({
-            addressList: addressList
-          })
-          
-        } else {
-          wx.showToast({
-            title: '加载失败',
-            icon: 'none'
-          })
+          this.setData({ addressList: res.result.addressList })
         }
-      },
-      fail: (err) => {
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none'
-        })
       }
     })
   },
-  //从数据库加载提货人名单
-  async loadConsigneeList(){ 
-    if(!this.data.openid){
+
+  async loadConsigneeList() {
+    if (!this.data.openid) {
       await this.initOpenId()
       return
     }
     wx.cloud.callFunction({
       name: 'getConsigneeList',
-      data: {openid: this.data.openid},
+      data: { openid: this.data.openid },
       success: (res) => {
         if (res.result && res.result.success) {
-         const consigneeList = res.result.consigneeList
-          this.setData({
-            consignee: consigneeList
-          })
-          
-        } else {
-          wx.showToast({
-            title: '加载失败',
-            icon: 'none'
-          })
+          this.setData({ consignee: res.result.consigneeList })
         }
-      },
-      fail: (err) => {
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none'
-        })
       }
     })
   },
-  //初始化tOpenId
+
   async initOpenId() {
-    // 1. 先检查本地存储是否有openid
     const storedOpenId = wx.getStorageSync('openid')
     if (storedOpenId) {
-      console.log('从本地存储获取openid:', storedOpenId)
-      this.setData({
-        openid: storedOpenId
-      })
+      this.setData({ openid: storedOpenId })
       return storedOpenId
     }
-
-    // 2. 本地没有，从云函数获取
-    await this.getOpenId()
+    return await this.getOpenId()
   },
 
-  // 拿到用户的OpenId
   async getOpenId() {
     try {
-      const res = await wx.cloud.callFunction({
-        name: 'getOpenId'
-      })
+      const res = await wx.cloud.callFunction({ name: 'getOpenId' })
       if (res && res.result) {
         const openid = res.result.openid
-        this.setData({
-          openid: openid,
-        })
+        this.setData({ openid })
         wx.setStorageSync('openid', openid)
+        return openid
       }
-
-      console.log('用户 openid:', this.data.openid)
-      return res.result.openid
-    } catch (error) {
-      console.error('获取 openid 失败:', error)
+    } catch (e) {
+      console.error('获取 openid 失败:', e)
     }
   },
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady() {
 
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
   onShow() {
     this.onRefresh()
-    
   },
-  onRefresh: function () {
+
+  onRefresh() {
     wx.getStorage({
-        key: "cart",
-        success: res => {
-          let cakecard = res.data
-          this.setData({
-            cakecard: cakecard
-          })
+      key: 'cart',
+      success: res => {
+        this.setData({ cakecard: res.data })
+      }
+    })
+    wx.getStorage({
+      key: 'total',
+      success: res => {
+        const price = res.data.totalPrice || 0
+        this.setData({ count: res.data.totalCount, price })
+        this.calcTotal()
+      }
+    })
+    this.loadConsigneeList()
+    this.loadAddressList()
 
-        },
-
-      }),
-      wx.getStorage({
-        key: "total",
-        success: res => {
-          let count = res.data.totalCount
-          let price = res.data.totalPrice
-          let totalPrice = price + parseFloat(this.data.deliveryfee)
-          totalPrice = totalPrice.toFixed(2)
-          this.setData({
-            count: count,
-            price: price,
-            totalPrice: totalPrice
-          })
-
-        }
-      })
-      this.loadConsigneeList()
-      this.loadAddressList()
-  
+    // 加载会员折扣和代金券
+    const cachedInfo = wx.getStorageSync('userInfo') || {}
+    const openid = cachedInfo.openid || wx.getStorageSync('openid') || ''
+    if (openid) {
+      this.setData({ openid })
+      this.loadMemberDiscount(openid)
+      this.loadVouchers(openid)
+    }
   },
+
   selectConsignee(e) {
-    const index = e.currentTarget.dataset.index; // 获取点击的索引
-    const selectedConsignee = this.data.consignee[index]; // 获取对应提货人信息
-
+    const index = e.currentTarget.dataset.index
     this.setData({
-      selectedConsignee, // 更新选中状态
+      selectedConsignee: this.data.consignee[index],
       selectedIndex: index,
-      tipsShow: false // 关闭弹窗
-    });
+      tipsShow: false
+    })
   },
-  // 计算驾驶距离
+
   calculateDrivingDistance() {
-    const startPoint = "22.486348,113.925079";
-    const endPoint = this.data.selectedAddress.selectedLocation.lat + "," + this.data.selectedAddress.selectedLocation.lng;
+    const startPoint = '22.486348,113.925079'
+    const endPoint = this.data.selectedAddress.selectedLocation.lat + ',' + this.data.selectedAddress.selectedLocation.lng
     return new Promise((resolve, reject) => {
       qqmapsdk.direction({
-        mode: 'driving', // 驾车模式
-        from: startPoint, // 起点坐标，格式：'lat,lng'
-        to: endPoint, // 终点坐标，格式：'lat,lng'
-        policy: 'SHORT_DISTANCE', // 关键参数：获取多条路径
+        mode: 'driving',
+        from: startPoint,
+        to: endPoint,
+        policy: 'SHORT_DISTANCE',
         success: (res) => {
-          // 提取距离（单位：米）
           const distance = res.result.routes[0].distance
+          this.setData({ distanceForCount: distance })
           resolve(distance)
-          this.setData({
-            distanceForCount: distance
-          })
         },
-        fail: (err) => {
-          reject(err)
-        }
+        fail: reject
       })
     })
   },
-  //计算配送费
+
   async calculateDeliveryFee() {
-    const distance = await this.calculateDrivingDistance();
-    console.log(this.data.methodId)
-    const distanceForCount = distance;
-    const methodId = this.data.methodId;
-    if (distanceForCount <= 3000) {
-      this.setData({
-        deliveryfee: 0
-      })
-    } else {
+    const distance = await this.calculateDrivingDistance()
+    const methodId = this.data.methodId
+    let deliveryfee = 0
+
+    if (distance > 3000) {
       if (methodId == 10) {
-        if (distanceForCount > 3000 && distanceForCount <= 5000) {
-          let deliveryfee = distanceForCount * 3.84 / 1000;
-          let deliveryfeeForCount = deliveryfee.toFixed(2);
-          this.setData({
-            deliveryfee: deliveryfeeForCount,
-          })
-        } else if (distanceForCount > 5000 && distanceForCount <= 10000) {
-          let deliveryfee = distanceForCount * 4.75 / 1000;
-          let deliveryfeeForCount = deliveryfee.toFixed(2);
-          this.setData({
-            deliveryfee: deliveryfeeForCount,
-          })
-        } else if (distanceForCount > 10000 && distanceForCount <= 15000) {
-          let deliveryfee = distanceForCount * 4.29 / 1000;
-          let deliveryfeeForCount = deliveryfee.toFixed(2);
-          this.setData({
-            deliveryfee: deliveryfeeForCount,
-          })
-        } else {
-          let deliveryfee = distanceForCount * 3.3 / 1000;
-          let deliveryfeeForCount = deliveryfee.toFixed(2);
-          this.setData({
-            deliveryfee: deliveryfeeForCount,
-          })
-        }
-
-
+        if (distance <= 5000)       deliveryfee = distance * 3.84 / 1000
+        else if (distance <= 10000) deliveryfee = distance * 4.75 / 1000
+        else if (distance <= 15000) deliveryfee = distance * 4.29 / 1000
+        else                        deliveryfee = distance * 3.3  / 1000
       } else if (methodId == 11) {
-        if (distanceForCount <= 10000) {
-          this.setData({
-              methodId: 10
-            }),
-            wx.showToast({
-              title: '10公里以上路程可选择顺风车模式',
-              icon: "error"
-            })
-        } else {
-          let deliveryfee = (distanceForCount * 1.35 + 7.08) / 1000;
-          let deliveryfeeForCount = deliveryfee.toFixed(2);
-
-          this.setData({
-            deliveryfee: deliveryfeeForCount,
-          })
+        if (distance <= 10000) {
+          this.setData({ methodId: 10 })
+          wx.showToast({ title: '10公里以上路程可选择顺风车', icon: 'error' })
+          return
         }
+        deliveryfee = (distance * 1.35 + 7.08) / 1000
       }
     }
-    console.log(this.data.deliveryfee)
-    this.onRefresh()
-  },
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide() {
 
+    this.setData({ deliveryfee: parseFloat(deliveryfee.toFixed(2)) })
+    this.calcTotal()
   },
 
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload() {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh() {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom() {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage() {
-
-  }
+  onHide() {},
+  onUnload() {},
+  onPullDownRefresh() {},
+  onReachBottom() {},
+  onShareAppMessage() {}
 })
