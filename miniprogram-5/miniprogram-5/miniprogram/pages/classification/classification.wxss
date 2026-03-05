@@ -344,94 +344,10 @@ page {
   50%       { transform: scale(1.5); opacity: 1; }
 }
 
-/* ======== 排序按钮 ======== */
-.action-circle--active {
-  background-color: #111111;
-}
-
-.sort-icon {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  line-height: 1;
-}
-
-.sort-symbol {
-  font-size: 22rpx;
-  font-weight: 700;
-  color: #111111;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-}
-
-.action-circle--active .sort-symbol {
-  color: #ffffff;
-}
-
-.sort-arrow {
-  font-size: 18rpx;
-  color: #111111;
-  margin-top: 2rpx;
-}
-
-.action-circle--active .sort-arrow {
-  color: #ffffff;
-}
-
-/* 排序遮罩 */
-.sort-mask {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
-}
-
-/* 排序下拉菜单 */
-.sort-dropdown {
-  position: absolute;
-  right: 0;
-  top: 100%;
-  margin-top: 12rpx;
-  z-index: 200;
-  background-color: #ffffff;
-  border-radius: 22rpx;
-  box-shadow: 0 12rpx 40rpx rgba(0, 0, 0, 0.12);
-  overflow: hidden;
-  min-width: 280rpx;
-}
-
-.sort-option {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 30rpx 36rpx;
-}
-
-.sort-option-text {
-  font-size: 28rpx;
-  color: #333333;
-  font-weight: 500;
-  letter-spacing: 1rpx;
-}
-
-.sort-option--active .sort-option-text {
-  color: #111111;
-  font-weight: 700;
-}
-
-.sort-check {
-  font-size: 28rpx;
-  color: #111111;
-  font-weight: 700;
-  margin-left: 24rpx;
-}
-
-.sort-divider {
-  height: 1rpx;
-  background-color: #f2f2f7;
-  margin: 0 24rpx;
+/* ======== 排序按钮（与 action-circle 同大小，始终白底） ======== */
+.sort-icon-img {
+  width: 38rpx;
+  height: 38rpx;
 }
 
 /* ======== 布局切换图标 ======== */

@@ -1,8 +1,5 @@
 <!--pages/classification/classification.wxml-->
 
-<!-- 排序菜单遮罩（点击关闭） -->
-<view class="sort-mask" wx:if="{{showSortMenu}}" bindtap="closeSortMenu"></view>
-
 <view class="page-ios">
   <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
 
@@ -12,17 +9,13 @@
       <text class="header-title">Discover products</text>
       <view class="header-actions">
 
-        <!-- 价格排序按钮 -->
-        <view
-          class="action-circle {{sortOrder ? 'action-circle--active' : ''}}"
-          bindtap="onSortTap"
-        >
-          <view class="sort-icon">
-            <text class="sort-symbol">¥</text>
-            <text class="sort-arrow">
-              {{sortOrder === 'asc' ? '↑' : sortOrder === 'desc' ? '↓' : '↕'}}
-            </text>
-          </view>
+        <!-- 价格排序：单按钮循环，始终白底 -->
+        <view class="action-circle sort-btn" bindtap="onSortCycle">
+          <image
+            class="sort-icon-img"
+            src="{{sortOrder === 'asc' ? '../../img/icon-sort-low.png' : sortOrder === 'desc' ? '../../img/icon-sort-high.png' : '../../img/icon-sort-default.png'}}"
+            mode="aspectFit"
+          />
         </view>
 
         <!-- 布局切换按钮：两列 ↔ 一列 -->
@@ -50,33 +43,6 @@
         </view>
       </view>
     </scroll-view>
-
-    <!-- 排序下拉菜单 -->
-    <view class="sort-dropdown" wx:if="{{showSortMenu}}">
-      <view
-        class="sort-option {{sortOrder === '' ? 'sort-option--active' : ''}}"
-        bindtap="onSortSelect" data-order=""
-      >
-        <text class="sort-option-text">默认排序</text>
-        <text class="sort-check" wx:if="{{sortOrder === ''}}">✓</text>
-      </view>
-      <view class="sort-divider"></view>
-      <view
-        class="sort-option {{sortOrder === 'asc' ? 'sort-option--active' : ''}}"
-        bindtap="onSortSelect" data-order="asc"
-      >
-        <text class="sort-option-text">价格从低到高  ↑</text>
-        <text class="sort-check" wx:if="{{sortOrder === 'asc'}}">✓</text>
-      </view>
-      <view class="sort-divider"></view>
-      <view
-        class="sort-option {{sortOrder === 'desc' ? 'sort-option--active' : ''}}"
-        bindtap="onSortSelect" data-order="desc"
-      >
-        <text class="sort-option-text">价格从高到低  ↓</text>
-        <text class="sort-check" wx:if="{{sortOrder === 'desc'}}">✓</text>
-      </view>
-    </view>
   </view>
 
   <!-- 商品卡片，grid 或 list 模式 -->

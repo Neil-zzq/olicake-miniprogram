@@ -14,7 +14,6 @@ Page({
     cartCount: 0,
     isListView: false,   // false = 两列网格，true = 单列列表
     sortOrder: '',       // '' | 'asc' | 'desc'
-    showSortMenu: false,
   },
 
   onLoad() {
@@ -152,21 +151,13 @@ Page({
     })
   },
 
-  // ===== 价格排序 =====
-  onSortTap() {
-    this.setData({ showSortMenu: !this.data.showSortMenu })
-  },
-
-  closeSortMenu() {
-    this.setData({ showSortMenu: false })
-  },
-
-  onSortSelect(e) {
-    const order = e.currentTarget.dataset.order
+  // ===== 价格排序（单按钮循环：默认 → 升序 → 降序 → 默认） =====
+  onSortCycle() {
+    const orderMap = { '': 'asc', 'asc': 'desc', 'desc': '' }
+    const next = orderMap[this.data.sortOrder]
     this.setData({
-      sortOrder: order,
-      showSortMenu: false,
-      activeList: this._applySort(this.data.originalList, order)
+      sortOrder: next,
+      activeList: this._applySort(this.data.originalList, next)
     })
   },
 
