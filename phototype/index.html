@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>我的收藏 - OliCake 原型</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { 
+      height: 100%; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+      background: #f5f5f7;
+      color: #111;
+    }
+    
+    /* 导航栏 */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 88px;
+      padding-top: 44px;
+      display: flex;
+      align-items: center;
+      padding-left: 24px;
+      padding-right: 24px;
+      background: rgba(245, 245, 247, 0.96);
+      backdrop-filter: saturate(180%) blur(20px);
+      z-index: 100;
+    }
+    .nav-back {
+      width: 76rpx;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      font-size: 32px;
+      color: #111;
+    }
+    .nav-title {
+      flex: 1;
+      text-align: center;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .nav-placeholder { width: 44px; }
+    
+    .page { padding-top: 88px; min-height: 100vh; }
+    
+    /* 内容区 */
+    .content { padding: 24px 24px 48px; }
+    
+    /* 空状态 */
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 80px 40px;
+    }
+    .empty-heart {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 56px;
+      color: #e57373;
+      margin-bottom: 32px;
+    }
+    .empty-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 12px;
+    }
+    .empty-desc {
+      font-size: 14px;
+      color: #8e8e93;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    .empty-btn {
+      padding: 14px 36px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f5e9b6, #e8d890);
+      font-size: 15px;
+      font-weight: 600;
+      color: #3a3530;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* 卡片网格 */
+    .grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+    }
+    .card {
+      width: calc(50% - 8px);
+      background: #fff;
+      border-radius: 17px;
+      overflow: hidden;
+      margin-bottom: 24px;
+      box-shadow: 0 5px 13px rgba(0, 0, 0, 0.06);
+      transition: transform 0.16s ease, box-shadow 0.16s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+    }
+    .img-wrap {
+      position: relative;
+      margin: 12px 14px 0;
+      border-radius: 14px;
+      background: #f7f7fa;
+      overflow: hidden;
+    }
+    .card-img {
+      width: 100%;
+      height: 150px;
+      display: block;
+      object-fit: cover;
+    }
+    .img-heart {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.95);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: #e53935;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-body {
+      padding: 16px 18px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .card-info { flex: 1; min-width: 0; }
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #111;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-price {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111;
+      margin-top: 6px;
+    }
+    .go-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f5e9b6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .go-circle span { font-size: 18px; color: #3a3530; }
+    
+    /* 切换按钮（原型演示用） */
+    .proto-toggle {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 12px 20px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+  <div class="nav">
+    <div class="nav-back">‹</div>
+    <div class="nav-title">我的收藏</div>
+    <div class="nav-placeholder"></div>
+  </div>
+
+  <div class="page">
+    <!-- 空状态（默认隐藏） -->
+    <div id="emptyState" class="content empty-state" style="display: none;">
+      <div class="empty-heart">♡</div>
+      <div class="empty-title">还没有收藏</div>
+      <div class="empty-desc">去分类页发现心动蛋糕</div>
+      <button class="empty-btn">去看看</button>
+    </div>
+
+    <!-- 有收藏时的卡片列表 -->
+    <div id="cardState" class="content">
+      <div class="grid">
+        <a href="#" class="card">
+          <div class="img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1578985545062-69949b0e24e9?w=400&h=300&fit=crop" alt="">
+            <div class="img-heart">♥</div>
+          </div>
+          <div class="card-body">
+            <div class="card-info">
+              <div class="card-title">日照金山</div>
+              <div class="card-price">￥1000</div>
+            </div>
+            <div class="go-circle"><span>›</span></div>
+          </div>
+        </a>
+        <a href="#" class="card">
+          <div class="img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=300&fit=crop" alt="">
+            <div class="img-heart">♥</div>
+          </div>
+          <div class="card-body">
+            <div class="card-info">
+              <div class="card-title">卢旺达</div>
+              <div class="card-price">￥1080</div>
+            </div>
+            <div class="go-circle"><span>›</span></div>
+          </div>
+        </a>
+        <a href="#" class="card">
+          <div class="img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1558304481-5f3e8e1b7c8a?w=400&h=300&fit=crop" alt="">
+            <div class="img-heart">♥</div>
+          </div>
+          <div class="card-body">
+            <div class="card-info">
+              <div class="card-title">剑桥大学</div>
+              <div class="card-price">￥1200</div>
+            </div>
+            <div class="go-circle"><span>›</span></div>
+          </div>
+        </a>
+        <a href="#" class="card">
+          <div class="img-wrap">
+            <img class="card-img" src="https://images.unsplash.com/photo-1464305795204-6f5bbfc7fb81?w=400&h=300&fit=crop" alt="">
+            <div class="img-heart">♥</div>
+          </div>
+          <div class="card-body">
+            <div class="card-info">
+              <div class="card-title">星空物语</div>
+              <div class="card-price">￥980</div>
+            </div>
+            <div class="go-circle"><span>›</span></div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 原型切换：空状态 / 有内容 -->
+  <button class="proto-toggle" id="toggle">切换至空状态</button>
+
+  <script>
+    const empty = document.getElementById('emptyState');
+    const cards = document.getElementById('cardState');
+    const btn = document.getElementById('toggle');
+    
+    btn.onclick = () => {
+      const showEmpty = empty.style.display === 'none';
+      empty.style.display = showEmpty ? 'flex' : 'none';
+      cards.style.display = showEmpty ? 'none' : 'block';
+      btn.textContent = showEmpty ? '切换至有内容' : '切换至空状态';
+    };
+  </script>
+</body>
+</html>

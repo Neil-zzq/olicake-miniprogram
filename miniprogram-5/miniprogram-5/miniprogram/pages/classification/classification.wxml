@@ -58,14 +58,14 @@
     >
       <!-- 图片区 -->
       <view class="img-wrap">
-        <image
+        <image 
           class="card-img"
           src="{{spu.cover}}"
           mode="{{isListView ? 'aspectFill' : 'aspectFit'}}"
         />
-        <!-- 列表模式：右上角收藏按钮 -->
-        <view class="img-heart" wx:if="{{isListView}}">
-          <text class="heart-icon">♡</text>
+        <!-- 右上角收藏按钮（grid/list 均显示） -->
+        <view class="img-heart" catchtap="onHeartTap" data-id="{{spu.id}}">
+          <text class="heart-icon {{spu.isFavorited ? 'heart-icon--filled' : ''}}">{{spu.isFavorited ? '♥' : '♡'}}</text>
         </view>
       </view>
 

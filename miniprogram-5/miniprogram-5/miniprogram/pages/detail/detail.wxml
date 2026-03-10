@@ -4,7 +4,7 @@
   <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
       <view class="nav-left" bindtap="goback">
-        <text class="nav-back">‹</text>
+        <text class="nav-back">‹</text> 
       </view>
       <text class="nav-title">详情</text>
       <button open-type="share" class="nav-action" size="mini">

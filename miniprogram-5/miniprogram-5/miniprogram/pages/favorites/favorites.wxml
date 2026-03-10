@@ -1,0 +1,55 @@
+<!--pages/favorites/favorites.wxml-->
+<view class="page-ios">
+  <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
+    <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
+      <view class="nav-back" bindtap="onBackTap">‹</view>
+      <text class="nav-title">我的收藏</text>
+      <view class="nav-placeholder"></view>
+    </view>
+  </view>
+  <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
+
+  <view class="content">
+    <!-- 加载中 -->
+    <view class="empty-state" wx:if="{{loading && favoriteList.length === 0}}">
+      <text class="empty-desc">加载中...</text>
+    </view>
+
+    <!-- 空状态 -->
+    <view class="empty-state" wx:elif="{{favoriteList.length === 0}}">
+      <view class="empty-heart">♡</view>
+      <text class="empty-title">还没有收藏</text>
+      <text class="empty-desc">去分类页发现心动蛋糕</text>
+      <view class="empty-btn" bindtap="goToClassification">去看看</view>
+    </view>
+
+    <!-- 有收藏时的卡片网格 -->
+    <view class="grid" wx:else>
+      <view
+        class="card"
+        wx:for="{{favoriteList}}"
+        wx:key="id"
+        hover-class="card-hover"
+        hover-stay-time="120"
+      >
+        <navigator url="/pages/detail/detail?id={{item.id}}" class="card-link">
+          <view class="img-wrap">
+            <image class="card-img" src="{{item.cover}}" mode="aspectFit" />
+            <view class="img-heart" catchtap="onHeartTap" data-id="{{item.id}}">
+              <text class="heart-icon heart-icon--filled">♥</text>
+            </view>
+          </view>
+          <view class="card-body">
+            <view class="card-info">
+              <text class="card-title">{{item.title}}</text>
+              <text class="card-price">￥{{item.pricemin}}</text>
+            </view>
+            <view class="go-circle">
+              <image src="../../img/cake-2-line.png" mode="widthFix" class="go-icon" />
+            </view>
+          </view>
+        </navigator>
+      </view>
+    </view>
+  </view>
+</view>

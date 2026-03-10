@@ -14,6 +14,7 @@ Page({
     cartCount: 0,
     isListView: false,   // false = 两列网格，true = 单列列表
     sortOrder: '',       // '' | 'asc' | 'desc'
+    favoritedIds: {},    // { id: true } 已收藏的蛋糕 id
   },
 
   onLoad() {
@@ -39,7 +40,25 @@ Page({
     this.updateCartCount()
     if (this.data.vtabs.length === 0 && !this.data.loading) {
       this.getCakeData()
+    } else if (this.data.activeList.length > 0) {
+      this._refreshFavoritesFromCloud()
     }
+  },
+
+  _refreshFavoritesFromCloud() {
+    wx.cloud.callFunction({ name: 'getFavorites' }).then(res => {
+      if (res.result && res.result.code === 0 && Array.isArray(res.result.data)) {
+        const cakeIds = res.result.data
+        const fav = {}
+        cakeIds.forEach(id => { fav[id] = true })
+        this.setData({ favoritedIds: fav })
+        const list = this.data.activeList.map(item => ({
+          ...item,
+          isFavorited: !!fav[item.id]
+        }))
+        this.setData({ activeList: list })
+      }
+    }).catch(() => {})
   },
 
   updateCartCount() {
@@ -61,29 +80,25 @@ Page({
       title: '加载中...',
     })
 
-    wx.cloud.callFunction({
-      name: 'getCakeItems',
-      success: (res) => {
-        wx.hideLoading()
-        console.log('云函数返回数据:', res)
-
-        if (res.result.code === 0 && Array.isArray(res.result.data)) {
-          this.processCakeData(res.result.data)
-        } else {
-          wx.showToast({
-            title: '数据加载失败',
-            icon: 'none'
-          })
-        }
-      },
-      fail: (err) => {
-        wx.hideLoading()
-        console.error('调用云函数失败:', err)
-        wx.showToast({
-          title: '网络错误',
-          icon: 'none'
-        })
+    Promise.all([
+      wx.cloud.callFunction({ name: 'getCakeItems' }),
+      wx.cloud.callFunction({ name: 'getFavorites' })
+    ]).then(([cakeRes, favRes]) => {
+      wx.hideLoading()
+      const cakeList = cakeRes.result && cakeRes.result.code === 0 && Array.isArray(cakeRes.result.data) ? cakeRes.result.data : []
+      const cakeIds = favRes.result && favRes.result.code === 0 && Array.isArray(favRes.result.data) ? favRes.result.data : []
+      const fav = {}
+      cakeIds.forEach(id => { fav[id] = true })
+      this.setData({ favoritedIds: fav })
+      if (cakeList.length > 0) {
+        this.processCakeData(cakeList)
+      } else {
+        wx.showToast({ title: '数据加载失败', icon: 'none' })
       }
+    }).catch((err) => {
+      wx.hideLoading()
+      console.error('调用云函数失败:', err)
+      wx.showToast({ title: '网络错误', icon: 'none' })
     })
   },
 
@@ -136,7 +151,7 @@ Page({
       loading: false,
       activeTab: 0,
       originalList: firstList,
-      activeList: this._applySort(firstList)
+      activeList: this._mergeFavorited(this._applySort(firstList))
     })
   },
 
@@ -147,7 +162,7 @@ Page({
     this.setData({
       activeTab: index,
       originalList: list,
-      activeList: this._applySort(list)
+      activeList: this._mergeFavorited(this._applySort(list))
     })
   },
 
@@ -157,8 +172,31 @@ Page({
     const next = orderMap[this.data.sortOrder]
     this.setData({
       sortOrder: next,
-      activeList: this._applySort(this.data.originalList, next)
+      activeList: this._mergeFavorited(this._applySort(this.data.originalList, next))
     })
+  },
+
+  // 收藏红心点击
+  onHeartTap(e) {
+    const id = e.currentTarget.dataset.id
+    if (!id) return
+    const fav = { ...this.data.favoritedIds }
+    fav[id] = !fav[id]
+    if (!fav[id]) delete fav[id]
+    const cakeIds = Object.keys(fav)
+    this.setData({ favoritedIds: fav })
+    const list = this.data.activeList.map(item => ({
+      ...item,
+      isFavorited: !!fav[item.id]
+    }))
+    this.setData({ activeList: list })
+    wx.cloud.callFunction({ name: 'saveFavorites', data: { cakeIds } }).catch(() => {})
+  },
+
+  // 合并收藏状态到列表
+  _mergeFavorited(list) {
+    const fav = this.data.favoritedIds || {}
+    return list.map(item => ({ ...item, isFavorited: !!fav[item.id] }))
   },
 
   // 排序辅助：按 order 对 list 排序并返回新数组

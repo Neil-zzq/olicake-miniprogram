@@ -236,6 +236,7 @@ page {
   border-radius: 28rpx;
   background-color: #f7f7fa;
   overflow: hidden;
+  position: relative;
 }
 
 .card-img {
@@ -438,6 +439,10 @@ page {
 .heart-icon {
   font-size: 32rpx;
   color: #e57373;
+}
+
+.heart-icon--filled {
+  color: #e53935;
 }
 
 /* 列表模式 card-body */

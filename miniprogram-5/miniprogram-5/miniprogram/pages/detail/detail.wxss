@@ -358,7 +358,9 @@ page {
   margin-top: 10rpx;
   border-radius: 18rpx;
 }
-
+.tan-taste-choose{
+  height: 85rpx;
+}
 .tan-size-choosed,
 .tan-taste-choosed,
 .tan-bag-choosed {

@@ -30,17 +30,9 @@
             <text class="vip-discount-hint">会员专属折扣</text>
           </view>
           <view class="vip-divider"></view>
-          <view class="vip-footer" wx:if="{{item.isUnlocked}}">
-            <view class="vip-spending-row">
-              <text class="vip-spending-label">累计消费</text>
-              <text class="vip-spending-value">¥{{cumulativeSpending}}</text>
-            </view>
-            <view class="vip-upgrade-row" wx:if="{{item.nextThreshold}}">
-              <text class="vip-upgrade-text">累计消费 ¥{{item.needMore}} 升级{{item.nextName}}</text>
-            </view>
-            <view class="vip-upgrade-row" wx:else>
-              <text class="vip-upgrade-text vip-top-text">✦ 已达最高等级，尽享全年优惠</text>
-            </view>
+          <view class="vip-locked-mask" wx:if="{{item.isUnlocked}}">
+            <text class="vip-locked-text">已解锁</text>
+            <text class="vip-locked-hint" wx:if="{{item.nextThreshold}}">您已累计消费 ¥{{cumulativeSpending}}</text>
           </view>
           <view class="vip-locked-mask" wx:else>
             <text class="vip-locked-text">未解锁</text>
@@ -91,6 +83,10 @@
       <text class="cell-title">订单中心</text>
       <text class="cell-chevron">›</text>
     </view>
+    <view class="cell" bindtap="navigatorToFavorites">
+      <text class="cell-title">我的收藏</text>
+      <text class="cell-chevron">›</text>
+    </view> 
     <view class="cell-divider"></view>
     <view class="cell" bindtap="navigatorToAddAddress">
       <text class="cell-title">收货地址</text>
@@ -108,3 +104,4 @@
     </view>
   </view>
 </view>
+<img src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/乞力马扎罗/乞力马扎罗2.jpg" mode="widthfix"class="test" />

@@ -12,8 +12,8 @@ const db = cloud.database()
 // 云函数入口函数
 exports.main = async (event, context) => {
   try {
-    // 查询 cakeitems 集合中的所有数据
-    const result = await db.collection('cakeitems').get()
+    // 查询 cakeitems 集合中的所有数据（云函数端最大 1000 条）
+    const result = await db.collection('cakeitems').limit(1000).get()
     
     return {
       code: 0,

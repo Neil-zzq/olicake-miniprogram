@@ -3,7 +3,7 @@
 // 会员等级配置（顺序即卡片滑动顺序）
 const TIER_ORDER = ['generalMember', 'silver', 'platinum', 'blackGold', 'diamond']
 const TIER_CONFIG = {
-  generalMember: { name: '注册会员',   nextThreshold: 1000,  nextName: '白银会员', discountLabel: '--折',  discount: 1.00 },
+  generalMember: { name: '注册会员',   nextThreshold: 1000,  nextName: '白银会员', discountLabel: '---折',  discount: 1.00 },
   silver:        { name: '白银会员', nextThreshold: 1000, nextName: '铂金会员', discountLabel: '9.8折', discount: 0.98 },
   platinum:      { name: '铂金会员', nextThreshold: 3000, nextName: '黑金会员', discountLabel: '9.5折', discount: 0.95 },
   blackGold:     { name: '黑金会员', nextThreshold: 5000, nextName: '钻石会员', discountLabel: '9折',  discount: 0.90 },
@@ -37,6 +37,9 @@ Page({
     } else {
       wx.showToast({ title: '请先登录', icon: 'error' })
     }
+  },
+  navigatorToFavorites() {
+    wx.navigateTo({ url: '/pages/favorites/favorites' })
   },
   navigatorToAddAddress() {
     if (this.data.getUserInfoSuccess) {
