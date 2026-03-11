@@ -1,0 +1,4 @@
+/* pages/wenqiang/wenqiang.wxss */
+page {
+  background-color: #f8f0ce;
+}

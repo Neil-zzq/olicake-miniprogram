@@ -1,4 +1,7 @@
 /* pages/Preferential/Preferential.wxss */
+page {
+  background-color: #f8f0ce;
+}
 .balance{
   display: flex;
   justify-content: space-between;
@@ -18,7 +21,7 @@
   color:rgb(172, 167, 167);
 }
 .module,.moduleactive{
-  background-color: #f0efef;
+  background-color: #f8f0ce;
   width: 230rpx;
   height: 280rpx;
   border-radius: 15rpx;

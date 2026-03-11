@@ -2,7 +2,7 @@
 
 // 页面固定主题配色（米黄色调）
 const PAGE_THEME = { 
-  bg: '#f5f0e4',
+  bg: '#f8f0ce',
   accent: '#9a7420',
   tag: '精选推荐',
   decoMain: 'Our Cakes',

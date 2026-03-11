@@ -1,6 +1,6 @@
 /* pages/consignee/consignee.wxss */
 page{
-  background-color: rgba(238, 241, 241, 0.897);
+  background-color: #f8f0ce;
 }
 .name,.code{
   display: flex;

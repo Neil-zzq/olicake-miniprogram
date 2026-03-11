@@ -4,7 +4,7 @@ page{
   height: 100%;
   display: flex;
   justify-content: center;
-  background-color: rgba(0, 0, 0, 0.658);
+  background-color: #f8f0ce;
   align-items: center;
 }
 .csicon image{

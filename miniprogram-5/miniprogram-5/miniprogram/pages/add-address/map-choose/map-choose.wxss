@@ -1,3 +1,6 @@
+page {
+  background-color: #f8f0ce;
+}
 .container {
   height: 100vh;
   display: flex;

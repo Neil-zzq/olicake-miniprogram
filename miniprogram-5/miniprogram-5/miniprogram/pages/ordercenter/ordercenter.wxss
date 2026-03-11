@@ -1,7 +1,7 @@
 /* pages/ordercenter/ordercenter.wxss - iOS 原生风格 */
 
 page {
-  background-color: #f2f2f7;
+  background-color: #f8f0ce;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
 }

@@ -4,12 +4,10 @@
   <view class="ios-nav" style="padding-top: {{statusBarHeight}}px;">
     <view class="ios-nav__row" style="height: {{navBarContentHeight}}px;">
       <view class="nav-left" bindtap="goback">
-        <text class="nav-back">‹</text> 
+        <text class="nav-back">‹</text>
       </view>
       <text class="nav-title">详情</text>
-      <button open-type="share" class="nav-action" size="mini">
-        <image class="nav-action__icon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/分享.png" mode="widthFix" />
-      </button>
+      <view class="nav-right"></view>
     </view>
   </view>
   <view class="nav-spacer" style="height: {{navBarHeight}}px;"></view>
@@ -17,16 +15,21 @@
   <!-- 大图轮播：完整展示优先 -->
   <swiper class="hero-swiper" indicator-dots="true" autoplay="true" interval="5000" duration="350">
     <swiper-item class="hero-item" wx:for="{{cakeitems.img}}" wx:key="*this">
-      <image src="{{item}}" mode="aspectFit" class="hero-img" />
+      <image src="{{item}}" mode="widthFix" class="hero-img" />
     </swiper-item>
   </swiper>
 
   <view class="content">
     <!-- 商品信息卡片 -->
     <view class="card product-card">
-      <text class="price-range">￥{{cakeitems.pricemin}}-{{cakeitems.pricemax}}</text>
-      <text class="product-name">{{cakeitems.title}}</text>
-      <text class="product-sub">精选用料 · 当日制作</text>
+      <view >
+        <text class="price-range">￥{{cakeitems.pricemin}}-{{cakeitems.pricemax}}</text>
+        <text class="product-name">{{cakeitems.title}}</text>
+      </view>
+
+      <button open-type="share" class="product-share-btn" size="mini">
+        <image class="product-share-icon" src="cloud://cloud1-0gggau3xd319b71f.636c-cloud1-0gggau3xd319b71f-1317945786/其他/分享.png" mode="widthFix" />
+      </button>
     </view>
 
     <!-- iOS cell 列表 -->
@@ -61,7 +64,7 @@
   </view>
   <view class="primary-btn" bindtap="showTan">加入购物车</view>
 </view>
-<page-container show="{{tipsShow}}" round="true"> 
+<page-container show="{{tipsShow}}" round="true">
   <view class="tips">
     <view class="tips-title">到店自提</view>
     <view class="tips-content">
@@ -89,14 +92,14 @@
         <view class="price">￥{{Price}}</view>
         <view>请选择 {{Size}} {{Taste}} {{Bag}}</view>
       </view>
-      <view class="tan-close" bindtap="showTan">×</view> 
+      <view class="tan-close" bindtap="showTan">×</view>
     </view>
     <view class="tan-block-size">
       <view>尺寸 </view>
       <view class="tan-size">
-        <view  wx:for="{{cakeitems.cakeSize}}" wx:key="index" class="tan-size-choose"  >
-           <view bindtap="cakesizeChoosed"data-index="{{index}}" class="tan-size-choosed" wx:if="{{selectedSizeIndex === index}}">{{item.size}}</view>
-           <view bindtap="cakesizeChoosed" data-index="{{index}}" wx:else>{{item.size}}</view>
+        <view wx:for="{{cakeitems.cakeSize}}" wx:key="index" class="tan-size-choose">
+          <view bindtap="cakesizeChoosed" data-index="{{index}}" class="tan-size-choosed" wx:if="{{selectedSizeIndex === index}}">{{item.size}}</view>
+          <view bindtap="cakesizeChoosed" data-index="{{index}}" wx:else>{{item.size}}</view>
         </view>
       </view>
     </view>
@@ -104,8 +107,8 @@
       <view>口味</view>
       <view class="tan-taste">
         <view wx:for="{{cakeitems.cakeTaste}}" wx:key="index" class="tan-taste-choose">
-           <view  bindtap="caketasteChoosed" wx:if="{{selectedTasteIndex === index}}"    class="tan-taste-choosed" data-index="{{index}}" >{{item}}</view>
-           <view  bindtap="caketasteChoosed" wx:else   data-index="{{index}}" >{{item}}</view>
+          <view bindtap="caketasteChoosed" wx:if="{{selectedTasteIndex === index}}" class="tan-taste-choosed" data-index="{{index}}">{{item}}</view>
+          <view bindtap="caketasteChoosed" wx:else data-index="{{index}}">{{item}}</view>
         </view>
       </view>
 
@@ -114,8 +117,8 @@
       <view>保温袋</view>
       <view class="tan-bag">
         <view wx:for="{{cakeBag}}" wx:key="index" class="tan-bag-choose" data-index="{{index}}">
-          <view bindtap="cakebagChoose" class="tan-bag-choosed" wx:if="{{selectedBagIndex === index}}"data-index="{{index}}">{{item.name}}</view>
-          <view bindtap="cakebagChoose" wx:else  data-index="{{index}}">{{item.name}}</view>
+          <view bindtap="cakebagChoose" class="tan-bag-choosed" wx:if="{{selectedBagIndex === index}}" data-index="{{index}}">{{item.name}}</view>
+          <view bindtap="cakebagChoose" wx:else data-index="{{index}}">{{item.name}}</view>
         </view>
       </view>
     </view>
@@ -131,9 +134,9 @@
     </view>
     <view class="input">
       <view class="input-title">订购人电话</view>
-      <input class="input-content" type="text" placeholder="请填写手机号" bindinput="bindPhoneInput" value="{{phone}}"	type="number"/>
+      <input class="input-content" type="text" placeholder="请填写手机号" bindinput="bindPhoneInput" value="{{phone}}" type="number" />
       <view class="input-title">祝福语</view>
-      <input class="input-content" type="text" placeholder="请填写留言（8个字以内）"bindinput="bindMessageInput" value="{{message}}" />
+      <input class="input-content" type="text" placeholder="请填写留言（8个字以内）" bindinput="bindMessageInput" value="{{message}}" />
     </view>
     <view class="shopping-cart" bindtap="onAddcart">加入购物车</view>
   </view>

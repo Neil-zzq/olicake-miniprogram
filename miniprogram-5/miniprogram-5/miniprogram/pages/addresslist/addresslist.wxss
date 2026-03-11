@@ -2,9 +2,12 @@
 .addressitem image{
   width: 50rpx;
 }
+page {
+  background-color: #f8f0ce;
+}
 .container{
   height: 93vh;
-  background-color: rgb(241, 241, 241);
+  background-color: #f8f0ce;
   padding: 10rpx;
 }
 .addressitem{

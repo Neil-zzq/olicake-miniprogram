@@ -52,7 +52,7 @@
   "window": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "olicake",
-    "navigationBarBackgroundColor": "#f0f0f0"
+    "navigationBarBackgroundColor": "#f8f0ce"
   },
   "style": "v2",
   "cloud": true,

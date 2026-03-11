@@ -4,7 +4,7 @@
   
 }
 page{
-  background-color: rgb(231, 229, 229);
+  background-color: #f8f0ce;
 }
 .content{
   background-color: rgb(255, 255, 255);

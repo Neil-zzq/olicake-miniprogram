@@ -1,7 +1,7 @@
 /* pages/orderconfirm/orderconfirm.wxss - iOS 原生风格 */
 
 page {
-  background-color: #f2f2f7;
+  background-color: #f8f0ce;
   height: 100%;
   font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Helvetica Neue", sans-serif;
 }

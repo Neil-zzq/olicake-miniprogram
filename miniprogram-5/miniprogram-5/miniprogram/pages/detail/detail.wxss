@@ -2,7 +2,7 @@
 page {
   width: 100%;
   min-height: 100%;
-  background-color: #f5f5f7;
+  background-color: #f8f0ce;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
     "Helvetica Neue", sans-serif;
 }
@@ -20,7 +20,7 @@ page {
   left: 0;
   right: 0;
   z-index: 10;
-  background-color: rgba(245, 245, 247, 0.96);
+  background-color: rgba(248, 240, 206, 0.96);
 }
 
 .ios-nav__row {
@@ -35,6 +35,12 @@ page {
   height: 100%;
   display: flex;
   align-items: center;
+  flex-shrink: 0;
+}
+
+.nav-right {
+  width: 120rpx;
+  flex-shrink: 0;
 }
 
 .nav-back {
@@ -76,18 +82,27 @@ page {
   width: 100%;
 }
 
-/* 轮播大图：完整展示优先（aspectFit） */
-.hero-swiper,
-.hero-item {
+/* 轮播大图：完整展示优先（aspectFit），上下圆角 + 左右间距 */
+.hero-swiper {
   height: 62vh;
   max-height: 880rpx;
   min-height: 640rpx;
-  background-color: #ffffff;
+  margin: 0 24rpx;
+  border-radius: 50rpx;
+  overflow: hidden;
+  background-color: #f8f0ce;
+}
+
+.hero-item {
+  height: 100%;
+  border-radius: 50rpx;
+  overflow: hidden;
 }
 
 .hero-img {
   width: 100%;
   height: 100%;
+  border-radius: 50rpx;
 }
 
 .content {
@@ -99,19 +114,25 @@ page {
   border-radius: 24rpx;
   box-shadow: 0 10rpx 26rpx rgba(0, 0, 0, 0.06);
   overflow: hidden;
+  
 }
 
 /* 商品信息卡片 */
 .product-card {
+  position: relative;
   padding: 18rpx 20rpx 20rpx;
+  display: flex;
+  height: 120rpx;
+  
 }
 
 .price-range {
   display: block;
-  font-size: 40rpx;
+  font-size: 45rpx;
   font-weight: 750;
   color: #111111;
   letter-spacing: 0.5rpx;
+  text-align: center;
 }
 
 .product-name {
@@ -121,6 +142,31 @@ page {
   font-weight: 650;
   color: #111111;
   line-height: 1.35;
+  text-align: center;
+}
+
+.product-share-btn {
+  position: absolute;
+  right: 20rpx;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 64rpx;
+  height: 64rpx;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.product-share-btn::after {
+  border: none;
+}
+
+.product-share-icon {
+  width: 66rpx;
+  height: 66rpx;
 }
 
 .product-sub {

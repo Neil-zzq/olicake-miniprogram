@@ -1,8 +1,11 @@
 /* pages/add-address/add-address.wxss */
+page {
+  background-color: #f8f0ce;
+}
 /* 容器样式 */
 .container {
   padding: 30rpx;
-  background: #f8f8f8e8;
+  background: #f8f0ce;
   
 }
 
